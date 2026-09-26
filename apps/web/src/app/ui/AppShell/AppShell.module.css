@@ -109,13 +109,14 @@
   flex-direction: column;
   align-items: center;
   gap: 0.18rem;
-  min-width: 4.4rem;
-  padding: 0.45rem 0.35rem;
+  min-width: 0;
+  padding: 0.45rem 0.2rem;
   border-radius: 10px;
   color: var(--sr-shell-muted);
   text-decoration: none;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
+  letter-spacing: -0.01em;
   transition: background-color 160ms ease, color 160ms ease;
 }
 

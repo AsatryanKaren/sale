@@ -125,7 +125,17 @@
 }
 
 .mobileIcon {
+  position: relative;
   font-size: 1.05rem;
+  line-height: 1;
+}
+
+.mobileLabel {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media (max-width: 991px) {

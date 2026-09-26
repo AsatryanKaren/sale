@@ -368,14 +368,69 @@ function createInitialNotifications(): Notification[] {
   ];
 }
 
-export const mockDb = {
-  watches: createInitialWatches(),
-  notifications: createInitialNotifications(),
+const MOCK_DB_STORAGE_KEY = 'saleradar.mock-db';
+
+type MockDbState = {
+  watches: Watch[];
+  notifications: Notification[];
 };
+
+function readPersistedMockDb(): MockDbState | null {
+  if (typeof sessionStorage === 'undefined') {
+    return null;
+  }
+
+  const raw = sessionStorage.getItem(MOCK_DB_STORAGE_KEY);
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (
+      typeof parsed === 'object' &&
+      parsed !== null &&
+      'watches' in parsed &&
+      'notifications' in parsed &&
+      Array.isArray(parsed.watches) &&
+      Array.isArray(parsed.notifications)
+    ) {
+      return parsed as MockDbState;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function createMockDb(): MockDbState {
+  return readPersistedMockDb() ?? {
+    watches: createInitialWatches(),
+    notifications: createInitialNotifications(),
+  };
+}
+
+export const mockDb = createMockDb();
+
+export function persistMockDb(): void {
+  if (typeof sessionStorage === 'undefined') {
+    return;
+  }
+
+  sessionStorage.setItem(
+    MOCK_DB_STORAGE_KEY,
+    JSON.stringify({
+      watches: mockDb.watches,
+      notifications: mockDb.notifications,
+    }),
+  );
+}
 
 export function resetMockState(): void {
   mockDb.watches = createInitialWatches();
   mockDb.notifications = createInitialNotifications();
+  persistMockDb();
 }
 
 export function getActiveSaleForStore(storeId: string): Sale | null {

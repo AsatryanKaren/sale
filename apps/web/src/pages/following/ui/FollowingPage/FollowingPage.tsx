@@ -46,7 +46,9 @@ export function FollowingPage() {
         />
       ) : null}
 
-      {followingQuery.isSuccess && followingQuery.data.length > 0 ? (
+      {followingQuery.isSuccess &&
+      storesQuery.isSuccess &&
+      followingQuery.data.length > 0 ? (
         <div className={styles.list}>
           {followingQuery.data.map((watch) => {
             const item = storesById.get(watch.storeId);

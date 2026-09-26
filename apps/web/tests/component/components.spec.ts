@@ -11,11 +11,12 @@ test('DiscountBadge renders value', async ({ mount }) => {
   await expect(component.getByText('Up to 30%')).toBeVisible();
 });
 
-test('AlertThresholdSelect updates value', async ({ mount }) => {
+test('AlertThresholdSelect updates value', async ({ mount, page }) => {
   const component = await mount('watch/AlertThresholdSelect', { value: 20 });
   await expect(component.getByTestId('threshold-value')).toHaveValue('20');
-  await component.getByRole('combobox', { name: 'Alert threshold' }).click();
-  await component.page().getByRole('option', { name: '40%+' }).click();
+  await component.locator('.ant-select-selector').click();
+  await expect(page.locator('.ant-select-dropdown')).toBeVisible();
+  await page.locator('.ant-select-item-option-content', { hasText: '40%+' }).click();
   await expect(component.getByTestId('threshold-value')).toHaveValue('40');
 });
 

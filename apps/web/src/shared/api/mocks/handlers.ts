@@ -20,6 +20,7 @@ import {
   mockDb,
   mockSaleHistory,
   mockStores,
+  persistMockDb,
 } from './data';
 async function mockLatency(): Promise<void> {
   const span = appConfig.mockApi.maxLatencyMs - appConfig.mockApi.minLatencyMs;
@@ -160,6 +161,7 @@ export const mockHandlers = [
     };
 
     mockDb.watches = [...mockDb.watches, watch];
+    persistMockDb();
 
     return HttpResponse.json(watchResponseSchema.parse({ watch }), { status: 201 });
   }),
@@ -199,6 +201,7 @@ export const mockHandlers = [
     mockDb.watches = mockDb.watches.map((watch, watchIndex) =>
       watchIndex === index ? updated : watch,
     );
+    persistMockDb();
 
     return HttpResponse.json(watchResponseSchema.parse({ watch: updated }));
   }),
@@ -214,6 +217,7 @@ export const mockHandlers = [
     }
 
     mockDb.watches = mockDb.watches.filter((watch) => watch.storeId !== storeId);
+    persistMockDb();
     return new HttpResponse(null, { status: 204 });
   }),
 
@@ -252,6 +256,7 @@ export const mockHandlers = [
     mockDb.notifications = mockDb.notifications.map((notification, notificationIndex) =>
       notificationIndex === index ? updated : notification,
     );
+    persistMockDb();
 
     return HttpResponse.json(notificationResponseSchema.parse({ notification: updated }));
   }),

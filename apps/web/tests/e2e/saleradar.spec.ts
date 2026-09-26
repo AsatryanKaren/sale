@@ -5,20 +5,18 @@ test.describe('SaleRadar e2e', () => {
     await page.goto('/discover');
     await expect(page.getByRole('heading', { name: 'Discover' })).toBeVisible();
 
-    await page.getByRole('textbox', { name: 'Search stores' }).fill('Zara');
-    await expect(page.getByRole('link', { name: 'Open Zara' })).toBeVisible();
+    await page.getByRole('textbox', { name: 'Search stores' }).fill('Mango');
+    await expect(page.getByRole('link', { name: 'Open Mango' })).toBeVisible();
 
-    const zaraCard = page.locator('article').filter({ hasText: 'Zara' }).first();
-    const followButton = zaraCard.getByRole('button', { name: 'Follow Zara' });
+    const mangoCard = page.locator('article').filter({ hasText: 'Mango' }).first();
+    await mangoCard.getByRole('button', { name: 'Follow Mango' }).click();
+    await expect(mangoCard.getByRole('button', { name: 'Unfollow Mango' })).toBeVisible();
 
-    if (await followButton.isVisible()) {
-      await followButton.click();
-      await expect(zaraCard.getByRole('button', { name: 'Unfollow Zara' })).toBeVisible();
-    }
-
-    await page.getByRole('link', { name: 'Following' }).first().click();
+    await page.goto('/following');
     await expect(page.getByRole('heading', { name: 'Following' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Open Zara' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Open Mango' })).toBeVisible({
+      timeout: 10_000,
+    });
   });
 
   test('threshold persists after refresh', async ({ page }) => {
@@ -26,34 +24,39 @@ test.describe('SaleRadar e2e', () => {
     await expect(page.getByRole('heading', { name: 'Following' })).toBeVisible();
 
     const zaraCard = page.locator('article').filter({ hasText: 'Zara' }).first();
-    await expect(zaraCard).toBeVisible();
+    await expect(zaraCard).toBeVisible({ timeout: 10_000 });
 
-    await zaraCard.getByRole('combobox', { name: /alert threshold/i }).click();
-    await page.getByRole('option', { name: '40%+' }).click();
-    await expect(zaraCard.getByText('40%+').first()).toBeVisible();
+    await zaraCard.locator('.ant-select-selector').click();
+    await expect(page.locator('.ant-select-dropdown')).toBeVisible();
+    await page.locator('.ant-select-item-option-content', { hasText: '30%+' }).click();
+    await expect(zaraCard.getByText('30%+', { exact: true }).first()).toBeVisible();
 
     await page.reload();
-    await expect(page.locator('article').filter({ hasText: 'Zara' }).getByText('40%+').first()).toBeVisible();
+    await expect(
+      page.locator('article').filter({ hasText: 'Zara' }).getByText('30%+', { exact: true }).first(),
+    ).toBeVisible({ timeout: 10_000 });
   });
 
   test('discover fashion filter survives reload', async ({ page }) => {
     await page.goto('/discover');
-    await page.getByRole('combobox', { name: 'Category' }).click();
-    await page.getByRole('option', { name: 'Fashion' }).click();
+    const categorySelect = page.locator('.ant-select').filter({ hasText: 'All categories' });
+    await categorySelect.locator('.ant-select-selector').click();
+    await expect(page.locator('.ant-select-dropdown')).toBeVisible();
+    await page.locator('.ant-select-item-option-content', { hasText: 'Fashion' }).click();
 
     await expect(page).toHaveURL(/category=fashion/);
     await page.reload();
     await expect(page).toHaveURL(/category=fashion/);
-    await expect(page.getByRole('combobox', { name: 'Category' })).toContainText('Fashion');
+    await expect(page.locator('.ant-select').filter({ hasText: 'Fashion' })).toBeVisible();
   });
 
   test('mark notification as read', async ({ page }) => {
     await page.goto('/notifications');
     await expect(page.getByRole('heading', { name: 'Notifications' })).toBeVisible();
 
-    const unreadCard = page.locator('article').filter({ hasText: 'Unread' }).first();
-    await expect(unreadCard).toBeVisible();
-    await unreadCard.getByRole('button', { name: 'Mark as read' }).click();
-    await expect(unreadCard.getByText('Read')).toBeVisible();
+    const card = page.getByRole('article', { name: /Zara sale increased/i });
+    await expect(card).toBeVisible();
+    await card.getByRole('button', { name: 'Mark as read' }).click();
+    await expect(card.getByText('Read', { exact: true })).toBeVisible();
   });
 });

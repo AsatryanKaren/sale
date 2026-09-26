@@ -95,17 +95,13 @@
   line-height: 1.2;
 }
 
-/* Force light icons inside dark mobile header (Ant Design defaults to black text) */
+/* Force light icons inside dark mobile header */
 .header :global(.anticon) {
   color: rgba(248, 250, 252, 0.72) !important;
 }
 
 .header .mobileNavItemActive :global(.anticon) {
   color: #f8fafc !important;
-}
-
-.header :global(.ant-badge .ant-badge-count) {
-  color: #fff !important;
 }
 
 .content {
@@ -139,7 +135,6 @@
 }
 
 .mobileIcon {
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;

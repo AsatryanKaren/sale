@@ -84,7 +84,7 @@ export function AppShell() {
           <nav className={styles.mobileNav} aria-label="Primary">
             {NAV_ITEMS.map((item) => {
               const isActive = selectedKey === item.key;
-              const showUnreadBadge = item.key === '/notifications' && unreadCount > 0;
+              const hasUnread = item.key === '/notifications' && unreadCount > 0;
 
               return (
                 <Link
@@ -93,25 +93,10 @@ export function AppShell() {
                   className={isActive ? styles.mobileNavItemActive : styles.mobileNavItem}
                   aria-current={isActive ? 'page' : undefined}
                   aria-label={
-                    showUnreadBadge
-                      ? `${item.label}, ${unreadCount} unread`
-                      : item.label
+                    hasUnread ? `${item.label}, ${unreadCount} unread` : item.label
                   }
                 >
-                  <span className={styles.mobileIcon}>
-                    {showUnreadBadge ? (
-                      <Badge
-                        count={unreadCount}
-                        size="small"
-                        color={lightBrandTokens.saleHot}
-                        offset={[6, -2]}
-                      >
-                        <BellOutlined style={{ color: 'rgba(248, 250, 252, 0.72)' }} />
-                      </Badge>
-                    ) : (
-                      item.icon
-                    )}
-                  </span>
+                  <span className={styles.mobileIcon}>{item.icon}</span>
                   <span className={styles.mobileLabel}>{item.label}</span>
                 </Link>
               );

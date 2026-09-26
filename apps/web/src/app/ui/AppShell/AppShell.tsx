@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 
 import { useNotificationsQuery } from '@/entities/notification';
+import { lightBrandTokens } from '@/app/theme';
 import { appConfig } from '@/shared/config';
 
 import styles from './AppShell.module.css';
@@ -40,7 +41,7 @@ export function AppShell() {
       item.key === '/notifications' && unreadCount > 0 ? (
         <span className={styles.navLabel}>
           <span>{item.label}</span>
-          <Badge count={unreadCount} size="small" />
+          <Badge count={unreadCount} size="small" color={lightBrandTokens.saleHot} />
         </span>
       ) : (
         item.label
@@ -52,19 +53,25 @@ export function AppShell() {
       <Sider
         breakpoint="lg"
         collapsedWidth={0}
-        width={240}
+        width={268}
         className={styles.sider}
         trigger={null}
       >
         <div className={styles.brandBlock}>
-          <Link to="/discover" className={styles.brand}>
-            {appConfig.appName}
+          <Link to="/discover" className={styles.brandLink} aria-label={appConfig.appName}>
+            <span className={styles.brandMark} aria-hidden>
+              <span className={styles.brandPulse} />
+            </span>
+            <span className={styles.brandCopy}>
+              <span className={styles.brand}>{appConfig.appName}</span>
+              <span className={styles.brandTagline}>Catch the signal. Skip the noise.</span>
+            </span>
           </Link>
-          <p className={styles.brandTagline}>Follow stores. Catch better sales.</p>
         </div>
         <Menu
           mode="inline"
           selectedKeys={[selectedKey]}
+          className={styles.menu}
           items={menuItems.map((item) => ({
             ...item,
             label: <Link to={item.key}>{item.label}</Link>,
@@ -72,10 +79,11 @@ export function AppShell() {
         />
       </Sider>
 
-      <Layout>
+      <Layout className={styles.main}>
         <Header className={styles.header}>
-          <Link to="/discover" className={styles.mobileBrand}>
-            {appConfig.appName}
+          <Link to="/discover" className={styles.mobileBrand} aria-label={appConfig.appName}>
+            <span className={styles.brandMarkCompact} aria-hidden />
+            <span>{appConfig.appName}</span>
           </Link>
           <nav className={styles.mobileNav} aria-label="Primary">
             {NAV_ITEMS.map((item) => {

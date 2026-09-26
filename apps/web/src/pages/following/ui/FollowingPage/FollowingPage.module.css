@@ -11,11 +11,14 @@
 .card {
   display: grid;
   gap: 1rem;
-  padding: 1.15rem 1.2rem;
-  background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-subtle);
+  padding: 1.2rem 1.25rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.9)),
+    radial-gradient(circle at top left, rgba(15, 110, 140, 0.08), transparent 40%);
+  border: 1px solid rgba(197, 208, 219, 0.95);
   border-radius: var(--sr-radius-lg);
   box-shadow: var(--sr-shadow-soft);
+  animation: sr-fade-up 480ms ease both;
 }
 
 .top {
@@ -31,17 +34,23 @@
   justify-content: space-between;
   gap: 0.75rem;
   align-items: center;
-  padding-top: 0.35rem;
-  border-top: 1px solid var(--sr-border-subtle);
+  padding-top: 0.45rem;
+  border-top: 1px dashed rgba(197, 208, 219, 0.95);
 }
 
 .metaLabel {
   color: var(--sr-text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .metaValue {
-  font-weight: 700;
+  font-family: var(--sr-font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 1.15rem;
 }
 
 @media (max-width: 640px) {

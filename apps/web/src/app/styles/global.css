@@ -1,24 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap');
 
 :root {
   color-scheme: light;
-  --sr-brand-primary: #0f766e;
-  --sr-brand-secondary: #134e4a;
-  --sr-bg-base: #f5f7f6;
+  --sr-brand-primary: #0b1f33;
+  --sr-brand-secondary: #16324f;
+  --sr-signal: #e2461a;
+  --sr-bg-base: #e8eef3;
   --sr-bg-elevated: #ffffff;
-  --sr-bg-muted: #e8eeec;
-  --sr-text-primary: #14201e;
-  --sr-text-secondary: #5b6b67;
-  --sr-border-default: #d5ded9;
-  --sr-border-subtle: #e7eeea;
-  --sr-sale-hot: #c2410c;
-  --sr-sale-moderate: #0f766e;
-  --sr-sale-muted: #64748b;
-  --sr-radius-lg: 16px;
-  --sr-radius-md: 12px;
-  --sr-shadow-soft: 0 10px 30px rgba(20, 32, 30, 0.06);
-  --sr-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --sr-font-body: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --sr-bg-muted: #d7e0e9;
+  --sr-text-primary: #0b1f33;
+  --sr-text-secondary: #5a6b7c;
+  --sr-border-default: #c5d0db;
+  --sr-border-subtle: #dce4ec;
+  --sr-sale-hot: #e2461a;
+  --sr-sale-moderate: #0f6e8c;
+  --sr-sale-muted: #6b7c8f;
+  --sr-radius-lg: 22px;
+  --sr-radius-md: 16px;
+  --sr-shadow-soft: 0 18px 40px rgba(11, 31, 51, 0.08);
+  --sr-font-display: 'Syne', 'Avenir Next', 'Segoe UI', sans-serif;
+  --sr-font-body: 'Figtree', 'Avenir Next', 'Segoe UI', sans-serif;
 }
 
 *,
@@ -37,9 +38,17 @@ body {
   margin: 0;
   font-family: var(--sr-font-body);
   color: var(--sr-text-primary);
-  background:
-    radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 34%),
-    linear-gradient(180deg, #f7faf8 0%, var(--sr-bg-base) 48%, #eef3f1 100%);
+  background-color: var(--sr-bg-base);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(226, 70, 26, 0.14), transparent 28%),
+    radial-gradient(circle at 88% 0%, rgba(15, 110, 140, 0.16), transparent 32%),
+    radial-gradient(circle at 50% 120%, rgba(11, 31, 51, 0.08), transparent 42%),
+    repeating-radial-gradient(
+      circle at 18% 22%,
+      rgba(11, 31, 51, 0.045) 0 1px,
+      transparent 1px 18px
+    );
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -56,6 +65,50 @@ textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--sr-brand-primary);
+  outline: 2px solid var(--sr-signal);
   outline-offset: 2px;
+}
+
+@keyframes sr-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sr-radar-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes sr-soft-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

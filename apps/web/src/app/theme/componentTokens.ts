@@ -5,38 +5,48 @@ import type { BrandTokens } from './types';
 export function createComponentTokens(tokens: BrandTokens): ThemeConfig['components'] {
   return {
     Button: {
-      borderRadius: 10,
-      controlHeight: 40,
-      fontWeight: 600,
+      borderRadius: 999,
+      controlHeight: 42,
+      fontWeight: 700,
+      primaryShadow: 'none',
+      defaultShadow: 'none',
     },
     Card: {
-      borderRadiusLG: 16,
-      paddingLG: 20,
+      borderRadiusLG: 22,
+      paddingLG: 22,
     },
     Input: {
-      borderRadius: 10,
-      controlHeight: 40,
+      borderRadius: 999,
+      controlHeight: 44,
+      activeBorderColor: tokens.brandPrimary,
+      hoverBorderColor: tokens.brandSecondary,
     },
     Select: {
-      borderRadius: 10,
-      controlHeight: 40,
+      borderRadius: 999,
+      controlHeight: 44,
     },
     Tag: {
       borderRadiusSM: 999,
     },
     Layout: {
       bodyBg: tokens.backgroundBase,
-      headerBg: tokens.backgroundElevated,
-      siderBg: tokens.backgroundElevated,
+      headerBg: 'transparent',
+      siderBg: 'transparent',
       triggerBg: tokens.backgroundMuted,
     },
     Menu: {
-      itemBorderRadius: 10,
-      itemMarginInline: 8,
-      itemHeight: 44,
+      itemBorderRadius: 14,
+      itemMarginInline: 10,
+      itemHeight: 46,
+      itemSelectedBg: 'rgba(226, 70, 26, 0.12)',
+      itemSelectedColor: tokens.brandPrimary,
+      itemHoverBg: 'rgba(11, 31, 51, 0.05)',
     },
     Skeleton: {
-      borderRadiusSM: 10,
+      borderRadiusSM: 14,
+    },
+    Badge: {
+      colorBgContainer: tokens.saleHot,
     },
   };
 }

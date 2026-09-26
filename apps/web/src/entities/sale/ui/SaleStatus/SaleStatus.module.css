@@ -1,18 +1,19 @@
 .root {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
 }
 
 .kind {
   color: var(--sr-text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .title,
@@ -28,21 +29,26 @@
 .mutedTag {
   margin: 0;
   border: 0;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  padding-inline: 0.7rem;
+  line-height: 1.7;
 }
 
 .hot {
-  color: #9a3412;
-  background: color-mix(in srgb, var(--sr-sale-hot) 16%, white);
+  color: #8f2208;
+  background: color-mix(in srgb, var(--sr-sale-hot) 18%, white);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sr-sale-hot) 28%, white);
 }
 
 .moderate {
-  color: var(--sr-brand-secondary);
-  background: color-mix(in srgb, var(--sr-sale-moderate) 14%, white);
+  color: #0a4f64;
+  background: color-mix(in srgb, var(--sr-sale-moderate) 16%, white);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sr-sale-moderate) 24%, white);
 }
 
 .muted,
 .mutedTag {
   color: var(--sr-sale-muted);
-  background: var(--sr-bg-muted);
+  background: rgba(107, 124, 143, 0.12);
 }

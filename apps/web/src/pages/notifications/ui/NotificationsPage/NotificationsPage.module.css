@@ -12,15 +12,19 @@
 .cardUnread {
   display: grid;
   gap: 0.75rem;
-  padding: 1.1rem 1.15rem;
-  background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-subtle);
+  padding: 1.15rem 1.2rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(197, 208, 219, 0.95);
   border-radius: var(--sr-radius-lg);
+  box-shadow: var(--sr-shadow-soft);
+  animation: sr-fade-up 480ms ease both;
 }
 
 .cardUnread {
-  border-color: color-mix(in srgb, var(--sr-brand-primary) 35%, var(--sr-border-subtle));
-  box-shadow: inset 3px 0 0 var(--sr-brand-primary);
+  border-color: color-mix(in srgb, var(--sr-signal) 40%, var(--sr-border-subtle));
+  box-shadow:
+    inset 4px 0 0 var(--sr-signal),
+    var(--sr-shadow-soft);
 }
 
 .top {
@@ -31,12 +35,18 @@
 
 .store {
   color: var(--sr-text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .title {
-  margin: 0.2rem 0 0;
-  font-size: 1.05rem;
+  margin: 0.25rem 0 0;
+  font-family: var(--sr-font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .body {
@@ -55,11 +65,11 @@
 
 .unread,
 .read {
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .unread {
-  color: var(--sr-brand-primary);
+  color: var(--sr-signal);
 }
 
 .read {

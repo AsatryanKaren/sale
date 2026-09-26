@@ -4,29 +4,82 @@
 }
 
 .sider {
-  border-right: 1px solid var(--sr-border-subtle);
-  background: color-mix(in srgb, var(--sr-bg-elevated) 92%, white) !important;
+  position: sticky !important;
+  top: 0;
+  height: 100vh;
+  padding: 1rem 0.65rem;
+  border-right: 0 !important;
+  background: transparent !important;
 }
 
 .brandBlock {
-  padding: 1.4rem 1.2rem 1rem;
+  padding: 0.85rem 0.75rem 1.35rem;
+}
+
+.brandLink {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brandMark,
+.brandMarkCompact {
+  position: relative;
+  width: 2.55rem;
+  height: 2.55rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, var(--sr-signal) 0 18%, transparent 19% 100%),
+    conic-gradient(from 210deg, rgba(226, 70, 26, 0.9), rgba(15, 110, 140, 0.55), transparent 70%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+  flex-shrink: 0;
+}
+
+.brandMark::before,
+.brandMarkCompact::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border-radius: inherit;
+  border: 1.5px solid rgba(11, 31, 51, 0.35);
+}
+
+.brandPulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 1px solid rgba(226, 70, 26, 0.35);
+  animation: sr-radar-pulse 2.8s ease-in-out infinite;
+}
+
+.brandCopy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
 }
 
 .brand,
 .mobileBrand {
   font-family: var(--sr-font-display);
   font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--sr-brand-secondary);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--sr-brand-primary);
   text-decoration: none;
 }
 
 .brandTagline {
-  margin: 0.35rem 0 0;
   color: var(--sr-text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.menu {
+  background: transparent !important;
+  border-inline-end: 0 !important;
 }
 
 .navLabel {
@@ -35,17 +88,34 @@
   gap: 0.5rem;
 }
 
+.main {
+  background: transparent;
+}
+
 .header {
   display: none;
   height: auto;
-  padding: 0.85rem 1rem 0.35rem;
-  background: color-mix(in srgb, var(--sr-bg-elevated) 94%, white);
-  border-bottom: 1px solid var(--sr-border-subtle);
+  padding: 0.9rem 1rem 0.4rem;
+  background: rgba(232, 238, 243, 0.86);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(197, 208, 219, 0.7);
   line-height: 1.2;
+}
+
+.mobileBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.brandMarkCompact {
+  width: 1.7rem;
+  height: 1.7rem;
 }
 
 .content {
   padding: 1.5rem 1.25rem 5.5rem;
+  animation: sr-soft-in 420ms ease;
 }
 
 .mobileNav {
@@ -57,19 +127,19 @@
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem;
+  gap: 0.2rem;
   min-width: 4.5rem;
-  padding: 0.35rem 0.4rem;
-  border-radius: 12px;
+  padding: 0.45rem 0.4rem;
+  border-radius: 14px;
   color: var(--sr-text-secondary);
   text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .mobileNavItemActive {
-  color: var(--sr-brand-secondary);
-  background: color-mix(in srgb, var(--sr-brand-primary) 12%, white);
+  color: var(--sr-brand-primary);
+  background: rgba(226, 70, 26, 0.12);
 }
 
 .mobileIcon {
@@ -92,12 +162,25 @@
   }
 
   .content {
-    padding: 1.15rem 1rem 2rem;
+    padding: 1.1rem 1rem 2rem;
   }
 }
 
 @media (min-width: 992px) {
   .content {
-    padding: 2rem 2rem 2.5rem;
+    padding: 2rem 2.25rem 2.75rem;
+  }
+
+  .sider :global(.ant-layout-sider-children) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.35rem;
+    border: 1px solid rgba(197, 208, 219, 0.85);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(14px);
+    box-shadow: var(--sr-shadow-soft);
+    min-height: calc(100vh - 2rem);
   }
 }

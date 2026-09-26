@@ -7,15 +7,20 @@
   display: grid;
   gap: 0.65rem;
   margin-bottom: 1rem;
-  padding: 1.15rem 1.2rem;
-  background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-subtle);
+  padding: 1.2rem 1.25rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(197, 208, 219, 0.95);
   border-radius: var(--sr-radius-lg);
+  box-shadow: var(--sr-shadow-soft);
+  animation: sr-fade-up 480ms ease both;
 }
 
 .panelTitle {
   margin: 0;
-  font-size: 1.05rem;
+  font-family: var(--sr-font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .helper {

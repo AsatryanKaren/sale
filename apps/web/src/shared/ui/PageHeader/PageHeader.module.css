@@ -3,7 +3,8 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.45rem;
+  animation: sr-fade-up 480ms ease both;
 }
 
 .copy {
@@ -13,14 +14,15 @@
 .title {
   margin: 0;
   font-family: var(--sr-font-display);
-  font-size: clamp(1.75rem, 2vw + 1rem, 2.25rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.85rem, 2vw + 1rem, 2.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  font-weight: 800;
   color: var(--sr-text-primary);
 }
 
 .description {
-  margin: 0.5rem 0 0;
+  margin: 0.55rem 0 0;
   color: var(--sr-text-secondary);
   font-size: 1rem;
   line-height: 1.55;

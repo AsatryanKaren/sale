@@ -1,16 +1,66 @@
 .page {
-  width: min(100%, 72rem);
+  width: min(100%, 74rem);
   margin: 0 auto;
+}
+
+.hero {
+  position: relative;
+  margin-bottom: 1.35rem;
+  padding: 1.35rem 0 0.35rem;
+  max-width: 40rem;
+  animation: sr-fade-up 520ms ease both;
+}
+
+.brand {
+  margin: 0 0 0.7rem;
+  font-family: var(--sr-font-display);
+  font-size: clamp(2rem, 3vw + 1rem, 2.85rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  color: var(--sr-brand-primary);
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--sr-font-display);
+  font-size: clamp(1.35rem, 1.4vw + 1rem, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  color: var(--sr-brand-secondary);
+}
+
+.support {
+  margin: 0.75rem 0 0;
+  max-width: 34rem;
+  color: var(--sr-text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.55;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
   gap: 1rem;
 }
 
+.cardMotion {
+  animation: sr-fade-up 480ms ease both;
+}
+
 .disclaimer {
-  margin: 1.5rem 0 0;
+  margin: 1.6rem 0 0;
   color: var(--sr-text-secondary);
   font-size: 0.85rem;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-top: 0.4rem;
+  }
+
+  .brand {
+    font-size: 2.05rem;
+  }
 }

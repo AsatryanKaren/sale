@@ -15,13 +15,12 @@
 
 .panel {
   display: grid;
-  gap: 0.75rem;
-  margin-bottom: 0.85rem;
-  padding: 1.1rem;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+  padding: 0.95rem;
   background: var(--sr-bg-elevated);
   border: 1px solid var(--sr-border-default);
   border-radius: var(--sr-radius-lg);
-  box-shadow: var(--sr-shadow-soft);
 }
 
 .panelTitle {

@@ -1,0 +1,103 @@
+.layout {
+  min-height: 100vh;
+  background: transparent;
+}
+
+.sider {
+  border-right: 1px solid var(--sr-border-subtle);
+  background: color-mix(in srgb, var(--sr-bg-elevated) 92%, white) !important;
+}
+
+.brandBlock {
+  padding: 1.4rem 1.2rem 1rem;
+}
+
+.brand,
+.mobileBrand {
+  font-family: var(--sr-font-display);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--sr-brand-secondary);
+  text-decoration: none;
+}
+
+.brandTagline {
+  margin: 0.35rem 0 0;
+  color: var(--sr-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.navLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header {
+  display: none;
+  height: auto;
+  padding: 0.85rem 1rem 0.35rem;
+  background: color-mix(in srgb, var(--sr-bg-elevated) 94%, white);
+  border-bottom: 1px solid var(--sr-border-subtle);
+  line-height: 1.2;
+}
+
+.content {
+  padding: 1.5rem 1.25rem 5.5rem;
+}
+
+.mobileNav {
+  display: none;
+}
+
+.mobileNavItem,
+.mobileNavItemActive {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 4.5rem;
+  padding: 0.35rem 0.4rem;
+  border-radius: 12px;
+  color: var(--sr-text-secondary);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.mobileNavItemActive {
+  color: var(--sr-brand-secondary);
+  background: color-mix(in srgb, var(--sr-brand-primary) 12%, white);
+}
+
+.mobileIcon {
+  font-size: 1.05rem;
+}
+
+@media (max-width: 991px) {
+  .header {
+    display: grid;
+    gap: 0.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .mobileNav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.25rem;
+  }
+
+  .content {
+    padding: 1.15rem 1rem 2rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .content {
+    padding: 2rem 2rem 2.5rem;
+  }
+}

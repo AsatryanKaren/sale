@@ -1,0 +1,30 @@
+{
+  "name": "saleradar",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.33.3",
+  "scripts": {
+    "dev": "pnpm --filter @saleradar/web dev",
+    "build": "pnpm -r --filter @saleradar/contracts build && pnpm --filter @saleradar/web build",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm --filter @saleradar/web test",
+    "test:unit": "pnpm --filter @saleradar/web test:unit",
+    "test:component": "pnpm --filter @saleradar/web test:component",
+    "test:e2e": "pnpm --filter @saleradar/web test:e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@tanstack/eslint-plugin-query": "^5.91.2",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.2"
+  }
+}

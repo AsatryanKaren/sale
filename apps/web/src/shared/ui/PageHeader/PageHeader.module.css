@@ -1,0 +1,41 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.copy {
+  max-width: 42rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--sr-font-display);
+  font-size: clamp(1.75rem, 2vw + 1rem, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--sr-text-primary);
+}
+
+.description {
+  margin: 0.5rem 0 0;
+  color: var(--sr-text-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.actions {
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+  }
+}

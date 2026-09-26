@@ -1,0 +1,48 @@
+.root {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kind {
+  color: var(--sr-text-secondary);
+  font-size: 0.9rem;
+}
+
+.title,
+.helper {
+  margin: 0;
+  color: var(--sr-text-secondary);
+  font-size: 0.92rem;
+}
+
+.hot,
+.moderate,
+.muted,
+.mutedTag {
+  margin: 0;
+  border: 0;
+  font-weight: 700;
+}
+
+.hot {
+  color: #9a3412;
+  background: color-mix(in srgb, var(--sr-sale-hot) 16%, white);
+}
+
+.moderate {
+  color: var(--sr-brand-secondary);
+  background: color-mix(in srgb, var(--sr-sale-moderate) 14%, white);
+}
+
+.muted,
+.mutedTag {
+  color: var(--sr-sale-muted);
+  background: var(--sr-bg-muted);
+}

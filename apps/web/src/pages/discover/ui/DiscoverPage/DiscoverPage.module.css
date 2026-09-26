@@ -1,0 +1,16 @@
+.page {
+  width: min(100%, 72rem);
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+  gap: 1rem;
+}
+
+.disclaimer {
+  margin: 1.5rem 0 0;
+  color: var(--sr-text-secondary);
+  font-size: 0.85rem;
+}

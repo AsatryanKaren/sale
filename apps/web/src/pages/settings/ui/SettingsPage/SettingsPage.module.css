@@ -1,0 +1,32 @@
+.page {
+  width: min(100%, 42rem);
+  margin: 0 auto;
+}
+
+.panel {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+  padding: 1.15rem 1.2rem;
+  background: var(--sr-bg-elevated);
+  border: 1px solid var(--sr-border-subtle);
+  border-radius: var(--sr-radius-lg);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.helper {
+  margin: 0;
+  color: var(--sr-text-secondary);
+}
+
+.channels {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--sr-text-secondary);
+  display: grid;
+  gap: 0.35rem;
+}

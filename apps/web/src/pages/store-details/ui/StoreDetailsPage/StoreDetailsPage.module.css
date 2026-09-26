@@ -1,0 +1,82 @@
+.page {
+  width: min(100%, 48rem);
+  margin: 0 auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.heroIdentity {
+  margin-bottom: 1.25rem;
+}
+
+.panel {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1.15rem 1.2rem;
+  background: var(--sr-bg-elevated);
+  border: 1px solid var(--sr-border-subtle);
+  border-radius: var(--sr-radius-lg);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.alertRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.meta {
+  margin: 0;
+  color: var(--sr-text-secondary);
+  font-size: 0.92rem;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.timelineItem {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.75rem;
+}
+
+.timelineDate {
+  font-weight: 700;
+}
+
+.timelineLabel {
+  font-weight: 600;
+}
+
+.back {
+  margin-top: 1.25rem;
+}
+
+.back a {
+  color: var(--sr-brand-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .timelineItem {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}

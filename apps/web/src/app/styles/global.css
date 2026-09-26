@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+:root {
+  color-scheme: light;
+  --sr-brand-primary: #0f766e;
+  --sr-brand-secondary: #134e4a;
+  --sr-bg-base: #f5f7f6;
+  --sr-bg-elevated: #ffffff;
+  --sr-bg-muted: #e8eeec;
+  --sr-text-primary: #14201e;
+  --sr-text-secondary: #5b6b67;
+  --sr-border-default: #d5ded9;
+  --sr-border-subtle: #e7eeea;
+  --sr-sale-hot: #c2410c;
+  --sr-sale-moderate: #0f766e;
+  --sr-sale-muted: #64748b;
+  --sr-radius-lg: 16px;
+  --sr-radius-md: 12px;
+  --sr-shadow-soft: 0 10px 30px rgba(20, 32, 30, 0.06);
+  --sr-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sr-font-body: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sr-font-body);
+  color: var(--sr-text-primary);
+  background:
+    radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 34%),
+    linear-gradient(180deg, #f7faf8 0%, var(--sr-bg-base) 48%, #eef3f1 100%);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--sr-brand-primary);
+  outline-offset: 2px;
+}

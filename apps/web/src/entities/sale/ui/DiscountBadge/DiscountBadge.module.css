@@ -1,0 +1,22 @@
+.hot,
+.moderate,
+.muted {
+  margin: 0;
+  border: 0;
+  font-weight: 700;
+}
+
+.hot {
+  color: #9a3412;
+  background: color-mix(in srgb, var(--sr-sale-hot) 16%, white);
+}
+
+.moderate {
+  color: var(--sr-brand-secondary);
+  background: color-mix(in srgb, var(--sr-sale-moderate) 14%, white);
+}
+
+.muted {
+  color: var(--sr-sale-muted);
+  background: var(--sr-bg-muted);
+}

@@ -1,0 +1,1 @@
+export { StoreIdentity } from './StoreIdentity';

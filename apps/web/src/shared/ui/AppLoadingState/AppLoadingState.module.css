@@ -1,0 +1,11 @@
+.root {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  padding: 1.1rem 1.2rem;
+  background: var(--sr-bg-elevated);
+  border: 1px solid var(--sr-border-subtle);
+  border-radius: var(--sr-radius-lg);
+}

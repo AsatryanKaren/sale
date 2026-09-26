@@ -1,0 +1,1 @@
+export { DiscoverFiltersBar } from './DiscoverFiltersBar';

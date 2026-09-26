@@ -65,7 +65,7 @@ export function AppShell() {
                       count={unreadCount}
                       size="small"
                       color={lightBrandTokens.saleHot}
-                      className={styles.navBadge}
+                      className={styles.navBadge ?? ''}
                     />
                   ) : null}
                 </Link>

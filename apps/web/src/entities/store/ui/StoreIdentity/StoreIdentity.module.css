@@ -1,22 +1,22 @@
 .root {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.8rem;
   text-decoration: none;
   color: inherit;
   min-width: 0;
 }
 
 .avatar {
-  background: var(--sr-bg-muted) !important;
-  color: var(--sr-text-primary) !important;
+  background: var(--sr-shell) !important;
+  color: var(--sr-shell-text) !important;
   font-weight: 700;
   flex-shrink: 0;
 }
 
 .copy {
   display: grid;
-  gap: 0.1rem;
+  gap: 0.12rem;
   min-width: 0;
 }
 
@@ -27,19 +27,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .name {
-  font-size: 0.98rem;
+  font-size: 1rem;
 }
 
 .nameLarge {
-  font-size: 1.35rem;
+  font-family: var(--sr-font-display);
+  font-size: 1.55rem;
+  letter-spacing: -0.035em;
 }
 
 .category {
   color: var(--sr-text-secondary);
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }

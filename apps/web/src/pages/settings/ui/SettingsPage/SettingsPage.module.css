@@ -5,24 +5,28 @@
 
 .panel {
   display: grid;
-  gap: 0.55rem;
-  margin-bottom: 0.75rem;
-  padding: 1rem 1.05rem;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+  padding: 1.1rem;
   background: var(--sr-bg-elevated);
   border: 1px solid var(--sr-border-default);
   border-radius: var(--sr-radius-lg);
+  box-shadow: var(--sr-shadow-soft);
 }
 
 .panelTitle {
   margin: 0;
-  font-size: 0.95rem;
+  font-family: var(--sr-font-display);
+  font-size: 1.15rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .helper {
   margin: 0;
   color: var(--sr-text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 .channels {
@@ -30,6 +34,6 @@
   padding-left: 1.1rem;
   color: var(--sr-text-secondary);
   display: grid;
-  gap: 0.3rem;
-  font-size: 0.9rem;
+  gap: 0.35rem;
+  font-size: 0.92rem;
 }

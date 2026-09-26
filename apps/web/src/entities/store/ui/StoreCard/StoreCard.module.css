@@ -1,16 +1,23 @@
 .card {
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
   min-height: 100%;
-  padding: 1rem 1.05rem;
+  padding: 1.1rem 1.1rem 1.05rem;
   background: var(--sr-bg-elevated);
   border: 1px solid var(--sr-border-default);
   border-radius: var(--sr-radius-lg);
-  transition: border-color 160ms ease;
+  box-shadow: var(--sr-shadow-soft);
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 
 .card:hover {
-  border-color: color-mix(in srgb, var(--sr-brand-primary) 28%, var(--sr-border-default));
+  border-color: color-mix(in srgb, var(--sr-brand-primary) 22%, var(--sr-border-default));
+  transform: translateY(-1px);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.1);
+}
+
+.cardHot {
+  border-color: color-mix(in srgb, var(--sr-sale-hot) 28%, var(--sr-border-default));
 }
 
 .top {
@@ -25,14 +32,16 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.65rem;
-  padding-top: 0.65rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--sr-border-default);
 }
 
 .alertLabel {
   color: var(--sr-text-secondary);
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 640px) {

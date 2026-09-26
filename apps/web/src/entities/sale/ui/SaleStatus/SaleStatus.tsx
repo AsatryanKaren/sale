@@ -13,7 +13,7 @@ type SaleStatusProps = {
 export function SaleStatus({ sale, compact = false }: SaleStatusProps) {
   if (sale?.status !== 'active') {
     return (
-      <div className={cssModuleClass(styles, 'root')}>
+      <div className={cssModuleClass(styles, 'rootEmpty')}>
         <p className={cssModuleClass(styles, 'emptyTitle')}>No active sale</p>
         {!compact ? (
           <p className={cssModuleClass(styles, 'helper')}>
@@ -28,9 +28,11 @@ export function SaleStatus({ sale, compact = false }: SaleStatusProps) {
   const percent = formatDiscountPercent(sale.maxDiscountPercent);
   const toneClass =
     tone === 'hot' ? 'discountHot' : tone === 'moderate' ? 'discountModerate' : 'discountMuted';
+  const rootToneClass =
+    tone === 'hot' ? 'rootHot' : tone === 'moderate' ? 'rootModerate' : 'rootMuted';
 
   return (
-    <div className={cssModuleClass(styles, 'root')}>
+    <div className={cssModuleClass(styles, rootToneClass)}>
       <div className={cssModuleClass(styles, 'row')}>
         <p className={cssModuleClass(styles, toneClass)}>
           {percent ? (

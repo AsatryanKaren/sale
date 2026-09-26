@@ -1,27 +1,52 @@
-.root {
+.root,
+.rootEmpty {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.45rem;
+  padding: 0.9rem 0.95rem;
+  border-radius: calc(var(--sr-radius-md) - 2px);
+  border: 1px solid transparent;
+}
+
+.rootEmpty {
+  background: color-mix(in srgb, var(--sr-bg-muted) 55%, white);
+  border-color: var(--sr-border-default);
+}
+
+.rootHot {
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+
+.rootModerate {
+  background: #f0fdfa;
+  border-color: #99f6e4;
+}
+
+.rootMuted {
+  background: color-mix(in srgb, var(--sr-bg-muted) 70%, white);
+  border-color: var(--sr-border-default);
 }
 
 .row {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .meta {
   display: grid;
-  gap: 0.15rem;
+  gap: 0.2rem;
   text-align: right;
+  max-width: 55%;
 }
 
 .kind {
   color: var(--sr-text-secondary);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
 .title,
@@ -30,11 +55,22 @@
   margin: 0;
   color: var(--sr-text-secondary);
   font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.title {
+  color: var(--sr-text-primary);
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .emptyTitle {
   color: var(--sr-text-primary);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .discountHot,
@@ -42,20 +78,23 @@
 .discountMuted {
   margin: 0;
   display: grid;
-  gap: 0.05rem;
+  gap: 0.1rem;
 }
 
 .discountPrefix {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--sr-text-secondary);
 }
 
 .discountValue {
-  font-size: 1.85rem;
+  font-family: var(--sr-font-display);
+  font-size: 2.35rem;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
 }
 
 .discountHot .discountValue {

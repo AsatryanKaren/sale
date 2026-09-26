@@ -1,6 +1,6 @@
 import type { Sale, Store, Watch } from '@saleradar/contracts';
 
-import { SaleStatus } from '@/entities/sale';
+import { SaleStatus, getSaleTone } from '@/entities/sale';
 import { StoreIdentity, getCategoryLabel } from '@/entities/store';
 import { ConfigureAlertControl } from '@/features/configure-alert';
 import { FollowButton } from '@/features/follow-store';
@@ -15,9 +15,11 @@ type StoreCardProps = {
 
 export function StoreCard({ store, sale, watch }: StoreCardProps) {
   const isFollowing = watch !== null;
+  const isHot =
+    sale?.status === 'active' && getSaleTone(sale.maxDiscountPercent) === 'hot';
 
   return (
-    <article className={styles.card}>
+    <article className={[styles.card, isHot ? styles.cardHot : ''].filter(Boolean).join(' ')}>
       <div className={styles.top}>
         <StoreIdentity
           name={store.name}

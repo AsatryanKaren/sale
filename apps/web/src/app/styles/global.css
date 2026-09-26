@@ -1,24 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
   color-scheme: light;
-  --sr-brand-primary: #111111;
-  --sr-brand-secondary: #2a2a2a;
+  --sr-brand-primary: #0b0b0c;
+  --sr-brand-secondary: #1f2937;
+  --sr-shell: #121316;
+  --sr-shell-text: #f8fafc;
+  --sr-shell-muted: rgba(248, 250, 252, 0.62);
   --sr-signal: #e11d48;
-  --sr-bg-base: #f4f4f5;
+  --sr-bg-base: #e9edf2;
   --sr-bg-elevated: #ffffff;
-  --sr-bg-muted: #e4e4e7;
-  --sr-text-primary: #111111;
-  --sr-text-secondary: #71717a;
-  --sr-border-default: #e4e4e7;
-  --sr-border-subtle: #f4f4f5;
+  --sr-bg-muted: #d7dee7;
+  --sr-text-primary: #0b0b0c;
+  --sr-text-secondary: #667085;
+  --sr-border-default: #d7dee7;
+  --sr-border-subtle: #e9edf2;
   --sr-sale-hot: #e11d48;
   --sr-sale-moderate: #0f766e;
-  --sr-sale-muted: #71717a;
-  --sr-radius-lg: 12px;
-  --sr-radius-md: 10px;
-  --sr-shadow-soft: 0 1px 2px rgba(17, 17, 17, 0.04);
-  --sr-font-display: 'Plus Jakarta Sans', 'Avenir Next', 'Segoe UI', sans-serif;
+  --sr-sale-muted: #667085;
+  --sr-radius-lg: 14px;
+  --sr-radius-md: 12px;
+  --sr-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --sr-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --sr-font-body: 'Plus Jakarta Sans', 'Avenir Next', 'Segoe UI', sans-serif;
 }
 
@@ -38,13 +41,17 @@ body {
   margin: 0;
   font-family: var(--sr-font-body);
   color: var(--sr-text-primary);
-  background: var(--sr-bg-base);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(225, 29, 72, 0.06), transparent 28%),
+    radial-gradient(circle at 100% 0%, rgba(15, 118, 110, 0.07), transparent 26%),
+    var(--sr-bg-base);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--sr-signal) 22%, white);
+  background: color-mix(in srgb, var(--sr-signal) 24%, white);
   color: var(--sr-text-primary);
 }
 

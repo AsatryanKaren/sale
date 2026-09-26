@@ -21,6 +21,6 @@
 
 .muted {
   color: var(--sr-sale-muted);
-  background: var(--sr-bg-muted);
+  background: color-mix(in srgb, var(--sr-bg-muted) 70%, white);
   border-color: var(--sr-border-default);
 }

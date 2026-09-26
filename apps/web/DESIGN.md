@@ -1,31 +1,32 @@
 # SaleRadar Design System
 
-**Mode:** Operate (product UI)  
-**References applied:** [Impeccable](https://github.com/pbakaus/impeccable) Operate + craft-floor; [Deslopify](https://github.com/AntonioSpagnol/UI-Deslopify-Skill) anti-slop rules.
+**Mode:** Operate (product UI), amplified  
+**References:** [Impeccable](https://github.com/pbakaus/impeccable) Operate + bolder/delight; [Deslopify](https://github.com/AntonioSpagnol/UI-Deslopify-Skill) anti-slop rules.
 
 ## Direction
 
-Clean modern retail tool. Familiar product affordances. Hierarchy from type weight and spacing. One accent for action and hot sales only.
+Modern retail radar: calm ink surfaces, one rose signal, and **discount as the product’s visual motif**. Familiar app structure, stronger hierarchy and material contrast than a wireframe.
 
 ## Tokens
 
 | Token | Value | Use |
 | --- | --- | --- |
-| brandPrimary | `#111111` | Primary actions, text, selection |
-| brandSecondary | `#2A2A2A` | Secondary emphasis |
-| accent / saleHot | `#E11D48` | Hot discounts, unread, destructive emphasis |
-| saleModerate | `#0F766E` | Moderate discounts |
-| backgroundBase | `#F4F4F5` | App canvas |
-| backgroundElevated | `#FFFFFF` | Panels, cards |
-| textSecondary | `#71717A` | Meta, helpers |
-| border | `#E4E4E7` | Hairlines |
-| radius | `12px` | Surfaces; pills only on small tags/buttons |
-| font | Plus Jakarta Sans | Single family for all UI |
+| brandPrimary | `#0B0B0C` | Primary actions, ink |
+| shell | `#121316` | Sidebar / mobile chrome |
+| accent / saleHot | `#E11D48` | Hot discount, unread, brand mark |
+| saleModerate | `#0F766E` | Moderate discount |
+| backgroundBase | `#E9EDF2` | App canvas |
+| backgroundElevated | `#FFFFFF` | Cards, trays |
+| textSecondary | `#667085` | Meta |
+| border | `#D7DEE7` | Hairlines |
+| radius | `14px` | Surfaces |
+| font body | Plus Jakarta Sans | UI |
+| font display | Fraunces | Brand + page titles only |
 
 ## Rules
 
-- No decorative gradients, glass, orbs, radar rings, or multi-shadow stacks
-- Accent color only on CTAs, active nav, hot sale badges, unread
-- Brand wordmark lives in the shell; pages lead with the task title
-- Cards are interaction containers only; flat white + 1px border
-- Motion ≤ 200ms and only for state (hover/focus), not page theater
+- No glass, decorative multi-stop gradients, orbs, or page-load theater
+- Accent used for signal: hot sales, unread, primary brand mark, rare emphasis
+- Active-sale cards get a tinted sale well (solid tint, not gradient fill)
+- Elevation: soft shadow **or** border — not both stacked heavily
+- Motion ≤ 180ms for hover/focus only

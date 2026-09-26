@@ -30,13 +30,14 @@ export function createTheme(
       colorBgElevated: tokens.backgroundElevated,
       colorBorder: tokens.borderDefault,
       colorBorderSecondary: tokens.borderSubtle,
-      borderRadius: 12,
+      borderRadius: 14,
       fontFamily: '"Plus Jakarta Sans", "Avenir Next", "Segoe UI", sans-serif',
       fontSize: 14,
       lineHeight: 1.5,
       controlOutline: tokens.focusRing,
-      boxShadowSecondary: '0 1px 2px rgba(17, 17, 17, 0.04)',
+      boxShadowSecondary: '0 10px 30px rgba(15, 23, 42, 0.08)',
     },
+    algorithm: undefined,
     ...(components ? { components } : {}),
   };
 }

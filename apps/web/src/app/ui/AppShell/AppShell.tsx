@@ -64,6 +64,7 @@ export function AppShell() {
           </Link>
         </div>
         <Menu
+          theme="dark"
           mode="inline"
           selectedKeys={[selectedKey]}
           className={styles.menu}

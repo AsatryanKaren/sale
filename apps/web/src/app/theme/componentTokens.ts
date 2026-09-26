@@ -5,45 +5,48 @@ import type { BrandTokens } from './types';
 export function createComponentTokens(tokens: BrandTokens): ThemeConfig['components'] {
   return {
     Button: {
-      borderRadius: 10,
+      borderRadius: 12,
       controlHeight: 40,
-      fontWeight: 600,
+      fontWeight: 700,
       primaryShadow: 'none',
       defaultShadow: 'none',
     },
     Card: {
-      borderRadiusLG: 12,
+      borderRadiusLG: 14,
       paddingLG: 20,
     },
     Input: {
-      borderRadius: 10,
-      controlHeight: 40,
+      borderRadius: 12,
+      controlHeight: 42,
       activeBorderColor: tokens.brandPrimary,
       hoverBorderColor: tokens.brandSecondary,
     },
     Select: {
-      borderRadius: 10,
-      controlHeight: 40,
+      borderRadius: 12,
+      controlHeight: 42,
     },
     Tag: {
-      borderRadiusSM: 6,
+      borderRadiusSM: 8,
     },
     Layout: {
       bodyBg: tokens.backgroundBase,
-      headerBg: tokens.backgroundElevated,
-      siderBg: tokens.backgroundElevated,
+      headerBg: '#121316',
+      siderBg: '#121316',
       triggerBg: tokens.backgroundMuted,
     },
     Menu: {
-      itemBorderRadius: 8,
+      darkItemBg: '#121316',
+      darkSubMenuItemBg: '#121316',
+      itemBorderRadius: 10,
       itemMarginInline: 8,
-      itemHeight: 40,
-      itemSelectedBg: tokens.backgroundMuted,
-      itemSelectedColor: tokens.brandPrimary,
-      itemHoverBg: tokens.borderSubtle,
+      itemHeight: 42,
+      darkItemSelectedBg: 'rgba(225, 29, 72, 0.16)',
+      darkItemSelectedColor: '#FFFFFF',
+      darkItemHoverBg: 'rgba(255, 255, 255, 0.06)',
+      darkItemColor: 'rgba(248, 250, 252, 0.72)',
     },
     Skeleton: {
-      borderRadiusSM: 8,
+      borderRadiusSM: 10,
     },
   };
 }

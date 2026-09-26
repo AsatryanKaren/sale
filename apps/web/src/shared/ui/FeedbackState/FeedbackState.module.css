@@ -1,22 +1,26 @@
 .root {
-  padding: 2rem 1rem;
+  padding: 2.25rem 1.25rem;
   background: var(--sr-bg-elevated);
   border: 1px solid var(--sr-border-default);
   border-radius: var(--sr-radius-lg);
+  box-shadow: var(--sr-shadow-soft);
 }
 
 .copy {
   display: grid;
-  gap: 0.3rem;
+  gap: 0.35rem;
 }
 
 .copy strong {
   color: var(--sr-text-primary);
-  font-size: 1rem;
+  font-family: var(--sr-font-display);
+  font-size: 1.2rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .copy p {
   margin: 0;
   color: var(--sr-text-secondary);
+  line-height: 1.5;
 }

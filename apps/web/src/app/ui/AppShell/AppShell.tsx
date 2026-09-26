@@ -8,8 +8,8 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 
-import { useNotificationsQuery } from '@/entities/notification';
 import { lightBrandTokens } from '@/app/theme';
+import { useNotificationsQuery } from '@/entities/notification';
 import { appConfig } from '@/shared/config';
 
 import styles from './AppShell.module.css';
@@ -53,19 +53,14 @@ export function AppShell() {
       <Sider
         breakpoint="lg"
         collapsedWidth={0}
-        width={268}
+        width={232}
         className={styles.sider}
         trigger={null}
       >
         <div className={styles.brandBlock}>
           <Link to="/discover" className={styles.brandLink} aria-label={appConfig.appName}>
-            <span className={styles.brandMark} aria-hidden>
-              <span className={styles.brandPulse} />
-            </span>
-            <span className={styles.brandCopy}>
-              <span className={styles.brand}>{appConfig.appName}</span>
-              <span className={styles.brandTagline}>Catch the signal. Skip the noise.</span>
-            </span>
+            <span className={styles.brandMark} aria-hidden />
+            <span className={styles.brand}>{appConfig.appName}</span>
           </Link>
         </div>
         <Menu
@@ -79,7 +74,7 @@ export function AppShell() {
         />
       </Sider>
 
-      <Layout className={styles.main}>
+      <Layout>
         <Header className={styles.header}>
           <Link to="/discover" className={styles.mobileBrand} aria-label={appConfig.appName}>
             <span className={styles.brandMarkCompact} aria-hidden />

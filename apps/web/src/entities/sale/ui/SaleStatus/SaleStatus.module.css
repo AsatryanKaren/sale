@@ -1,54 +1,71 @@
 .root {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.55rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.meta {
+  display: grid;
+  gap: 0.15rem;
+  text-align: right;
 }
 
 .kind {
   color: var(--sr-text-secondary);
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .title,
-.helper {
+.helper,
+.emptyTitle {
   margin: 0;
   color: var(--sr-text-secondary);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
-.hot,
-.moderate,
-.muted,
-.mutedTag {
+.emptyTitle {
+  color: var(--sr-text-primary);
+  font-weight: 600;
+}
+
+.discountHot,
+.discountModerate,
+.discountMuted {
   margin: 0;
-  border: 0;
+  display: grid;
+  gap: 0.05rem;
+}
+
+.discountPrefix {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--sr-text-secondary);
+}
+
+.discountValue {
+  font-size: 1.85rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  padding-inline: 0.7rem;
-  line-height: 1.7;
+  letter-spacing: -0.04em;
+  line-height: 1;
 }
 
-.hot {
-  color: #8f2208;
-  background: color-mix(in srgb, var(--sr-sale-hot) 18%, white);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sr-sale-hot) 28%, white);
+.discountHot .discountValue {
+  color: var(--sr-sale-hot);
 }
 
-.moderate {
-  color: #0a4f64;
-  background: color-mix(in srgb, var(--sr-sale-moderate) 16%, white);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sr-sale-moderate) 24%, white);
+.discountModerate .discountValue {
+  color: var(--sr-sale-moderate);
 }
 
-.muted,
-.mutedTag {
+.discountMuted .discountValue {
   color: var(--sr-sale-muted);
-  background: rgba(107, 124, 143, 0.12);
 }

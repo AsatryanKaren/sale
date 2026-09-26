@@ -3,12 +3,7 @@ import { expect, test } from '@playwright/test';
 test.describe('SaleRadar e2e', () => {
   test('follow store from discover to following', async ({ page }) => {
     await page.goto('/discover');
-    await expect(page.getByText('SaleRadar').first()).toBeVisible();
-    await expect(
-      page.getByRole('heading', {
-        name: 'Never miss a sale from the stores you actually care about.',
-      }),
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Discover' })).toBeVisible();
 
     await page.getByRole('textbox', { name: 'Search stores' }).fill('Mango');
     await expect(page.getByRole('link', { name: 'Open Mango' })).toBeVisible();

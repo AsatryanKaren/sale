@@ -1,25 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
   color-scheme: light;
-  --sr-brand-primary: #0b1f33;
-  --sr-brand-secondary: #16324f;
-  --sr-signal: #e2461a;
-  --sr-bg-base: #e8eef3;
+  --sr-brand-primary: #111111;
+  --sr-brand-secondary: #2a2a2a;
+  --sr-signal: #e11d48;
+  --sr-bg-base: #f4f4f5;
   --sr-bg-elevated: #ffffff;
-  --sr-bg-muted: #d7e0e9;
-  --sr-text-primary: #0b1f33;
-  --sr-text-secondary: #5a6b7c;
-  --sr-border-default: #c5d0db;
-  --sr-border-subtle: #dce4ec;
-  --sr-sale-hot: #e2461a;
-  --sr-sale-moderate: #0f6e8c;
-  --sr-sale-muted: #6b7c8f;
-  --sr-radius-lg: 22px;
-  --sr-radius-md: 16px;
-  --sr-shadow-soft: 0 18px 40px rgba(11, 31, 51, 0.08);
-  --sr-font-display: 'Syne', 'Avenir Next', 'Segoe UI', sans-serif;
-  --sr-font-body: 'Figtree', 'Avenir Next', 'Segoe UI', sans-serif;
+  --sr-bg-muted: #e4e4e7;
+  --sr-text-primary: #111111;
+  --sr-text-secondary: #71717a;
+  --sr-border-default: #e4e4e7;
+  --sr-border-subtle: #f4f4f5;
+  --sr-sale-hot: #e11d48;
+  --sr-sale-moderate: #0f766e;
+  --sr-sale-muted: #71717a;
+  --sr-radius-lg: 12px;
+  --sr-radius-md: 10px;
+  --sr-shadow-soft: 0 1px 2px rgba(17, 17, 17, 0.04);
+  --sr-font-display: 'Plus Jakarta Sans', 'Avenir Next', 'Segoe UI', sans-serif;
+  --sr-font-body: 'Plus Jakarta Sans', 'Avenir Next', 'Segoe UI', sans-serif;
 }
 
 *,
@@ -38,19 +38,14 @@ body {
   margin: 0;
   font-family: var(--sr-font-body);
   color: var(--sr-text-primary);
-  background-color: var(--sr-bg-base);
-  background-image:
-    radial-gradient(circle at 12% 8%, rgba(226, 70, 26, 0.14), transparent 28%),
-    radial-gradient(circle at 88% 0%, rgba(15, 110, 140, 0.16), transparent 32%),
-    radial-gradient(circle at 50% 120%, rgba(11, 31, 51, 0.08), transparent 42%),
-    repeating-radial-gradient(
-      circle at 18% 22%,
-      rgba(11, 31, 51, 0.045) 0 1px,
-      transparent 1px 18px
-    );
-  background-attachment: fixed;
+  background: var(--sr-bg-base);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--sr-signal) 22%, white);
+  color: var(--sr-text-primary);
 }
 
 a {
@@ -65,43 +60,8 @@ textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--sr-signal);
+  outline: 2px solid var(--sr-brand-primary);
   outline-offset: 2px;
-}
-
-@keyframes sr-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes sr-radar-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.55;
-  }
-
-  50% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
-}
-
-@keyframes sr-soft-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

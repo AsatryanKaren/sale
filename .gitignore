@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+.agents/skills/impeccable/scripts/impeccable
+.agents/skills/impeccable/scripts/data/
+
+# Local agent skills (cloned from GitHub for design passes)
+.agents/

@@ -2,26 +2,25 @@
 .moderate,
 .muted {
   margin: 0;
-  border: 0;
-  font-weight: 800;
+  border: 1px solid transparent;
+  font-weight: 700;
   letter-spacing: -0.02em;
-  padding-inline: 0.7rem;
-  line-height: 1.7;
 }
 
 .hot {
-  color: #8f2208;
-  background: color-mix(in srgb, var(--sr-sale-hot) 18%, white);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sr-sale-hot) 28%, white);
+  color: #9f1239;
+  background: #fff1f2;
+  border-color: #fecdd3;
 }
 
 .moderate {
-  color: #0a4f64;
-  background: color-mix(in srgb, var(--sr-sale-moderate) 16%, white);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sr-sale-moderate) 24%, white);
+  color: #115e59;
+  background: #f0fdfa;
+  border-color: #99f6e4;
 }
 
 .muted {
   color: var(--sr-sale-muted);
-  background: rgba(107, 124, 143, 0.12);
+  background: var(--sr-bg-muted);
+  border-color: var(--sr-border-default);
 }

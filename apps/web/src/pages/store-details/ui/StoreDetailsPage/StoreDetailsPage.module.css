@@ -1,51 +1,47 @@
 .page {
-  width: min(100%, 48rem);
+  width: min(100%, 44rem);
   margin: 0 auto;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
+  gap: 0.55rem;
 }
 
 .heroIdentity {
-  margin-bottom: 1.25rem;
-  animation: sr-fade-up 480ms ease both;
+  margin-bottom: 1rem;
 }
 
 .panel {
   display: grid;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  padding: 1.2rem 1.25rem;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(197, 208, 219, 0.95);
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+  padding: 1rem 1.05rem;
+  background: var(--sr-bg-elevated);
+  border: 1px solid var(--sr-border-default);
   border-radius: var(--sr-radius-lg);
-  box-shadow: var(--sr-shadow-soft);
-  animation: sr-fade-up 520ms ease both;
 }
 
 .panelTitle {
   margin: 0;
-  font-family: var(--sr-font-display);
-  font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .alertRow {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.65rem;
   align-items: center;
 }
 
 .meta {
   margin: 0;
   color: var(--sr-text-secondary);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .timeline {
@@ -53,40 +49,38 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.95rem;
+  gap: 0.75rem;
 }
 
 .timelineItem {
   display: grid;
-  grid-template-columns: 5.5rem 1fr;
-  gap: 0.75rem;
-  padding-left: 0.85rem;
-  border-left: 2px solid color-mix(in srgb, var(--sr-signal) 45%, var(--sr-border-subtle));
+  grid-template-columns: 4.75rem 1fr;
+  gap: 0.65rem;
 }
 
 .timelineDate {
-  font-family: var(--sr-font-display);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: 0.88rem;
 }
 
 .timelineLabel {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .back {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
 }
 
 .back a {
-  color: var(--sr-signal);
-  font-weight: 700;
-  text-decoration: none;
+  color: var(--sr-text-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (max-width: 640px) {
   .timelineItem {
     grid-template-columns: 1fr;
-    gap: 0.2rem;
+    gap: 0.15rem;
   }
 }

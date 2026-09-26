@@ -33,7 +33,7 @@ export function StoreCard({ store, sale, watch }: StoreCardProps) {
         />
       </div>
 
-      <SaleStatus sale={sale} />
+      <SaleStatus sale={sale} compact />
 
       {watch ? (
         <div className={styles.alertRow}>

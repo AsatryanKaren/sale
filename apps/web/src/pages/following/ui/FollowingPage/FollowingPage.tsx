@@ -67,7 +67,7 @@ export function FollowingPage() {
                   <UnfollowButton storeId={watch.storeId} storeName={item.store.name} />
                 </div>
 
-                <SaleStatus sale={item.activeSale} />
+                <SaleStatus sale={item.activeSale} compact />
 
                 <div className={styles.alertRow}>
                   <div>

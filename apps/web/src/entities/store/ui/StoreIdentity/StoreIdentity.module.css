@@ -1,7 +1,7 @@
 .root {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.55rem;
   text-decoration: none;
   color: inherit;
   min-width: 0;
@@ -11,12 +11,13 @@
   background: var(--sr-shell) !important;
   color: var(--sr-shell-text) !important;
   font-weight: 700;
+  font-size: 0.72rem !important;
   flex-shrink: 0;
 }
 
 .copy {
   display: grid;
-  gap: 0.12rem;
+  gap: 0.05rem;
   min-width: 0;
 }
 
@@ -27,23 +28,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .name {
-  font-size: 1rem;
+  font-size: 0.88rem;
 }
 
 .nameLarge {
   font-family: var(--sr-font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.25rem;
   letter-spacing: 0.02em;
+  font-weight: 600;
 }
 
 .category {
   color: var(--sr-text-secondary);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: 0.72rem;
+  font-weight: 500;
 }

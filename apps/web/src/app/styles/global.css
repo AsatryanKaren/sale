@@ -18,12 +18,12 @@
   --sr-sale-hot: #e11d48;
   --sr-sale-moderate: #0f766e;
   --sr-sale-muted: #667085;
-  --sr-radius-lg: 14px;
-  --sr-radius-md: 12px;
-  --sr-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --sr-radius-lg: 12px;
+  --sr-radius-md: 8px;
+  --sr-shadow-soft: 0 6px 18px rgba(15, 23, 42, 0.06);
   --sr-font-display: 'Montserrat', system-ui, sans-serif;
   --sr-font-body: 'Montserrat', system-ui, sans-serif;
-  --sr-font-size: 15px;
+  --sr-font-size: 14px;
 }
 
 *,

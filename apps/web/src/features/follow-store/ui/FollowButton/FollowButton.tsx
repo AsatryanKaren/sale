@@ -17,6 +17,7 @@ export function FollowButton({ storeId, storeName, isFollowing }: FollowButtonPr
   if (isFollowing) {
     return (
       <Button
+        size="small"
         icon={<CheckOutlined />}
         loading={unfollowMutation.isPending}
         disabled={isPending}
@@ -32,6 +33,7 @@ export function FollowButton({ storeId, storeName, isFollowing }: FollowButtonPr
 
   return (
     <Button
+      size="small"
       type="primary"
       icon={<PlusOutlined />}
       loading={followMutation.isPending}

@@ -1,11 +1,11 @@
 # SaleRadar Design System
 
-**Mode:** Operate (product UI), amplified  
-**References:** [Impeccable](https://github.com/pbakaus/impeccable) Operate + bolder/delight; [Deslopify](https://github.com/AntonioSpagnol/UI-Deslopify-Skill) anti-slop rules.
+**Mode:** Operate (product UI), distilled  
+**References:** [Impeccable](https://github.com/pbakaus/impeccable) Operate + distill/quieter.
 
 ## Direction
 
-Modern retail radar: calm ink surfaces, one rose signal, and **discount as the product’s visual motif**. Familiar app structure, stronger hierarchy and material contrast than a wireframe.
+Calm retail radar: compact cards, small controls, one rose signal. Discount stays the motif — hierarchy comes from type weight and sale wells, not oversized chrome.
 
 ## Tokens
 
@@ -19,14 +19,15 @@ Modern retail radar: calm ink surfaces, one rose signal, and **discount as the p
 | backgroundElevated | `#FFFFFF` | Cards, trays |
 | textSecondary | `#667085` | Meta |
 | border | `#D7DEE7` | Hairlines |
-| radius | `14px` | Surfaces |
-| font | Montserrat | UI + brand (matches janehbymanoush.com) |
-| font size | `15px` base | Body / Ant Design scale |
+| radius | `12px` cards / `8px` controls | Surfaces |
+| control height | `30px` / `26px` small | Buttons |
+| font | Montserrat | UI + brand |
+| font size | `14px` base | Body |
 
 ## Rules
 
-- No glass, decorative multi-stop gradients, orbs, or page-load theater
-- Accent used for signal: hot sales, unread, primary brand mark, rare emphasis
-- Active-sale cards get a tinted sale well (solid tint, not gradient fill)
-- Elevation: soft shadow **or** border — not both stacked heavily
-- Motion ≤ 180ms for hover/focus only
+- Prefer border over shadow for cards
+- In-card actions use `size="small"` buttons
+- No glass, decorative gradients, orbs, or page-load theater
+- Accent only for signal: hot sales, unread, brand mark
+- Motion ≤ 140ms for hover/focus only

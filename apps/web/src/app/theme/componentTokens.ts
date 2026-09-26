@@ -5,28 +5,33 @@ import type { BrandTokens } from './types';
 export function createComponentTokens(tokens: BrandTokens): ThemeConfig['components'] {
   return {
     Button: {
-      borderRadius: 12,
-      controlHeight: 40,
-      fontWeight: 700,
+      borderRadius: 8,
+      controlHeight: 30,
+      controlHeightSM: 26,
+      fontWeight: 600,
+      paddingInline: 12,
+      paddingInlineSM: 8,
       primaryShadow: 'none',
       defaultShadow: 'none',
+      contentFontSize: 12,
+      contentFontSizeSM: 12,
     },
     Card: {
-      borderRadiusLG: 14,
-      paddingLG: 20,
+      borderRadiusLG: 12,
+      paddingLG: 14,
     },
     Input: {
-      borderRadius: 12,
-      controlHeight: 42,
+      borderRadius: 8,
+      controlHeight: 32,
       activeBorderColor: tokens.brandPrimary,
       hoverBorderColor: tokens.brandSecondary,
     },
     Select: {
-      borderRadius: 12,
-      controlHeight: 42,
+      borderRadius: 8,
+      controlHeight: 32,
     },
     Tag: {
-      borderRadiusSM: 8,
+      borderRadiusSM: 6,
     },
     Layout: {
       bodyBg: tokens.backgroundBase,
@@ -37,16 +42,16 @@ export function createComponentTokens(tokens: BrandTokens): ThemeConfig['compone
     Menu: {
       darkItemBg: '#121316',
       darkSubMenuItemBg: '#121316',
-      itemBorderRadius: 10,
+      itemBorderRadius: 8,
       itemMarginInline: 8,
-      itemHeight: 42,
+      itemHeight: 38,
       darkItemSelectedBg: 'rgba(225, 29, 72, 0.16)',
       darkItemSelectedColor: '#FFFFFF',
       darkItemHoverBg: 'rgba(255, 255, 255, 0.06)',
       darkItemColor: 'rgba(248, 250, 252, 0.72)',
     },
     Skeleton: {
-      borderRadiusSM: 10,
+      borderRadiusSM: 8,
     },
   };
 }

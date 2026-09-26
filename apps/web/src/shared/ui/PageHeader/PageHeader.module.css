@@ -3,7 +3,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.35rem;
 }
 
 .copy {
@@ -13,19 +13,20 @@
 .title {
   margin: 0;
   font-family: var(--sr-font-display);
-  font-size: clamp(1.4rem, 2.5vw, 1.7rem);
-  line-height: 1.2;
-  letter-spacing: 0.01em;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   font-weight: 600;
   color: var(--sr-text-primary);
 }
 
 .description {
-  margin: 0.35rem 0 0;
+  margin: 0.55rem 0 0;
   color: var(--sr-text-secondary);
-  font-size: 0.88rem;
-  line-height: 1.5;
+  font-size: 1.05rem;
+  line-height: 1.47;
   max-width: 34rem;
+  font-weight: 400;
 }
 
 .actions {
@@ -39,5 +40,9 @@
 
   .actions {
     width: 100%;
+  }
+
+  .title {
+    font-size: 1.85rem;
   }
 }

@@ -1,23 +1,23 @@
 .bar {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(9rem, 0.75fr)) auto;
-  gap: 0.55rem;
-  margin-bottom: 1rem;
-  padding: 0.65rem;
+  grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(9rem, 0.7fr)) auto;
+  gap: 0.65rem;
+  margin-bottom: 1.35rem;
+  padding: 0.75rem;
   background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-default);
-  border-radius: 12px;
+  border-radius: var(--sr-radius-lg);
+  box-shadow: var(--sr-shadow-soft);
 }
 
 .switchLabel {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  min-height: 32px;
+  gap: 0.5rem;
+  min-height: 40px;
   color: var(--sr-text-secondary);
   white-space: nowrap;
-  font-weight: 600;
-  font-size: 0.8rem;
+  font-weight: 500;
+  font-size: 0.88rem;
 }
 
 @media (max-width: 900px) {

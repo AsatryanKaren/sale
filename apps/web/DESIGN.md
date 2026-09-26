@@ -1,33 +1,31 @@
 # SaleRadar Design System
 
-**Mode:** Operate (product UI), distilled  
-**References:** [Impeccable](https://github.com/pbakaus/impeccable) Operate + distill/quieter.
+**Mode:** Operate (product UI)  
+**Direction:** Apple-inspired — light, calm, product-first.  
+**Reference:** [apple.com](https://www.apple.com/)
 
 ## Direction
 
-Calm retail radar: compact cards, small controls, one rose signal. Discount stays the motif — hierarchy comes from type weight and sale wells, not oversized chrome.
+Premium consumer tool: soft gray canvas, white surfaces, SF-style type, blue actions. Sale discounts keep a rose signal so the product motif stays clear without looking like an admin panel.
 
 ## Tokens
 
 | Token | Value | Use |
 | --- | --- | --- |
-| brandPrimary | `#0B0B0C` | Primary actions, ink |
-| shell | `#121316` | Sidebar / mobile chrome |
-| accent / saleHot | `#E11D48` | Hot discount, unread, brand mark |
+| brandPrimary / action | `#0071E3` | Primary buttons, focus, links |
+| textPrimary | `#1D1D1F` | Ink |
+| textSecondary | `#6E6E73` | Meta |
+| canvas | `#F5F5F7` | Page background |
+| elevated | `#FFFFFF` | Cards, header |
+| saleHot | `#E11D48` | Hot discount |
 | saleModerate | `#0F766E` | Moderate discount |
-| backgroundBase | `#E9EDF2` | App canvas |
-| backgroundElevated | `#FFFFFF` | Cards, trays |
-| textSecondary | `#667085` | Meta |
-| border | `#D7DEE7` | Hairlines |
-| radius | `12px` cards / `8px` controls | Surfaces |
-| control height | `30px` / `26px` small | Buttons |
-| font | Montserrat | UI + brand |
-| font size | `14px` base | Body |
+| radius | `18px` cards / `980px` pills | Surfaces / buttons |
+| font | SF Pro / system-ui | UI |
 
 ## Rules
 
-- Prefer border over shadow for cards
-- In-card actions use `size="small"` buttons
-- No glass, decorative gradients, orbs, or page-load theater
-- Accent only for signal: hot sales, unread, brand mark
-- Motion ≤ 140ms for hover/focus only
+- Top navigation only — no dark Windows-style sidebar
+- Soft shadow **or** hairline border, not both heavily
+- Large page titles, compact controls
+- No decorative glass theater beyond a subtle sticky header
+- Motion ≤ 200ms, ease-out only

@@ -17,7 +17,7 @@ export function createTheme(
     hashed: false,
     token: {
       colorPrimary: tokens.brandPrimary,
-      colorInfo: tokens.saleModerate,
+      colorInfo: tokens.brandPrimary,
       colorSuccess: tokens.success,
       colorWarning: tokens.warning,
       colorError: tokens.danger,
@@ -31,11 +31,12 @@ export function createTheme(
       colorBorder: tokens.borderDefault,
       colorBorderSecondary: tokens.borderSubtle,
       borderRadius: 12,
-      fontFamily: '"Montserrat", system-ui, sans-serif',
+      fontFamily:
+        '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif',
       fontSize: 14,
-      lineHeight: 1.5,
+      lineHeight: 1.47,
       controlOutline: tokens.focusRing,
-      boxShadowSecondary: '0 10px 30px rgba(15, 23, 42, 0.08)',
+      boxShadowSecondary: '0 2px 8px rgba(0, 0, 0, 0.08)',
     },
     ...(components ? { components } : {}),
   };

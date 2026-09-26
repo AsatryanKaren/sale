@@ -1,13 +1,13 @@
 .root {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: 1rem;
 }
 
 .card {
-  padding: 0.95rem;
-  min-height: 8.5rem;
+  padding: 1.1rem;
+  min-height: 9rem;
   background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-default);
   border-radius: var(--sr-radius-lg);
+  box-shadow: var(--sr-shadow-soft);
 }

@@ -1,28 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
 :root {
   color-scheme: light;
-  --sr-brand-primary: #0b0b0c;
-  --sr-brand-secondary: #1f2937;
-  --sr-shell: #121316;
-  --sr-shell-text: #f8fafc;
-  --sr-shell-muted: rgba(248, 250, 252, 0.62);
+  --sr-brand-primary: #0071e3;
+  --sr-brand-secondary: #1d1d1f;
+  --sr-shell: #fbfbfd;
+  --sr-shell-text: #1d1d1f;
+  --sr-shell-muted: #6e6e73;
   --sr-signal: #e11d48;
-  --sr-bg-base: #e9edf2;
+  --sr-bg-base: #f5f5f7;
   --sr-bg-elevated: #ffffff;
-  --sr-bg-muted: #d7dee7;
-  --sr-text-primary: #0b0b0c;
-  --sr-text-secondary: #667085;
-  --sr-border-default: #d7dee7;
-  --sr-border-subtle: #e9edf2;
+  --sr-bg-muted: #e8e8ed;
+  --sr-text-primary: #1d1d1f;
+  --sr-text-secondary: #6e6e73;
+  --sr-border-default: #d2d2d7;
+  --sr-border-subtle: #e8e8ed;
   --sr-sale-hot: #e11d48;
   --sr-sale-moderate: #0f766e;
-  --sr-sale-muted: #667085;
-  --sr-radius-lg: 12px;
-  --sr-radius-md: 8px;
-  --sr-shadow-soft: 0 6px 18px rgba(15, 23, 42, 0.06);
-  --sr-font-display: 'Montserrat', system-ui, sans-serif;
-  --sr-font-body: 'Montserrat', system-ui, sans-serif;
+  --sr-sale-muted: #6e6e73;
+  --sr-radius-lg: 18px;
+  --sr-radius-md: 12px;
+  --sr-shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --sr-font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+    'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --sr-font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif;
   --sr-font-size: 14px;
 }
 
@@ -43,17 +43,13 @@ body {
   font-family: var(--sr-font-body);
   font-size: var(--sr-font-size);
   color: var(--sr-text-primary);
-  background:
-    radial-gradient(circle at 0% 0%, rgba(225, 29, 72, 0.06), transparent 28%),
-    radial-gradient(circle at 100% 0%, rgba(15, 118, 110, 0.07), transparent 26%),
-    var(--sr-bg-base);
-  background-attachment: fixed;
+  background: var(--sr-bg-base);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--sr-signal) 24%, white);
+  background: color-mix(in srgb, var(--sr-brand-primary) 28%, white);
   color: var(--sr-text-primary);
 }
 

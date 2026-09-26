@@ -1,49 +1,48 @@
 .root {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.65rem;
   text-decoration: none;
   color: inherit;
   min-width: 0;
 }
 
 .avatar {
-  background: var(--sr-shell) !important;
-  color: var(--sr-shell-text) !important;
-  font-weight: 700;
-  font-size: 0.72rem !important;
+  background: var(--sr-bg-muted) !important;
+  color: var(--sr-text-primary) !important;
+  font-weight: 600;
+  font-size: 0.75rem !important;
   flex-shrink: 0;
 }
 
 .copy {
   display: grid;
-  gap: 0.05rem;
+  gap: 0.08rem;
   min-width: 0;
 }
 
 .name,
 .nameLarge {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--sr-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .name {
-  font-size: 0.88rem;
+  font-size: 0.95rem;
 }
 
 .nameLarge {
   font-family: var(--sr-font-display);
-  font-size: 1.25rem;
-  letter-spacing: 0.02em;
-  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
 }
 
 .category {
   color: var(--sr-text-secondary);
-  font-size: 0.72rem;
-  font-weight: 500;
+  font-size: 0.78rem;
+  font-weight: 400;
 }

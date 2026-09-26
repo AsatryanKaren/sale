@@ -1,17 +1,17 @@
 .page {
-  width: min(100%, 72rem);
+  width: 100%;
   margin: 0 auto;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: 1rem;
 }
 
 .disclaimer {
-  margin: 1.5rem 0 0;
+  margin: 1.75rem 0 0;
   color: var(--sr-text-secondary);
-  font-size: 0.8rem;
-  letter-spacing: 0.01em;
+  font-size: 0.75rem;
+  letter-spacing: -0.01em;
 }

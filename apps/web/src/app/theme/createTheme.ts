@@ -37,7 +37,6 @@ export function createTheme(
       controlOutline: tokens.focusRing,
       boxShadowSecondary: '0 10px 30px rgba(15, 23, 42, 0.08)',
     },
-    algorithm: undefined,
     ...(components ? { components } : {}),
   };
 }

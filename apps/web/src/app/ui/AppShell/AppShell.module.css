@@ -95,6 +95,19 @@
   line-height: 1.2;
 }
 
+/* Force light icons inside dark mobile header (Ant Design defaults to black text) */
+.header :global(.anticon) {
+  color: rgba(248, 250, 252, 0.72) !important;
+}
+
+.header .mobileNavItemActive :global(.anticon) {
+  color: #f8fafc !important;
+}
+
+.header :global(.ant-badge .ant-badge-count) {
+  color: #fff !important;
+}
+
 .content {
   padding: 1.5rem 1.25rem 5rem;
 }
@@ -127,8 +140,12 @@
 
 .mobileIcon {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.05rem;
   line-height: 1;
+  color: inherit;
 }
 
 .mobileLabel {
@@ -137,6 +154,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: inherit;
 }
 
 @media (max-width: 991px) {

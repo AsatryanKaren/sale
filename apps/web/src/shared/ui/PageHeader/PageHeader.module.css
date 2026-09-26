@@ -13,17 +13,17 @@
 .title {
   margin: 0;
   font-family: var(--sr-font-display);
-  font-size: clamp(1.85rem, 2.4vw, 2.35rem);
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  font-weight: 700;
+  font-size: clamp(1.75rem, 3.5vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  font-weight: 600;
   color: var(--sr-text-primary);
 }
 
 .description {
   margin: 0.55rem 0 0;
   color: var(--sr-text-secondary);
-  font-size: 0.98rem;
+  font-size: 0.9375rem;
   line-height: 1.55;
   max-width: 34rem;
 }

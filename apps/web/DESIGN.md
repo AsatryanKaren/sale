@@ -20,8 +20,8 @@ Modern retail radar: calm ink surfaces, one rose signal, and **discount as the p
 | textSecondary | `#667085` | Meta |
 | border | `#D7DEE7` | Hairlines |
 | radius | `14px` | Surfaces |
-| font body | Plus Jakarta Sans | UI |
-| font display | Fraunces | Brand + page titles only |
+| font | Montserrat | UI + brand (matches janehbymanoush.com) |
+| font size | `15px` base | Body / Ant Design scale |
 
 ## Rules
 

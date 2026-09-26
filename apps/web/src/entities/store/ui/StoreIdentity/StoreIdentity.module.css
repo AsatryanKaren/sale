@@ -36,8 +36,9 @@
 
 .nameLarge {
   font-family: var(--sr-font-display);
-  font-size: 1.55rem;
-  letter-spacing: -0.035em;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .category {

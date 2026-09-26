@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 :root {
   color-scheme: light;
@@ -21,8 +21,9 @@
   --sr-radius-lg: 14px;
   --sr-radius-md: 12px;
   --sr-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
-  --sr-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --sr-font-body: 'Plus Jakarta Sans', 'Avenir Next', 'Segoe UI', sans-serif;
+  --sr-font-display: 'Montserrat', system-ui, sans-serif;
+  --sr-font-body: 'Montserrat', system-ui, sans-serif;
+  --sr-font-size: 15px;
 }
 
 *,
@@ -40,6 +41,7 @@ body,
 body {
   margin: 0;
   font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size);
   color: var(--sr-text-primary);
   background:
     radial-gradient(circle at 0% 0%, rgba(225, 29, 72, 0.06), transparent 28%),

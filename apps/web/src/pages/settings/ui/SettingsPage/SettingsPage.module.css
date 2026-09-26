@@ -17,9 +17,9 @@
 .panelTitle {
   margin: 0;
   font-family: var(--sr-font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .helper {

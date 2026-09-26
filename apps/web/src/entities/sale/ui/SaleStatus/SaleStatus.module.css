@@ -1,5 +1,7 @@
-.root,
-.rootEmpty {
+.rootEmpty,
+.rootHot,
+.rootModerate,
+.rootMuted {
   display: grid;
   gap: 0.45rem;
   padding: 0.9rem 0.95rem;

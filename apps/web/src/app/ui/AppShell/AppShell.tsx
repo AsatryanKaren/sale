@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Badge, Layout } from 'antd';
+import { Layout } from 'antd';
 import {
   BellOutlined,
   CompassOutlined,
@@ -8,7 +8,6 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 
-import { lightBrandTokens } from '@/app/theme';
 import { useNotificationsQuery } from '@/entities/notification';
 import { appConfig } from '@/shared/config';
 
@@ -59,15 +58,15 @@ export function AppShell() {
                   }
                 >
                   <span className={styles.navIcon}>{item.icon}</span>
-                  <span className={styles.navLabelText}>{item.label}</span>
-                  {hasUnread ? (
-                    <Badge
-                      count={unreadCount}
-                      size="small"
-                      color={lightBrandTokens.saleHot}
-                      className={styles.navBadge ?? ''}
-                    />
-                  ) : null}
+                  <span className={styles.navLabelText}>
+                    {item.label}
+                    {hasUnread ? (
+                      <span className={styles.navCount} aria-hidden>
+                        {' '}
+                        ({unreadCount})
+                      </span>
+                    ) : null}
+                  </span>
                 </Link>
               );
             })}

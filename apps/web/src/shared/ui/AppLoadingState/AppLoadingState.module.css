@@ -4,8 +4,8 @@
 }
 
 .card {
-  padding: 1.1rem 1.2rem;
-  background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-subtle);
+  padding: 1.15rem 1.2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(197, 208, 219, 0.95);
   border-radius: var(--sr-radius-lg);
 }

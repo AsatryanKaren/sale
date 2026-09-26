@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { toUserFacingApiError } from '@/shared/api';
-import { AppEmptyState, AppErrorState, AppLoadingState, PageHeader } from '@/shared/ui';
+import { appConfig } from '@/shared/config';
+import { AppEmptyState, AppErrorState, AppLoadingState } from '@/shared/ui';
 import { StoreCard, useStoresQuery } from '@/entities/store';
 import { useFollowingQuery } from '@/entities/watch';
 
@@ -28,10 +29,16 @@ export function DiscoverPage() {
 
   return (
     <section className={styles.page}>
-      <PageHeader
-        title="Discover"
-        description="Never miss a sale from the stores you actually care about. Follow favorites and get notified when meaningful discounts start or get better."
-      />
+      <div className={styles.hero}>
+        <p className={styles.brand}>{appConfig.appName}</p>
+        <h1 className={styles.headline}>
+          Never miss a sale from the stores you actually care about.
+        </h1>
+        <p className={styles.support}>
+          Follow your favorites and get notified when meaningful sales start or discounts get
+          better.
+        </p>
+      </div>
 
       <DiscoverFiltersBar
         filters={filters}
@@ -65,15 +72,16 @@ export function DiscoverPage() {
 
       {storesQuery.isSuccess && storesQuery.data.length > 0 ? (
         <div className={styles.grid}>
-          {storesQuery.data.map((item) => {
+          {storesQuery.data.map((item, index) => {
             const watch = watchesByStoreId.get(item.store.id) ?? null;
             return (
-              <StoreCard
+              <div
                 key={item.store.id}
-                store={item.store}
-                sale={item.activeSale}
-                watch={watch}
-              />
+                className={styles.cardMotion}
+                style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
+              >
+                <StoreCard store={item.store} sale={item.activeSale} watch={watch} />
+              </div>
             );
           })}
         </div>

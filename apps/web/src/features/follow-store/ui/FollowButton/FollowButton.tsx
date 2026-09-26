@@ -1,5 +1,4 @@
 import { Button } from 'antd';
-import { CheckOutlined, PlusOutlined } from '@ant-design/icons';
 
 import { useFollowStoreMutation, useUnfollowStoreMutation } from '@/entities/watch';
 
@@ -17,7 +16,7 @@ export function FollowButton({ storeId, storeName, isFollowing }: FollowButtonPr
   if (isFollowing) {
     return (
       <Button
-        icon={<CheckOutlined />}
+        size="small"
         loading={unfollowMutation.isPending}
         disabled={isPending}
         onClick={() => {
@@ -32,8 +31,8 @@ export function FollowButton({ storeId, storeName, isFollowing }: FollowButtonPr
 
   return (
     <Button
+      size="small"
       type="primary"
-      icon={<PlusOutlined />}
       loading={followMutation.isPending}
       disabled={isPending}
       onClick={() => {

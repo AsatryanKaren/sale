@@ -32,11 +32,11 @@ export function createTheme(
       colorBorderSecondary: tokens.borderSubtle,
       borderRadius: 12,
       fontFamily:
-        '"Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
-      fontSize: 15,
-      lineHeight: 1.5,
+        '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif',
+      fontSize: 14,
+      lineHeight: 1.47,
       controlOutline: tokens.focusRing,
-      boxShadowSecondary: '0 8px 24px rgba(20, 32, 30, 0.06)',
+      boxShadowSecondary: '0 2px 8px rgba(0, 0, 0, 0.08)',
     },
     ...(components ? { components } : {}),
   };

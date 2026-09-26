@@ -1,36 +1,52 @@
 .card {
   display: grid;
-  gap: 1rem;
-  padding: 1.15rem 1.2rem;
+  gap: 0.85rem;
+  min-height: 100%;
+  padding: 1.1rem;
   background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-subtle);
   border-radius: var(--sr-radius-lg);
   box-shadow: var(--sr-shadow-soft);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.cardHot {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--sr-sale-hot) 28%, transparent),
+    var(--sr-shadow-soft);
 }
 
 .top {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.55rem;
+}
+
+.top :global(.ant-btn) {
+  flex-shrink: 0;
+  height: 28px !important;
+  padding-inline: 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
 }
 
 .alertRow {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
-  padding-top: 0.25rem;
+  gap: 0.5rem;
+  padding-top: 0.65rem;
   border-top: 1px solid var(--sr-border-subtle);
 }
 
 .alertLabel {
   color: var(--sr-text-secondary);
-  font-size: 0.92rem;
-}
-
-@media (max-width: 640px) {
-  .top {
-    flex-direction: column;
-  }
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }

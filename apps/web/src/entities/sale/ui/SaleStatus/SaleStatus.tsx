@@ -1,9 +1,8 @@
 import type { Sale } from '@saleradar/contracts';
-import { Tag } from 'antd';
 
 import { cssModuleClass } from '@/shared/lib';
 
-import { SALE_KIND_LABELS, formatDiscountLabel, getSaleTone } from '../../model';
+import { SALE_KIND_LABELS, formatDiscountPercent, getSaleTone } from '../../model';
 import styles from './SaleStatus.module.css';
 
 type SaleStatusProps = {
@@ -14,11 +13,11 @@ type SaleStatusProps = {
 export function SaleStatus({ sale, compact = false }: SaleStatusProps) {
   if (sale?.status !== 'active') {
     return (
-      <div className={cssModuleClass(styles, 'root')}>
-        <Tag className={cssModuleClass(styles, 'mutedTag')}>No active sale</Tag>
+      <div className={cssModuleClass(styles, 'rootEmpty')}>
+        <p className={cssModuleClass(styles, 'emptyTitle')}>No active sale</p>
         {!compact ? (
           <p className={cssModuleClass(styles, 'helper')}>
-            We will alert you when a meaningful sale appears.
+            Alerts will appear when a meaningful sale starts.
           </p>
         ) : null}
       </div>
@@ -26,17 +25,30 @@ export function SaleStatus({ sale, compact = false }: SaleStatusProps) {
   }
 
   const tone = getSaleTone(sale.maxDiscountPercent);
-  const discountLabel = formatDiscountLabel(sale.maxDiscountPercent);
+  const percent = formatDiscountPercent(sale.maxDiscountPercent);
+  const toneClass =
+    tone === 'hot' ? 'discountHot' : tone === 'moderate' ? 'discountModerate' : 'discountMuted';
+  const rootToneClass =
+    tone === 'hot' ? 'rootHot' : tone === 'moderate' ? 'rootModerate' : 'rootMuted';
 
   return (
-    <div className={cssModuleClass(styles, 'root')}>
+    <div className={cssModuleClass(styles, rootToneClass)}>
       <div className={cssModuleClass(styles, 'row')}>
-        <Tag className={cssModuleClass(styles, tone)}>{discountLabel}</Tag>
-        <span className={cssModuleClass(styles, 'kind')}>{SALE_KIND_LABELS[sale.kind]}</span>
+        <p className={cssModuleClass(styles, toneClass)}>
+          {percent ? (
+            <>
+              <span className={cssModuleClass(styles, 'discountPrefix')}>Up to</span>
+              <span className={cssModuleClass(styles, 'discountValue')}>{percent}</span>
+            </>
+          ) : (
+            <span className={cssModuleClass(styles, 'discountValue')}>Sale</span>
+          )}
+        </p>
+        <div className={cssModuleClass(styles, 'meta')}>
+          <span className={cssModuleClass(styles, 'kind')}>{SALE_KIND_LABELS[sale.kind]}</span>
+          {!compact ? <span className={cssModuleClass(styles, 'title')}>{sale.title}</span> : null}
+        </div>
       </div>
-      {!compact ? (
-        <p className={cssModuleClass(styles, 'title')}>{sale.title}</p>
-      ) : null}
     </div>
   );
 }

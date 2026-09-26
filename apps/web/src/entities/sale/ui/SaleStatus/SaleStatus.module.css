@@ -1,48 +1,104 @@
-.root {
+.rootEmpty,
+.rootHot,
+.rootModerate,
+.rootMuted {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.3rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 14px;
+}
+
+.rootEmpty {
+  background: var(--sr-bg-muted);
+}
+
+.rootHot {
+  background: #fff1f2;
+}
+
+.rootModerate {
+  background: #eefaf6;
+}
+
+.rootMuted {
+  background: var(--sr-bg-muted);
 }
 
 .row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.meta {
+  display: grid;
+  gap: 0.15rem;
+  text-align: right;
+  max-width: 52%;
 }
 
 .kind {
   color: var(--sr-text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .title,
-.helper {
+.helper,
+.emptyTitle {
   margin: 0;
   color: var(--sr-text-secondary);
-  font-size: 0.92rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
-.hot,
-.moderate,
-.muted,
-.mutedTag {
+.title {
+  color: var(--sr-text-primary);
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.emptyTitle {
+  color: var(--sr-text-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.discountHot,
+.discountModerate,
+.discountMuted {
   margin: 0;
-  border: 0;
-  font-weight: 700;
+  display: grid;
+  gap: 0.05rem;
 }
 
-.hot {
-  color: #9a3412;
-  background: color-mix(in srgb, var(--sr-sale-hot) 16%, white);
+.discountPrefix {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--sr-text-secondary);
 }
 
-.moderate {
-  color: var(--sr-brand-secondary);
-  background: color-mix(in srgb, var(--sr-sale-moderate) 14%, white);
+.discountValue {
+  font-family: var(--sr-font-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
 }
 
-.muted,
-.mutedTag {
+.discountHot .discountValue {
+  color: var(--sr-sale-hot);
+}
+
+.discountModerate .discountValue {
+  color: var(--sr-sale-moderate);
+}
+
+.discountMuted .discountValue {
   color: var(--sr-sale-muted);
-  background: var(--sr-bg-muted);
 }

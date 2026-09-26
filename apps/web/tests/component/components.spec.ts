@@ -2,7 +2,8 @@ import { expect, test } from '@playwright/test';
 
 test('SaleStatus renders active discount', async ({ mount }) => {
   const component = await mount('sale/SaleStatus');
-  await expect(component.getByText('Up to 50%')).toBeVisible();
+  await expect(component.getByText('Up to')).toBeVisible();
+  await expect(component.getByText('50%')).toBeVisible();
   await expect(component.getByText('Seasonal sale')).toBeVisible();
 });
 
@@ -28,6 +29,6 @@ test('FollowButton shows follow affordance', async ({ mount }) => {
 test('StoreCard shows follow controls and sale', async ({ mount }) => {
   const component = await mount('store/StoreCard', { following: false });
   await expect(component.getByRole('link', { name: 'Open Zara' })).toBeVisible();
-  await expect(component.getByText('Up to 50%')).toBeVisible();
+  await expect(component.getByText('50%')).toBeVisible();
   await expect(component.getByRole('button', { name: 'Follow Zara' })).toBeVisible();
 });

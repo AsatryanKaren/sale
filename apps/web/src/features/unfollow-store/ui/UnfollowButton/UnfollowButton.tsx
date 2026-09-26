@@ -12,6 +12,7 @@ export function UnfollowButton({ storeId, storeName }: UnfollowButtonProps) {
 
   return (
     <Button
+      size="small"
       danger
       loading={unfollowMutation.isPending}
       onClick={() => {

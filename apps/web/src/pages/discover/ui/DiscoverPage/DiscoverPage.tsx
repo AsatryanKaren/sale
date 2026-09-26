@@ -30,7 +30,7 @@ export function DiscoverPage() {
     <section className={styles.page}>
       <PageHeader
         title="Discover"
-        description="Never miss a sale from the stores you actually care about. Follow favorites and get notified when meaningful discounts start or get better."
+        description="Follow stores you care about. Get alerts when sales start or discounts improve."
       />
 
       <DiscoverFiltersBar

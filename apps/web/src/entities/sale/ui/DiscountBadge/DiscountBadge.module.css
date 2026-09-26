@@ -2,21 +2,25 @@
 .moderate,
 .muted {
   margin: 0;
-  border: 0;
+  border: 1px solid transparent;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .hot {
-  color: #9a3412;
-  background: color-mix(in srgb, var(--sr-sale-hot) 16%, white);
+  color: #9f1239;
+  background: #fff1f2;
+  border-color: #fecdd3;
 }
 
 .moderate {
-  color: var(--sr-brand-secondary);
-  background: color-mix(in srgb, var(--sr-sale-moderate) 14%, white);
+  color: #115e59;
+  background: #f0fdfa;
+  border-color: #99f6e4;
 }
 
 .muted {
   color: var(--sr-sale-muted);
-  background: var(--sr-bg-muted);
+  background: color-mix(in srgb, var(--sr-bg-muted) 70%, white);
+  border-color: var(--sr-border-default);
 }

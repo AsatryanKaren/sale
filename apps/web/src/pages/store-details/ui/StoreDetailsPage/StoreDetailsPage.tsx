@@ -83,6 +83,7 @@ export function StoreDetailsPage() {
         actions={
           <div className={styles.actions}>
             <Button
+              size="small"
               href={store.websiteUrl}
               target="_blank"
               rel="noreferrer"

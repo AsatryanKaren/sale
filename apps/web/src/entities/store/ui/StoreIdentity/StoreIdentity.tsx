@@ -23,7 +23,7 @@ export function StoreIdentity({
   const content = (
     <>
       <Avatar
-        size={size === 'large' ? 56 : 44}
+        size={size === 'large' ? 48 : 36}
         className={cssModuleClass(styles, 'avatar')}
         aria-hidden
       >

@@ -106,7 +106,7 @@ export function AppShell() {
                         color={lightBrandTokens.saleHot}
                         offset={[6, -2]}
                       >
-                        {item.icon}
+                        <BellOutlined style={{ color: 'rgba(248, 250, 252, 0.72)' }} />
                       </Badge>
                     ) : (
                       item.icon

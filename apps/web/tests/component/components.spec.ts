@@ -31,3 +31,25 @@ test('StoreCard shows follow controls and sale', async ({ mount }) => {
   await expect(component.getByText('Up to 50%')).toBeVisible();
   await expect(component.getByRole('button', { name: 'Follow Zara' })).toBeVisible();
 });
+
+const LOGO_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" fill="#000"/></svg>';
+
+test('StoreAvatar shows the store logo when a source loads', async ({ mount, page }) => {
+  await page.route('https://www.google.com/s2/favicons**', (route) =>
+    route.fulfill({ status: 200, contentType: 'image/svg+xml', body: LOGO_SVG }),
+  );
+  const component = await mount('store/StoreAvatar');
+  await expect(component.locator('img')).toHaveAttribute(
+    'src',
+    /google\.com\/s2\/favicons\?domain=zara\.com/,
+  );
+  await expect(component.getByText('ZA')).toHaveCount(0);
+});
+
+test('StoreAvatar falls back to a monogram when logos fail', async ({ mount, page }) => {
+  await page.route('https://www.google.com/s2/favicons**', (route) => route.abort());
+  await page.route('https://icons.duckduckgo.com/**', (route) => route.abort());
+  const component = await mount('store/StoreAvatar');
+  await expect(component.getByText('ZA')).toBeVisible();
+});

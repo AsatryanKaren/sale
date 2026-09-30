@@ -1,0 +1,1 @@
+export { StoreAvatar } from './StoreAvatar';

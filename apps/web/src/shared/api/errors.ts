@@ -1,5 +1,7 @@
 export type ApiErrorCode =
   | 'network_error'
+  | 'unauthorized'
+  | 'payment_required'
   | 'validation_error'
   | 'not_found'
   | 'conflict'
@@ -29,6 +31,9 @@ export function toUserFacingApiError(error: unknown): string {
     switch (error.code) {
       case 'network_error':
         return 'Network issue. Check your connection and try again.';
+      case 'unauthorized':
+      case 'payment_required':
+        return error.message;
       case 'not_found':
         return 'We could not find what you were looking for.';
       case 'validation_error':
@@ -45,4 +50,8 @@ export function toUserFacingApiError(error: unknown): string {
   }
 
   return 'Something went wrong. Please try again.';
+}
+
+export function isApiErrorWithCode(error: unknown, code: ApiErrorCode): error is ApiError {
+  return error instanceof ApiError && error.code === code;
 }

@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from '@/app/App';
 import { appConfig } from '@/shared/config';
 
+import '@fontsource-variable/geist';
 import '@/app/styles/global.css';
 
 async function prepareApp(): Promise<void> {

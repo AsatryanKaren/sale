@@ -1,55 +1,32 @@
-import { Avatar } from 'antd';
 import { Link } from 'react-router-dom';
+import type { Store } from '@saleradar/contracts';
 
-import { cssModuleClass, getStoreInitials } from '@/shared/lib';
-
+import { StoreAvatar } from '../StoreAvatar';
 import styles from './StoreIdentity.module.css';
 
 type StoreIdentityProps = {
-  name: string;
-  slug: string;
+  store: Pick<Store, 'name' | 'slug' | 'websiteUrl' | 'logoUrl'>;
   categoryLabel: string;
-  size?: 'default' | 'large';
   linkToStore?: boolean;
 };
 
-export function StoreIdentity({
-  name,
-  slug,
-  categoryLabel,
-  size = 'default',
-  linkToStore = true,
-}: StoreIdentityProps) {
+export function StoreIdentity({ store, categoryLabel, linkToStore = true }: StoreIdentityProps) {
   const content = (
     <>
-      <Avatar
-        size={size === 'large' ? 56 : 44}
-        className={cssModuleClass(styles, 'avatar')}
-        aria-hidden
-      >
-        {getStoreInitials(name)}
-      </Avatar>
-      <div className={cssModuleClass(styles, 'copy')}>
-        <span
-          className={cssModuleClass(styles, size === 'large' ? 'nameLarge' : 'name')}
-        >
-          {name}
-        </span>
-        <span className={cssModuleClass(styles, 'category')}>{categoryLabel}</span>
-      </div>
+      <StoreAvatar store={store} />
+      <span className={styles.copy}>
+        <span className={styles.name}>{store.name}</span>
+        <span className={styles.category}>{categoryLabel}</span>
+      </span>
     </>
   );
 
   if (!linkToStore) {
-    return <div className={cssModuleClass(styles, 'root')}>{content}</div>;
+    return <div className={styles.root}>{content}</div>;
   }
 
   return (
-    <Link
-      className={cssModuleClass(styles, 'root')}
-      to={`/stores/${slug}`}
-      aria-label={`Open ${name}`}
-    >
+    <Link className={styles.root} to={`/stores/${store.slug}`} aria-label={`Open ${store.name}`}>
       {content}
     </Link>
   );

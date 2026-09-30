@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test';
 
+import { signUp } from './support/auth';
+import { followStore } from './support/following';
+
 test.describe('SaleRadar e2e', () => {
+  test.beforeEach(async ({ page }) => {
+    await signUp(page);
+  });
+
   test('follow store from discover to following', async ({ page }) => {
     await page.goto('/discover');
     await expect(page.getByRole('heading', { name: 'Discover' })).toBeVisible();
@@ -20,6 +27,7 @@ test.describe('SaleRadar e2e', () => {
   });
 
   test('threshold persists after refresh', async ({ page }) => {
+    await followStore(page, 'Zara');
     await page.goto('/following');
     await expect(page.getByRole('heading', { name: 'Following' })).toBeVisible();
 
@@ -33,29 +41,42 @@ test.describe('SaleRadar e2e', () => {
 
     await page.reload();
     await expect(
-      page.locator('article').filter({ hasText: 'Zara' }).getByText('30%+', { exact: true }).first(),
+      page
+        .locator('article')
+        .filter({ hasText: 'Zara' })
+        .getByText('30%+', { exact: true })
+        .first(),
     ).toBeVisible({ timeout: 10_000 });
   });
 
   test('discover fashion filter survives reload', async ({ page }) => {
     await page.goto('/discover');
-    const categorySelect = page.locator('.ant-select').filter({ hasText: 'All categories' });
-    await categorySelect.locator('.ant-select-selector').click();
-    await expect(page.locator('.ant-select-dropdown')).toBeVisible();
-    await page.locator('.ant-select-item-option-content', { hasText: 'Fashion' }).click();
+    const categories = page.getByRole('group', { name: 'Category' });
+    await categories.getByRole('button', { name: 'Fashion' }).click();
 
     await expect(page).toHaveURL(/category=fashion/);
     await page.reload();
     await expect(page).toHaveURL(/category=fashion/);
-    await expect(page.locator('.ant-select').filter({ hasText: 'Fashion' })).toBeVisible();
+    await expect(categories.getByRole('button', { name: 'Fashion' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    await expect(page.getByRole('link', { name: 'Open Adidas' })).toHaveCount(0);
   });
 
   test('mark notification as read', async ({ page }) => {
+    // Following a store that is already on sale sends an alert right away.
+    await followStore(page, 'Zara');
     await page.goto('/notifications');
     await expect(page.getByRole('heading', { name: 'Notifications' })).toBeVisible();
 
-    const card = page.getByRole('article', { name: /Zara sale increased/i });
-    await expect(card).toBeVisible();
+    const unread = page
+      .getByRole('article', { name: /^Zara:/ })
+      .filter({ has: page.getByRole('button', { name: 'Mark as read' }) })
+      .first();
+    await expect(unread).toBeVisible({ timeout: 10_000 });
+    const name = (await unread.getAttribute('aria-label')) ?? '';
+    const card = page.getByRole('article', { name, exact: true });
     await card.getByRole('button', { name: 'Mark as read' }).click();
     await expect(card.getByText('Read', { exact: true })).toBeVisible();
   });

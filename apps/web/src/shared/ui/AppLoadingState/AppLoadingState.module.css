@@ -1,10 +1,16 @@
-.root {
+.list {
   display: grid;
-  gap: 1rem;
+  gap: var(--sr-space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--sr-space-4);
 }
 
 .card {
-  padding: 1.1rem 1.2rem;
+  padding: var(--sr-space-5);
   background: var(--sr-bg-elevated);
   border: 1px solid var(--sr-border-subtle);
   border-radius: var(--sr-radius-lg);

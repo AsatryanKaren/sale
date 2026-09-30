@@ -3,7 +3,8 @@ import { useState } from 'react';
 import type { Sale, Store } from '@saleradar/contracts';
 
 import { DiscountBadge, SaleStatus } from '@/entities/sale';
-import { StoreCard } from '@/entities/store';
+import { StoreAvatar } from '@/entities/store';
+import { StoreCard } from '@/widgets/store-card';
 import { AlertThresholdSelect, type AlertThresholdValue } from '@/entities/watch';
 import { FollowButton } from '@/features/follow-store';
 
@@ -47,7 +48,12 @@ function AlertThresholdSelectStory(props: { value?: number | null }) {
   return (
     <div>
       <AlertThresholdSelect value={value} onChange={setValue} />
-      <input type="hidden" data-testid="threshold-value" value={value === null ? 'any' : String(value)} readOnly />
+      <input
+        type="hidden"
+        data-testid="threshold-value"
+        value={value === null ? 'any' : String(value)}
+        readOnly
+      />
     </div>
   );
 }
@@ -84,12 +90,15 @@ function StoreCardStory(props: { following?: boolean }) {
   );
 }
 
+function StoreAvatarStory() {
+  return <StoreAvatar store={demoStore} />;
+}
+
 export const stories: Record<string, ComponentType<Record<string, unknown>>> = {
   'sale/SaleStatus': SaleStatusStory as ComponentType<Record<string, unknown>>,
   'sale/DiscountBadge': DiscountBadgeStory as ComponentType<Record<string, unknown>>,
-  'watch/AlertThresholdSelect': AlertThresholdSelectStory as ComponentType<
-    Record<string, unknown>
-  >,
+  'watch/AlertThresholdSelect': AlertThresholdSelectStory as ComponentType<Record<string, unknown>>,
   'follow/FollowButton': FollowButtonStory as ComponentType<Record<string, unknown>>,
   'store/StoreCard': StoreCardStory as ComponentType<Record<string, unknown>>,
+  'store/StoreAvatar': StoreAvatarStory as ComponentType<Record<string, unknown>>,
 };

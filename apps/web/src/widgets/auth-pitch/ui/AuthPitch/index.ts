@@ -1,0 +1,1 @@
+export { AuthPitch } from './AuthPitch';

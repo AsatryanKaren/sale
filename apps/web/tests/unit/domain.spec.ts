@@ -1,6 +1,10 @@
 import { expect, test } from '@playwright/test';
 
-import { formatDiscountLabel, formatDiscountPercent, getSaleTone } from '../../src/entities/sale/model/utils';
+import {
+  formatDiscountLabel,
+  formatDiscountPercent,
+  getSaleTone,
+} from '../../src/entities/sale/model/utils';
 import { formatAlertThreshold, matchesAlertThreshold } from '../../src/entities/watch/model/utils';
 import { getStoreInitials } from '../../src/shared/lib/storeIdentity';
 import {
@@ -8,7 +12,13 @@ import {
   serializeDiscoverFilters,
   toStoreListQuery,
 } from '../../src/pages/discover/model/filters';
+import { formatTimeLeft, getAccessState } from '../../src/entities/session/model/access';
+import { formatPrice, getAnnualSavingsPercent } from '../../src/entities/plan/model/pricing';
+import type { Plan } from '@saleradar/contracts';
+import { getSafeRedirectPath } from '../../src/shared/lib/redirect';
+import { summarizeCatalog } from '../../src/pages/discover/model/summary';
 import { storeKeys } from '../../src/entities/store/api/queryKeys';
+import { getStoreDomain, getStoreLogoCandidates } from '../../src/entities/store/model/logo';
 
 test.describe('discount formatting', () => {
   test('formats known percentages', () => {
@@ -78,11 +88,157 @@ test.describe('discover filter serialization', () => {
 
 test.describe('query key factories', () => {
   test('builds stable store keys', () => {
-    expect(storeKeys.list({ search: 'zara' })).toEqual([
-      'stores',
-      'list',
-      { search: 'zara' },
-    ]);
+    expect(storeKeys.list({ search: 'zara' })).toEqual(['stores', 'list', { search: 'zara' }]);
     expect(storeKeys.detail('zara')).toEqual(['stores', 'detail', 'zara']);
+  });
+});
+
+test.describe('discover summary', () => {
+  test('counts live sales and finds the best discount', () => {
+    const store = (id: string, name: string) => ({
+      id,
+      slug: id,
+      name,
+      websiteUrl: 'https://example.com',
+      countryCode: 'AM',
+      category: 'fashion' as const,
+      isActive: true,
+    });
+    const sale = (storeId: string, maxDiscountPercent: number | null) => ({
+      id: `sale_${storeId}`,
+      storeId,
+      title: 'Sale',
+      kind: 'promotion' as const,
+      status: 'active' as const,
+      minDiscountPercent: null,
+      maxDiscountPercent,
+      startedAt: '2026-06-01T00:00:00.000Z',
+      endsAt: null,
+      sourceUrl: null,
+      updatedAt: '2026-06-01T00:00:00.000Z',
+    });
+
+    const summary = summarizeCatalog(
+      [
+        { store: store('a', 'Alpha'), activeSale: sale('a', 30) },
+        { store: store('b', 'Beta'), activeSale: sale('b', 55) },
+        { store: store('c', 'Gamma'), activeSale: null },
+      ],
+      [],
+    );
+
+    expect(summary).toEqual({
+      storeCount: 3,
+      liveSaleCount: 2,
+      followingCount: 0,
+      bestDiscountPercent: 55,
+      bestDiscountStoreName: 'Beta',
+    });
+  });
+});
+
+test.describe('store logos', () => {
+  test('normalizes store domains', () => {
+    expect(getStoreDomain('https://www.zara.com')).toBe('zara.com');
+    expect(getStoreDomain('https://shop.mango.com/am')).toBe('mango.com');
+    expect(getStoreDomain('https://ispace.am')).toBe('ispace.am');
+    expect(getStoreDomain('not a url')).toBeNull();
+  });
+
+  test('prefers the curated logo, then favicon services', () => {
+    expect(
+      getStoreLogoCandidates({
+        websiteUrl: 'https://www.zara.com',
+        logoUrl: 'https://cdn.example.com/zara.svg',
+      }),
+    ).toEqual([
+      'https://cdn.example.com/zara.svg',
+      'https://www.google.com/s2/favicons?domain=zara.com&sz=128',
+      'https://icons.duckduckgo.com/ip3/zara.com.ico',
+    ]);
+    expect(
+      getStoreLogoCandidates({ websiteUrl: 'https://www.nike.com', logoUrl: null }),
+    ).toHaveLength(2);
+  });
+});
+
+test.describe('subscription access', () => {
+  const now = new Date('2026-09-30T12:00:00.000Z');
+  const base = {
+    plan: null,
+    trialEndsAt: '2026-10-01T12:00:00.000Z',
+    currentPeriodEnd: null,
+    cancelAtPeriodEnd: false,
+  };
+
+  test('a running trial grants access with time left', () => {
+    const access = getAccessState({ ...base, status: 'trialing' }, now);
+    expect(access).toMatchObject({ kind: 'trial', msLeft: 24 * 60 * 60 * 1000 });
+  });
+
+  test('an ended trial has no access', () => {
+    expect(
+      getAccessState({ ...base, status: 'trialing', trialEndsAt: '2026-09-30T11:59:00.000Z' }, now),
+    ).toEqual({ kind: 'expired' });
+  });
+
+  test('a cancelled plan keeps access until the period ends', () => {
+    const subscription = {
+      ...base,
+      status: 'active' as const,
+      plan: 'monthly' as const,
+      currentPeriodEnd: '2026-10-30T12:00:00.000Z',
+      cancelAtPeriodEnd: true,
+    };
+    expect(getAccessState(subscription, now).kind).toBe('subscribed');
+    expect(getAccessState(subscription, new Date('2026-10-31T00:00:00.000Z')).kind).toBe('expired');
+  });
+
+  test('formats time left', () => {
+    expect(formatTimeLeft(23 * 3_600_000 + 5 * 60_000)).toBe('23h 5m left');
+    expect(formatTimeLeft(42 * 60_000)).toBe('42m left');
+    expect(formatTimeLeft(10_000)).toBe('less than a minute left');
+  });
+});
+
+test.describe('pricing', () => {
+  test('formats dram and dollar prices', () => {
+    expect(formatPrice(1200, 'AMD')).toBe('1,200 ֏');
+    expect(formatPrice(3, 'USD')).toBe('$3');
+    expect(formatPrice(29, 'USD')).toBe('$29');
+  });
+
+  const monthly: Plan = {
+    id: 'monthly',
+    name: 'Monthly',
+    interval: 'month',
+    prices: { AMD: 1200, USD: 3 },
+  };
+  const annual: Plan = {
+    id: 'annual',
+    name: 'Annual',
+    interval: 'year',
+    prices: { AMD: 11500, USD: 29 },
+  };
+
+  test('shows the smaller of the two currency savings', () => {
+    // AMD saves 20%, USD saves 19%.
+    expect(getAnnualSavingsPercent([monthly, annual])).toBe(19);
+  });
+
+  test('has no savings badge without both plans or without a saving', () => {
+    expect(getAnnualSavingsPercent([monthly])).toBeNull();
+    expect(
+      getAnnualSavingsPercent([monthly, { ...annual, prices: { AMD: 14400, USD: 36 } }]),
+    ).toBeNull();
+  });
+});
+
+test.describe('post-login redirects', () => {
+  test('only follows in-app paths', () => {
+    expect(getSafeRedirectPath('/following')).toBe('/following');
+    expect(getSafeRedirectPath('//evil.example')).toBe('/discover');
+    expect(getSafeRedirectPath('https://evil.example')).toBe('/discover');
+    expect(getSafeRedirectPath(null)).toBe('/discover');
   });
 });

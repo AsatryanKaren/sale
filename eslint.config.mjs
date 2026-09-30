@@ -6,6 +6,27 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import pluginQuery from '@tanstack/eslint-plugin-query';
 
+function layerBoundaries(rules) {
+  return rules.map(([layer, forbidden]) => ({
+    files: [`apps/web/src/${layer}/**/*.{ts,tsx}`],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: forbidden
+                .map((name) => `@/${name}/*`)
+                .concat(forbidden.map((name) => `@/${name}`)),
+              message: `The "${layer}" layer may only import from layers below it (app → pages → widgets → features → entities → shared).`,
+            },
+          ],
+        },
+      ],
+    },
+  }));
+}
+
 export default tseslint.config(
   {
     ignores: [
@@ -79,10 +100,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
   {
@@ -91,5 +109,21 @@ export default tseslint.config(
       'react-refresh/only-export-components': 'off',
     },
   },
+  {
+    // node:test's describe/it return promises the runner tracks itself.
+    files: ['apps/api/tests/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'off',
+    },
+  },
+  // Feature-Sliced layer boundaries: a layer may only import from layers below it.
+  // app → pages → widgets → features → entities → shared
+  ...layerBoundaries([
+    ['shared', ['entities', 'features', 'widgets', 'pages', 'app']],
+    ['entities', ['features', 'widgets', 'pages', 'app']],
+    ['features', ['widgets', 'pages', 'app']],
+    ['widgets', ['pages', 'app']],
+    ['pages', ['app']],
+  ]),
   eslintConfigPrettier,
 );

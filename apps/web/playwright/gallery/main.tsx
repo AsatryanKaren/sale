@@ -3,9 +3,10 @@ import { ConfigProvider, App as AntApp } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { defaultTheme } from '@/app/theme';
+import { ThemeCssVariables, defaultTheme } from '@/app/theme';
 import { stories } from './stories';
 
+import '@fontsource-variable/geist';
 import '@/app/styles/global.css';
 
 type MountArgs = {
@@ -49,6 +50,7 @@ window.mount = async ({ story, props = {} }) => {
   ensureRoot().render(
     <QueryClientProvider client={queryClient}>
       <ConfigProvider theme={defaultTheme}>
+        <ThemeCssVariables />
         <AntApp>
           <MemoryRouter>
             <Story {...props} />

@@ -1,16 +1,11 @@
-.page {
-  width: min(100%, 72rem);
-  margin: 0 auto;
-}
-
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--sr-space-4);
 }
 
 .disclaimer {
-  margin: 1.5rem 0 0;
-  color: var(--sr-text-secondary);
-  font-size: 0.85rem;
+  color: var(--sr-text-tertiary);
+  font-size: 0.8125rem;
+  text-align: center;
 }

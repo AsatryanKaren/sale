@@ -1,22 +1,24 @@
-import { Tag } from 'antd';
+import { cx } from '@/shared/lib';
 
-import { cssModuleClass } from '@/shared/lib';
-
-import { formatDiscountPercent, getSaleTone } from '../../model';
+import { formatDiscountLabel, getSaleTone } from '../../model';
 import styles from './DiscountBadge.module.css';
 
 type DiscountBadgeProps = {
   value: number | null;
+  size?: 'sm' | 'md';
 };
 
-export function DiscountBadge({ value }: DiscountBadgeProps) {
-  const formatted = formatDiscountPercent(value);
+const TONE_CLASS = {
+  hot: styles.hot,
+  moderate: styles.moderate,
+  muted: styles.muted,
+} as const;
+
+export function DiscountBadge({ value, size = 'md' }: DiscountBadgeProps) {
   const tone = getSaleTone(value);
-  const className = cssModuleClass(styles, tone);
+  const label = value === null ? '—' : formatDiscountLabel(value);
 
-  if (!formatted) {
-    return <Tag className={className}>—</Tag>;
-  }
-
-  return <Tag className={className}>Up to {formatted}</Tag>;
+  return (
+    <span className={cx(styles.badge, TONE_CLASS[tone], size === 'sm' && styles.sm)}>{label}</span>
+  );
 }

@@ -11,6 +11,8 @@ export const storeSchema = z.object({
   slug: z.string().min(1),
   name: z.string().min(1),
   websiteUrl: z.url(),
+  /** Curated logo from the backend. When absent, clients derive one from `websiteUrl`. */
+  logoUrl: z.url().nullable().optional(),
   countryCode: z.string().length(2),
   category: storeCategorySchema,
   isActive: z.boolean(),

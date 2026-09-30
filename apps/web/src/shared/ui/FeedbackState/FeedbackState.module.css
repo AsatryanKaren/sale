@@ -1,21 +1,42 @@
 .root {
-  padding: 2.5rem 1rem;
+  display: grid;
+  justify-items: center;
+  gap: var(--sr-space-4);
+  padding: var(--sr-space-10) var(--sr-space-6);
+  text-align: center;
+  background: var(--sr-bg-inset);
+  border: 1px dashed var(--sr-border-default);
+  border-radius: var(--sr-radius-lg);
+}
+
+.icon,
+.iconDanger {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.25rem;
+  border-radius: var(--sr-radius-md);
   background: var(--sr-bg-elevated);
   border: 1px solid var(--sr-border-subtle);
-  border-radius: var(--sr-radius-lg);
+  color: var(--sr-text-secondary);
+}
+
+.iconDanger {
+  color: var(--sr-danger);
 }
 
 .copy {
   display: grid;
-  gap: 0.35rem;
+  gap: var(--sr-space-1);
+  max-width: 26rem;
 }
 
-.copy strong {
-  color: var(--sr-text-primary);
-  font-size: 1.05rem;
+.title {
+  font-size: 0.9375rem;
+  font-weight: 600;
 }
 
-.copy p {
-  margin: 0;
+.description {
   color: var(--sr-text-secondary);
 }

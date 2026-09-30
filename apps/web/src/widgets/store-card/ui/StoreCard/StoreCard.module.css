@@ -1,0 +1,50 @@
+.card,
+.cardLive {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cardLive::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sr-sale-hot), var(--sr-brand-accent) 60%, transparent);
+  opacity: 0.85;
+}
+
+.body {
+  display: grid;
+  align-content: start;
+  gap: var(--sr-space-4);
+  flex: 1;
+  padding: var(--sr-space-5);
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sr-space-3);
+  min-width: 0;
+}
+
+.alertRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sr-space-3);
+  padding: var(--sr-space-3) var(--sr-space-5);
+  background: var(--sr-bg-inset);
+  border-top: 1px solid var(--sr-border-subtle);
+}
+
+.alertLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sr-space-2);
+  color: var(--sr-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}

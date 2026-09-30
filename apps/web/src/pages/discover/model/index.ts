@@ -5,3 +5,5 @@ export {
   toStoreListQuery,
 } from './filters';
 export type { DiscoverFilters } from './filters';
+export { summarizeCatalog } from './summary';
+export type { CatalogSummary } from './summary';

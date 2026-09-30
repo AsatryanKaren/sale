@@ -5,3 +5,4 @@ export {
   useMarkNotificationReadMutation,
   useNotificationsQuery,
 } from './api';
+export { NOTIFICATION_TYPE_LABELS } from './model';

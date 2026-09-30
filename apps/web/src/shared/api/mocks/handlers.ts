@@ -13,6 +13,9 @@ import { HttpResponse, delay, http } from 'msw';
 
 import { appConfig } from '@/shared/config';
 
+import { authHandlers, requireAccess } from './auth';
+import { planHandlers } from './plans';
+
 import {
   getActiveSaleForStore,
   getStoreById,
@@ -45,8 +48,14 @@ function parseBooleanParam(value: string | null): boolean | undefined {
 }
 
 export const mockHandlers = [
+  ...authHandlers,
+  ...planHandlers,
   http.get('/api/stores', async ({ request }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const url = new URL(request.url);
     const search = url.searchParams.get('search')?.trim().toLowerCase() ?? '';
@@ -59,8 +68,7 @@ export const mockHandlers = [
     if (search.length > 0) {
       items = items.filter(
         (store) =>
-          store.name.toLowerCase().includes(search) ||
-          store.slug.toLowerCase().includes(search),
+          store.name.toLowerCase().includes(search) || store.slug.toLowerCase().includes(search),
       );
     }
 
@@ -79,7 +87,12 @@ export const mockHandlers = [
         return rightSale - leftSale;
       });
     } else if (sort === 'recent') {
-      items.sort((left, right) => right.name.localeCompare(left.name));
+      // Mirrors the API: most recently changed sale first, stores without a sale last.
+      const updated = (storeId: string) => getActiveSaleForStore(storeId)?.updatedAt ?? '';
+      items.sort(
+        (left, right) =>
+          updated(right.id).localeCompare(updated(left.id)) || left.name.localeCompare(right.name),
+      );
     } else {
       items.sort((left, right) => left.name.localeCompare(right.name));
     }
@@ -96,6 +109,10 @@ export const mockHandlers = [
 
   http.get('/api/stores/:slug', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const slug = String(params.slug);
     const store = getStoreBySlug(slug);
@@ -109,6 +126,10 @@ export const mockHandlers = [
 
   http.get('/api/stores/:slug/sales', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const slug = String(params.slug);
     const store = getStoreBySlug(slug);
@@ -132,11 +153,19 @@ export const mockHandlers = [
 
   http.get('/api/following', async () => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
     return HttpResponse.json(followingListResponseSchema.parse({ items: mockDb.watches }));
   }),
 
   http.post('/api/following', async ({ request }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const body = createWatchRequestSchema.parse(await request.json());
     const store = getStoreById(body.storeId);
@@ -161,6 +190,27 @@ export const mockHandlers = [
     };
 
     mockDb.watches = [...mockDb.watches, watch];
+
+    // Mirrors the API: following a store that is already on sale alerts right away.
+    const sale = getActiveSaleForStore(store.id);
+    const discount = sale?.maxDiscountPercent ?? null;
+    const meetsMinimum =
+      watch.minimumDiscountPercent === null ||
+      (discount !== null && discount >= watch.minimumDiscountPercent);
+    if (sale && watch.notifyOnSaleStart && meetsMinimum) {
+      mockDb.notifications = [
+        ...mockDb.notifications,
+        {
+          id: `notif_${crypto.randomUUID()}`,
+          storeId: store.id,
+          type: 'sale_started',
+          title: `${store.name} ${sale.title.toLowerCase()} is on`,
+          body: discount === null ? 'Sale is live now' : `Up to ${discount}% off`,
+          createdAt: new Date().toISOString(),
+          readAt: null,
+        },
+      ];
+    }
     persistMockDb();
 
     return HttpResponse.json(watchResponseSchema.parse({ watch }), { status: 201 });
@@ -168,6 +218,10 @@ export const mockHandlers = [
 
   http.patch('/api/following/:storeId', async ({ params, request }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const storeId = String(params.storeId);
     const body = updateWatchRequestSchema.parse(await request.json());
@@ -208,6 +262,10 @@ export const mockHandlers = [
 
   http.delete('/api/following/:storeId', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const storeId = String(params.storeId);
     const exists = mockDb.watches.some((watch) => watch.storeId === storeId);
@@ -223,6 +281,10 @@ export const mockHandlers = [
 
   http.get('/api/notifications', async () => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const items = [...mockDb.notifications].sort((left, right) =>
       right.createdAt.localeCompare(left.createdAt),
@@ -233,6 +295,10 @@ export const mockHandlers = [
 
   http.patch('/api/notifications/:notificationId/read', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const notificationId = String(params.notificationId);
     const index = mockDb.notifications.findIndex(

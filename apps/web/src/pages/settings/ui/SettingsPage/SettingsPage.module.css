@@ -1,32 +1,105 @@
-.page {
-  width: min(100%, 42rem);
-  margin: 0 auto;
-}
-
-.panel {
-  display: grid;
-  gap: 0.65rem;
-  margin-bottom: 1rem;
-  padding: 1.15rem 1.2rem;
-  background: var(--sr-bg-elevated);
-  border: 1px solid var(--sr-border-subtle);
-  border-radius: var(--sr-radius-lg);
-}
-
-.panelTitle {
-  margin: 0;
-  font-size: 1.05rem;
-}
-
-.helper {
-  margin: 0;
-  color: var(--sr-text-secondary);
-}
-
+.rows,
 .channels {
-  margin: 0;
-  padding-left: 1.1rem;
-  color: var(--sr-text-secondary);
   display: grid;
-  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row,
+.channel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sr-space-5);
+  padding: var(--sr-space-4) 0;
+}
+
+.row + .row,
+.channel + .channel {
+  border-top: 1px solid var(--sr-border-subtle);
+}
+
+.row:first-child,
+.channel:first-child {
+  padding-top: 0;
+}
+
+.row:last-child,
+.channel:last-child {
+  padding-bottom: 0;
+}
+
+.rowCopy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowLabel {
+  font-weight: 500;
+}
+
+.rowHint {
+  color: var(--sr-text-secondary);
+  font-size: 0.8125rem;
+}
+
+.rowControl {
+  flex-shrink: 0;
+}
+
+.select {
+  width: 11rem;
+}
+
+.statusOn,
+.statusPlanned {
+  flex-shrink: 0;
+  padding: 0 var(--sr-space-3);
+  border-radius: var(--sr-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.statusOn {
+  color: var(--sr-success);
+  background: color-mix(in srgb, var(--sr-success) 12%, var(--sr-bg-elevated));
+}
+
+.statusPlanned {
+  color: var(--sr-text-secondary);
+  background: var(--sr-bg-muted);
+}
+
+@media (max-width: 560px) {
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .select {
+    width: 100%;
+  }
+}
+
+.statusTrial,
+.statusOff {
+  flex-shrink: 0;
+  padding: 0 var(--sr-space-3);
+  border-radius: var(--sr-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.statusTrial {
+  color: var(--sr-sale-moderate);
+  background: var(--sr-sale-moderate-surface);
+}
+
+.statusOff {
+  color: var(--sr-sale-hot);
+  background: var(--sr-sale-hot-surface);
 }

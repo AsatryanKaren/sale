@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { SearchOutlined } from '@ant-design/icons';
 
+import { appConfig } from '@/shared/config';
 import { toUserFacingApiError } from '@/shared/api';
-import { AppEmptyState, AppErrorState, AppLoadingState, PageHeader } from '@/shared/ui';
-import { StoreCard, useStoresQuery } from '@/entities/store';
+import { AppEmptyState, AppErrorState, AppLoadingState, Page, PageHeader } from '@/shared/ui';
+import { useStoresQuery } from '@/entities/store';
 import { useFollowingQuery } from '@/entities/watch';
+import { StoreCard } from '@/widgets/store-card';
 
-import {
-  parseDiscoverFilters,
-  serializeDiscoverFilters,
-  toStoreListQuery,
-} from '../../model';
+import { parseDiscoverFilters, serializeDiscoverFilters, toStoreListQuery } from '../../model';
 import { DiscoverFiltersBar } from '../DiscoverFiltersBar';
+import { DiscoverSummary } from '../DiscoverSummary';
 import styles from './DiscoverPage.module.css';
 
 export function DiscoverPage() {
@@ -20,18 +20,26 @@ export function DiscoverPage() {
   const listQuery = useMemo(() => toStoreListQuery(filters), [filters]);
 
   const storesQuery = useStoresQuery(listQuery);
+  const catalogQuery = useStoresQuery();
   const followingQuery = useFollowingQuery();
 
   const watchesByStoreId = useMemo(() => {
     return new Map((followingQuery.data ?? []).map((watch) => [watch.storeId, watch] as const));
   }, [followingQuery.data]);
 
+  const [country] = appConfig.supportedCountries;
+
   return (
-    <section className={styles.page}>
+    <Page width="wide">
       <PageHeader
+        eyebrow={`${country.name} · Sale radar`}
         title="Discover"
-        description="Never miss a sale from the stores you actually care about. Follow favorites and get notified when meaningful discounts start or get better."
+        description="Follow the stores you care about and hear about it the moment a sale starts or gets deeper."
       />
+
+      {catalogQuery.isSuccess && followingQuery.isSuccess ? (
+        <DiscoverSummary stores={catalogQuery.data} watches={followingQuery.data} />
+      ) : null}
 
       <DiscoverFiltersBar
         filters={filters}
@@ -40,7 +48,9 @@ export function DiscoverPage() {
         }}
       />
 
-      {storesQuery.isLoading || followingQuery.isLoading ? <AppLoadingState rows={5} /> : null}
+      {storesQuery.isLoading || followingQuery.isLoading ? (
+        <AppLoadingState rows={6} layout="grid" />
+      ) : null}
 
       {storesQuery.isError ? (
         <AppErrorState
@@ -54,6 +64,7 @@ export function DiscoverPage() {
 
       {storesQuery.isSuccess && storesQuery.data.length === 0 ? (
         <AppEmptyState
+          icon={<SearchOutlined />}
           title="No stores match"
           description="Try a different search or clear the active filters."
           actionLabel="Clear filters"
@@ -65,23 +76,20 @@ export function DiscoverPage() {
 
       {storesQuery.isSuccess && storesQuery.data.length > 0 ? (
         <div className={styles.grid}>
-          {storesQuery.data.map((item) => {
-            const watch = watchesByStoreId.get(item.store.id) ?? null;
-            return (
-              <StoreCard
-                key={item.store.id}
-                store={item.store}
-                sale={item.activeSale}
-                watch={watch}
-              />
-            );
-          })}
+          {storesQuery.data.map((item) => (
+            <StoreCard
+              key={item.store.id}
+              store={item.store}
+              sale={item.activeSale}
+              watch={watchesByStoreId.get(item.store.id) ?? null}
+            />
+          ))}
         </div>
       ) : null}
 
       <p className={styles.disclaimer}>
         Demo discounts are mocked for development and may not reflect live store pricing.
       </p>
-    </section>
+    </Page>
   );
 }

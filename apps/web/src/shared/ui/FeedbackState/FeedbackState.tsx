@@ -1,10 +1,37 @@
-import { Button, Empty, Result } from 'antd';
+import type { ReactNode } from 'react';
+import { Button } from 'antd';
+import { ExclamationCircleOutlined, InboxOutlined } from '@ant-design/icons';
 
 import styles from './FeedbackState.module.css';
+
+type FeedbackFrameProps = {
+  icon: ReactNode;
+  tone: 'neutral' | 'danger';
+  title: string;
+  description: string;
+  action?: ReactNode;
+  role?: 'status' | 'alert';
+};
+
+function FeedbackFrame({ icon, tone, title, description, action, role }: FeedbackFrameProps) {
+  return (
+    <div className={styles.root} role={role}>
+      <span className={tone === 'danger' ? styles.iconDanger : styles.icon} aria-hidden>
+        {icon}
+      </span>
+      <div className={styles.copy}>
+        <strong className={styles.title}>{title}</strong>
+        <p className={styles.description}>{description}</p>
+      </div>
+      {action ? <div className={styles.action}>{action}</div> : null}
+    </div>
+  );
+}
 
 type AppEmptyStateProps = {
   title: string;
   description: string;
+  icon?: ReactNode;
   actionLabel?: string;
   onAction?: () => void;
 };
@@ -12,27 +39,25 @@ type AppEmptyStateProps = {
 export function AppEmptyState({
   title,
   description,
+  icon = <InboxOutlined />,
   actionLabel,
   onAction,
 }: AppEmptyStateProps) {
   return (
-    <div className={styles.root}>
-      <Empty
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={
-          <div className={styles.copy}>
-            <strong>{title}</strong>
-            <p>{description}</p>
-          </div>
-        }
-      >
-        {actionLabel && onAction ? (
+    <FeedbackFrame
+      icon={icon}
+      tone="neutral"
+      title={title}
+      description={description}
+      role="status"
+      action={
+        actionLabel && onAction ? (
           <Button type="primary" onClick={onAction}>
             {actionLabel}
           </Button>
-        ) : null}
-      </Empty>
-    </div>
+        ) : null
+      }
+    />
   );
 }
 
@@ -48,19 +73,13 @@ export function AppErrorState({
   onRetry,
 }: AppErrorStateProps) {
   return (
-    <div className={styles.root}>
-      <Result
-        status="error"
-        title={title}
-        subTitle={description}
-        extra={
-          onRetry ? (
-            <Button type="primary" onClick={onRetry}>
-              Try again
-            </Button>
-          ) : null
-        }
-      />
-    </div>
+    <FeedbackFrame
+      icon={<ExclamationCircleOutlined />}
+      tone="danger"
+      title={title}
+      description={description}
+      role="alert"
+      action={onRetry ? <Button onClick={onRetry}>Try again</Button> : null}
+    />
   );
 }

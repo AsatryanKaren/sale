@@ -1,24 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
-
+/*
+ * Global foundations. Color variables (--sr-brand-*, --sr-bg-*, --sr-text-*,
+ * --sr-sale-*, ...) are emitted from `app/theme/brandTokens.ts` by
+ * `ThemeCssVariables`; only non-color scales live here.
+ */
 :root {
   color-scheme: light;
-  --sr-brand-primary: #0f766e;
-  --sr-brand-secondary: #134e4a;
-  --sr-bg-base: #f5f7f6;
-  --sr-bg-elevated: #ffffff;
-  --sr-bg-muted: #e8eeec;
-  --sr-text-primary: #14201e;
-  --sr-text-secondary: #5b6b67;
-  --sr-border-default: #d5ded9;
-  --sr-border-subtle: #e7eeea;
-  --sr-sale-hot: #c2410c;
-  --sr-sale-moderate: #0f766e;
-  --sr-sale-muted: #64748b;
-  --sr-radius-lg: 16px;
+
+  --sr-font-sans:
+    'Geist Variable', 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --sr-radius-sm: 8px;
   --sr-radius-md: 12px;
-  --sr-shadow-soft: 0 10px 30px rgba(20, 32, 30, 0.06);
-  --sr-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --sr-font-body: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --sr-radius-lg: 18px;
+  --sr-radius-xl: 24px;
+  --sr-radius-pill: 999px;
+
+  --sr-space-1: 0.25rem;
+  --sr-space-2: 0.5rem;
+  --sr-space-3: 0.75rem;
+  --sr-space-4: 1rem;
+  --sr-space-5: 1.25rem;
+  --sr-space-6: 1.5rem;
+  --sr-space-8: 2rem;
+  --sr-space-10: 2.5rem;
+
+  --sr-shadow-card: 0 1px 2px rgba(22, 22, 26, 0.04);
+  --sr-shadow-raised: 0 1px 2px rgba(22, 22, 26, 0.04), 0 10px 28px -12px rgba(22, 22, 26, 0.16);
+
+  --sr-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --sr-shell-sidebar-width: 248px;
+  --sr-shell-tabbar-height: 64px;
 }
 
 *,
@@ -35,13 +47,28 @@ body,
 
 body {
   margin: 0;
-  font-family: var(--sr-font-body);
+  font-family: var(--sr-font-sans);
+  font-size: 14px;
+  font-feature-settings: 'ss01', 'cv11';
   color: var(--sr-text-primary);
-  background:
-    radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 34%),
-    linear-gradient(180deg, #f7faf8 0%, var(--sr-bg-base) 48%, #eef3f1 100%);
+  background: var(--sr-bg-base);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--sr-text-primary);
+}
+
+p {
+  margin: 0;
 }
 
 a {
@@ -56,6 +83,23 @@ textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--sr-brand-primary);
+  outline: 2px solid var(--sr-focus-ring);
   outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--sr-brand-accent) 22%, transparent);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

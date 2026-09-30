@@ -1,28 +1,90 @@
-.bar {
+.root {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(10rem, 0.8fr)) auto;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
+  gap: var(--sr-space-3);
 }
 
-.switchLabel {
+.controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 13rem auto;
+  align-items: center;
+  gap: var(--sr-space-3);
+}
+
+.search {
+  box-shadow: var(--sr-shadow-card);
+}
+
+.searchIcon {
+  color: var(--sr-text-tertiary);
+}
+
+.sort {
+  width: 100%;
+}
+
+.toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  min-height: 40px;
-  padding: 0 0.25rem;
+  gap: var(--sr-space-2);
+  height: 42px;
+  padding: 0 var(--sr-space-4);
+  border: 1px solid var(--sr-border-default);
+  border-radius: var(--sr-radius-md);
+  background: var(--sr-bg-elevated);
   color: var(--sr-text-secondary);
+  font-weight: 500;
   white-space: nowrap;
+  cursor: pointer;
 }
 
-@media (max-width: 900px) {
-  .bar {
-    grid-template-columns: 1fr 1fr;
+.chips {
+  display: flex;
+  gap: var(--sr-space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 calc(var(--sr-space-1) * -1);
+  padding: 2px var(--sr-space-1);
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip,
+.chipActive {
+  flex-shrink: 0;
+  height: 2rem;
+  padding: 0 var(--sr-space-4);
+  border: 1px solid var(--sr-border-default);
+  border-radius: var(--sr-radius-pill);
+  background: var(--sr-bg-elevated);
+  color: var(--sr-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s var(--sr-ease-out),
+    color 0.15s var(--sr-ease-out),
+    border-color 0.15s var(--sr-ease-out);
+}
+
+.chip:hover {
+  border-color: var(--sr-text-tertiary);
+  color: var(--sr-text-primary);
+}
+
+.chipActive {
+  border-color: var(--sr-brand-primary);
+  background: var(--sr-brand-primary);
+  color: var(--sr-text-inverse);
+}
+
+@media (max-width: 720px) {
+  .controls {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
-}
 
-@media (max-width: 640px) {
-  .bar {
-    grid-template-columns: 1fr;
+  .search {
+    grid-column: 1 / -1;
   }
 }

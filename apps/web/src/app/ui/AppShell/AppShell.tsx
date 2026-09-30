@@ -1,109 +1,96 @@
-import { useMemo } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Badge, Layout, Menu } from 'antd';
-import {
-  BellOutlined,
-  CompassOutlined,
-  HeartOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+import { Suspense, useMemo } from 'react';
+import { Link, NavLink, Outlet } from 'react-router-dom';
+import { BellOutlined, CompassOutlined, HeartOutlined, SettingOutlined } from '@ant-design/icons';
 
 import { useNotificationsQuery } from '@/entities/notification';
 import { appConfig } from '@/shared/config';
+import { cx } from '@/shared/lib';
+import { AppLoadingState, BrandMark } from '@/shared/ui';
 
 import styles from './AppShell.module.css';
 
-const { Content, Header, Sider } = Layout;
-
 const NAV_ITEMS = [
-  { key: '/discover', label: 'Discover', icon: <CompassOutlined /> },
-  { key: '/following', label: 'Following', icon: <HeartOutlined /> },
-  { key: '/notifications', label: 'Notifications', icon: <BellOutlined /> },
-  { key: '/settings', label: 'Settings', icon: <SettingOutlined /> },
+  { to: '/discover', label: 'Discover', icon: <CompassOutlined /> },
+  { to: '/following', label: 'Following', icon: <HeartOutlined /> },
+  { to: '/notifications', label: 'Notifications', icon: <BellOutlined /> },
+  { to: '/settings', label: 'Settings', icon: <SettingOutlined /> },
 ] as const;
 
+function navClassName({ isActive }: { isActive: boolean }): string {
+  return cx(isActive ? styles.navItemActive : styles.navItem);
+}
+
+function tabClassName({ isActive }: { isActive: boolean }): string {
+  return cx(isActive ? styles.tabItemActive : styles.tabItem);
+}
+
 export function AppShell() {
-  const location = useLocation();
   const notificationsQuery = useNotificationsQuery();
 
   const unreadCount = useMemo(() => {
     return (notificationsQuery.data ?? []).filter((item) => item.readAt === null).length;
   }, [notificationsQuery.data]);
 
-  const selectedKey =
-    NAV_ITEMS.find((item) => location.pathname.startsWith(item.key))?.key ?? '/discover';
-
-  const menuItems = NAV_ITEMS.map((item) => ({
-    key: item.key,
-    icon: item.icon,
-    label:
-      item.key === '/notifications' && unreadCount > 0 ? (
-        <span className={styles.navLabel}>
-          <span>{item.label}</span>
-          <Badge count={unreadCount} size="small" />
-        </span>
-      ) : (
-        item.label
-      ),
-  }));
+  const [country] = appConfig.supportedCountries;
 
   return (
-    <Layout className={styles.layout}>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth={0}
-        width={240}
-        className={styles.sider}
-        trigger={null}
-      >
-        <div className={styles.brandBlock}>
-          <Link to="/discover" className={styles.brand}>
-            {appConfig.appName}
-          </Link>
-          <p className={styles.brandTagline}>Follow stores. Catch better sales.</p>
+    <div className={styles.shell}>
+      <aside className={styles.sidebar}>
+        <Link to="/discover" className={styles.brand}>
+          <BrandMark size={30} />
+          <span>{appConfig.appName}</span>
+        </Link>
+
+        <nav className={styles.nav} aria-label="Primary">
+          {NAV_ITEMS.map((item) => (
+            <NavLink key={item.to} to={item.to} className={navClassName}>
+              <span className={styles.navIcon} aria-hidden>
+                {item.icon}
+              </span>
+              <span className={styles.navLabel}>{item.label}</span>
+              {item.to === '/notifications' && unreadCount > 0 ? (
+                <span className={styles.count} aria-label={`${unreadCount} unread`}>
+                  {unreadCount}
+                </span>
+              ) : null}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className={styles.sidebarFooter}>
+          <span className={styles.liveDot} aria-hidden />
+          <span>
+            Tracking stores in <strong>{country.name}</strong>
+          </span>
         </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[selectedKey]}
-          items={menuItems.map((item) => ({
-            ...item,
-            label: <Link to={item.key}>{item.label}</Link>,
-          }))}
-        />
-      </Sider>
+      </aside>
 
-      <Layout>
-        <Header className={styles.header}>
-          <Link to="/discover" className={styles.mobileBrand}>
-            {appConfig.appName}
-          </Link>
-          <nav className={styles.mobileNav} aria-label="Primary">
-            {NAV_ITEMS.map((item) => {
-              const isActive = selectedKey === item.key;
-              return (
-                <Link
-                  key={item.key}
-                  to={item.key}
-                  className={isActive ? styles.mobileNavItemActive : styles.mobileNavItem}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  <span className={styles.mobileIcon}>{item.icon}</span>
-                  <span>
-                    {item.label}
-                    {item.key === '/notifications' && unreadCount > 0
-                      ? ` (${unreadCount})`
-                      : ''}
-                  </span>
-                </Link>
-              );
-            })}
-          </nav>
-        </Header>
+      <header className={styles.topbar}>
+        <Link to="/discover" className={styles.brand}>
+          <BrandMark size={26} />
+          <span>{appConfig.appName}</span>
+        </Link>
+      </header>
 
-        <Content className={styles.content}>
+      <main className={styles.content}>
+        <Suspense fallback={<AppLoadingState rows={3} />}>
           <Outlet />
-        </Content>
-      </Layout>
-    </Layout>
+        </Suspense>
+      </main>
+
+      <nav className={styles.tabbar} aria-label="Primary mobile">
+        {NAV_ITEMS.map((item) => (
+          <NavLink key={item.to} to={item.to} className={tabClassName}>
+            <span className={styles.tabIcon} aria-hidden>
+              {item.icon}
+              {item.to === '/notifications' && unreadCount > 0 ? (
+                <span className={styles.tabDot} />
+              ) : null}
+            </span>
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
+      </nav>
+    </div>
   );
 }

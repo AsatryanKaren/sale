@@ -4,14 +4,19 @@ import styles from './AppLoadingState.module.css';
 
 type AppLoadingStateProps = {
   rows?: number;
+  layout?: 'list' | 'grid';
 };
 
-export function AppLoadingState({ rows = 4 }: AppLoadingStateProps) {
+export function AppLoadingState({ rows = 4, layout = 'list' }: AppLoadingStateProps) {
   return (
-    <div className={styles.root} aria-busy="true" aria-live="polite">
+    <div
+      className={layout === 'grid' ? styles.grid : styles.list}
+      aria-busy="true"
+      aria-live="polite"
+    >
       {Array.from({ length: rows }, (_, index) => (
         <div className={styles.card} key={index}>
-          <Skeleton active avatar paragraph={{ rows: 2 }} />
+          <Skeleton active avatar={{ shape: 'square' }} paragraph={{ rows: 2 }} />
         </div>
       ))}
     </div>

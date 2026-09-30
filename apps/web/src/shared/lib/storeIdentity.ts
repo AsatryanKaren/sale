@@ -24,3 +24,13 @@ export function getStoreInitials(name: string): string {
 
   return `${first[0] ?? ''}${second[0] ?? ''}`.toUpperCase();
 }
+
+/** Stable 0-359 hue derived from a store name, used to tint its monogram. */
+export function getStoreHue(name: string): number {
+  let hash = 0;
+  for (const char of name) {
+    hash = (hash * 31 + char.charCodeAt(0)) % 360;
+  }
+
+  return hash;
+}

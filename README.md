@@ -14,12 +14,20 @@ The first release is an Armenia-focused web MVP with a mocked HTTP API. The arch
 - **Local React state** owns ephemeral UI only
 - **MSW** mocks the same HTTP API a real backend will eventually expose
 - **Ant Design** provides the UI foundation, themed through centralized brand tokens
+- **Geist** (self-hosted via `@fontsource-variable/geist`) is the type family
+- Routes are **lazy-loaded** per page
 
-Dependency direction:
+Dependency direction (Feature-Sliced Design, enforced by ESLint `no-restricted-imports`):
 
 ```text
-app → pages → features → entities → shared
+app → pages → widgets → features → entities → shared
 ```
+
+- `widgets` compose features and entities into reusable blocks (for example `StoreCard`)
+- `features` are user actions (follow, configure alert, mark read)
+- `entities` are domain models, API hooks and presentational pieces with no user actions
+
+See [`apps/web/DESIGN.md`](apps/web/DESIGN.md) for the visual system.
 
 ## Folder structure
 
@@ -30,6 +38,7 @@ app → pages → features → entities → shared
 │     ├─ src/
 │     │  ├─ app/
 │     │  ├─ pages/
+│     │  ├─ widgets/
 │     │  ├─ features/
 │     │  ├─ entities/
 │     │  └─ shared/
@@ -93,7 +102,8 @@ When `VITE_USE_MOCK_API=true`, the web app boots MSW and serves a realistic Arme
 - `index.ts` files are public API barrels only
 - Query keys come from factories
 - Mutations invalidate/update query caches explicitly
-- Brand colors live in theme tokens, not hardcoded in components
+- Brand colors live in `app/theme/brandTokens.ts` only; CSS modules read them as `--sr-*` variables
+- Layers only import downward (see dependency direction above)
 - Country configuration stays centralized (`countryCode`, not Armenia hardcoding)
 
 ## Future applications planned

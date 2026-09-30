@@ -1,0 +1,31 @@
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: hsl(var(--sr-avatar-hue) 42% 30%);
+  background: hsl(var(--sr-avatar-hue) 70% 94%);
+  box-shadow: inset 0 0 0 1px hsl(var(--sr-avatar-hue) 40% 30% / 0.08);
+}
+
+.sm {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9px;
+  font-size: 0.75rem;
+}
+
+.md {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+}
+
+.lg {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 20px;
+  font-size: 1.5rem;
+}

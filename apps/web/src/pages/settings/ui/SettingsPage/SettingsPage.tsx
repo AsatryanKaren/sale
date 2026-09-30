@@ -1,60 +1,108 @@
+import type { ReactNode } from 'react';
 import { Select } from 'antd';
 
 import { appConfig } from '@/shared/config';
-import { PageHeader } from '@/shared/ui';
+import { cx } from '@/shared/lib';
+import { Page, PageHeader, SurfaceSection } from '@/shared/ui';
 
 import styles from './SettingsPage.module.css';
+
+type ChannelStatus = 'available' | 'planned';
+
+const CHANNELS: readonly { name: string; description: string; status: ChannelStatus }[] = [
+  { name: 'In-app', description: 'Alerts in the Notifications tab', status: 'available' },
+  {
+    name: 'Web push',
+    description: 'Browser notifications, even when the tab is closed',
+    status: 'planned',
+  },
+  { name: 'Telegram', description: 'Messages from the SaleRadar bot', status: 'planned' },
+  { name: 'Email', description: 'A daily digest of meaningful sales', status: 'planned' },
+];
+
+type SettingRowProps = {
+  label: string;
+  hint: string;
+  control: ReactNode;
+};
+
+function SettingRow({ label, hint, control }: SettingRowProps) {
+  return (
+    <div className={styles.row}>
+      <div className={styles.rowCopy}>
+        <span className={styles.rowLabel}>{label}</span>
+        <span className={styles.rowHint}>{hint}</span>
+      </div>
+      <div className={styles.rowControl}>{control}</div>
+    </div>
+  );
+}
 
 export function SettingsPage() {
   const [country] = appConfig.supportedCountries;
 
   return (
-    <section className={styles.page}>
+    <Page width="narrow">
       <PageHeader
+        eyebrow="Preferences"
         title="Settings"
-        description="Basic preferences for the SaleRadar MVP. Notification channels arrive in a later stage."
+        description="Region, language and how SaleRadar reaches you."
       />
 
-      <div className={styles.panel}>
-        <h2 className={styles.panelTitle}>Country</h2>
-        <p className={styles.helper}>
-          SaleRadar is currently focused on Armenia, with a country-agnostic architecture.
-        </p>
-        <Select
-          value={country.code}
-          style={{ maxWidth: 280 }}
-          aria-label="Country"
-          options={appConfig.supportedCountries.map((item) => ({
-            value: item.code,
-            label: item.name,
-          }))}
-          disabled
-        />
-      </div>
+      <SurfaceSection title="Region & language">
+        <div className={styles.rows}>
+          <SettingRow
+            label="Country"
+            hint="SaleRadar tracks stores in Armenia first. More countries are on the way."
+            control={
+              <Select
+                value={country.code}
+                className={cx(styles.select)}
+                aria-label="Country"
+                options={appConfig.supportedCountries.map((item) => ({
+                  value: item.code,
+                  label: item.name,
+                }))}
+                disabled
+              />
+            }
+          />
+          <SettingRow
+            label="Notification language"
+            hint="English for now. Localization comes later."
+            control={
+              <Select
+                value="en"
+                className={cx(styles.select)}
+                aria-label="Preferred language"
+                options={[{ value: 'en', label: 'English' }]}
+                disabled
+              />
+            }
+          />
+        </div>
+      </SurfaceSection>
 
-      <div className={styles.panel}>
-        <h2 className={styles.panelTitle}>Notification language</h2>
-        <p className={styles.helper}>English for now. Localization can be added later.</p>
-        <Select
-          value="en"
-          style={{ maxWidth: 280 }}
-          aria-label="Preferred language"
-          options={[{ value: 'en', label: 'English' }]}
-          disabled
-        />
-      </div>
-
-      <div className={styles.panel}>
-        <h2 className={styles.panelTitle}>Notification channels</h2>
-        <p className={styles.helper}>
-          Web push, Telegram, and email alerts are planned. This screen is a placeholder only.
-        </p>
+      <SurfaceSection
+        title="Notification channels"
+        description="Where alerts are delivered. More channels arrive in a later release."
+      >
         <ul className={styles.channels}>
-          <li>In-app notifications — available in MVP</li>
-          <li>Web push — coming later</li>
-          <li>Telegram — coming later</li>
+          {CHANNELS.map((channel) => (
+            <li key={channel.name} className={styles.channel}>
+              <div className={styles.rowCopy}>
+                <span className={styles.rowLabel}>{channel.name}</span>
+                <span className={styles.rowHint}>{channel.description}</span>
+              </div>
+              <span
+                className={channel.status === 'available' ? styles.statusOn : styles.statusPlanned}
+              >
+                {channel.status === 'available' ? 'On' : 'Coming soon'}
+              </span>
+            </li>
+          ))}
         </ul>
-      </div>
-    </section>
+      </SurfaceSection>
+    </Page>
   );
 }

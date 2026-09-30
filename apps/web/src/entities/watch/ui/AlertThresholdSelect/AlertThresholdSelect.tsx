@@ -52,7 +52,9 @@ export function AlertThresholdSelect({
       aria-label={ariaLabel}
       value={toSelectValue(value)}
       disabled={disabled}
-      style={{ minWidth: 140 }}
+      variant="filled"
+      popupMatchSelectWidth={false}
+      style={{ minWidth: 124 }}
       options={OPTIONS.map((option) => ({
         value: option.value,
         label: formatAlertThreshold(option.threshold),

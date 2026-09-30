@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import { CheckOutlined } from '@ant-design/icons';
 
 import { useMarkNotificationReadMutation } from '@/entities/notification';
 
@@ -20,6 +21,8 @@ export function MarkNotificationReadButton({
   return (
     <Button
       size="small"
+      type="text"
+      icon={<CheckOutlined />}
       loading={mutation.isPending}
       onClick={() => {
         mutation.mutate(notificationId);

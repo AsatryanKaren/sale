@@ -9,5 +9,5 @@ export {
   useStoresQuery,
 } from './api';
 export { CATEGORY_LABELS, getCategoryLabel } from './model';
-export { StoreCard } from './ui/StoreCard';
+export { StoreAvatar } from './ui/StoreAvatar';
 export { StoreIdentity } from './ui/StoreIdentity';

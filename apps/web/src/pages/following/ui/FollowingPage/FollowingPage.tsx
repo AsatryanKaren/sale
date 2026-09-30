@@ -1,33 +1,37 @@
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { HeartOutlined } from '@ant-design/icons';
 
 import { toUserFacingApiError } from '@/shared/api';
-import { AppEmptyState, AppErrorState, AppLoadingState, PageHeader } from '@/shared/ui';
-import { SaleStatus } from '@/entities/sale';
-import { StoreIdentity, getCategoryLabel, useStoresQuery } from '@/entities/store';
-import { formatAlertThreshold, useFollowingQuery } from '@/entities/watch';
-import { ConfigureAlertControl } from '@/features/configure-alert';
-import { UnfollowButton } from '@/features/unfollow-store';
+import { AppEmptyState, AppErrorState, AppLoadingState, Page, PageHeader } from '@/shared/ui';
+import { useStoresQuery } from '@/entities/store';
+import { useFollowingQuery } from '@/entities/watch';
+import { StoreCard } from '@/widgets/store-card';
 
 import styles from './FollowingPage.module.css';
 
 export function FollowingPage() {
+  const navigate = useNavigate();
   const followingQuery = useFollowingQuery();
   const storesQuery = useStoresQuery();
 
   const storesById = useMemo(() => {
-    return new Map(
-      (storesQuery.data ?? []).map((item) => [item.store.id, item] as const),
-    );
+    return new Map((storesQuery.data ?? []).map((item) => [item.store.id, item] as const));
   }, [storesQuery.data]);
 
+  const followedCount = followingQuery.data?.length ?? 0;
+
   return (
-    <section className={styles.page}>
+    <Page width="wide">
       <PageHeader
+        eyebrow={followedCount > 0 ? `${followedCount} stores` : 'Your list'}
         title="Following"
-        description="Stores you are watching, with the alert threshold that matters to you."
+        description="Stores you're watching. Set how deep a discount has to be before we ping you."
       />
 
-      {followingQuery.isLoading || storesQuery.isLoading ? <AppLoadingState rows={3} /> : null}
+      {followingQuery.isLoading || storesQuery.isLoading ? (
+        <AppLoadingState rows={3} layout="grid" />
+      ) : null}
 
       {followingQuery.isError ? (
         <AppErrorState
@@ -41,15 +45,18 @@ export function FollowingPage() {
 
       {followingQuery.isSuccess && followingQuery.data.length === 0 ? (
         <AppEmptyState
-          title="You are not following any stores yet"
+          icon={<HeartOutlined />}
+          title="You're not following any stores yet"
           description="Browse Discover and follow the stores you care about."
+          actionLabel="Browse stores"
+          onAction={() => {
+            void navigate('/discover');
+          }}
         />
       ) : null}
 
-      {followingQuery.isSuccess &&
-      storesQuery.isSuccess &&
-      followingQuery.data.length > 0 ? (
-        <div className={styles.list}>
+      {followingQuery.isSuccess && storesQuery.isSuccess && followingQuery.data.length > 0 ? (
+        <div className={styles.grid}>
           {followingQuery.data.map((watch) => {
             const item = storesById.get(watch.storeId);
             if (!item) {
@@ -57,36 +64,11 @@ export function FollowingPage() {
             }
 
             return (
-              <article key={watch.id} className={styles.card}>
-                <div className={styles.top}>
-                  <StoreIdentity
-                    name={item.store.name}
-                    slug={item.store.slug}
-                    categoryLabel={getCategoryLabel(item.store.category)}
-                  />
-                  <UnfollowButton storeId={watch.storeId} storeName={item.store.name} />
-                </div>
-
-                <SaleStatus sale={item.activeSale} />
-
-                <div className={styles.alertRow}>
-                  <div>
-                    <div className={styles.metaLabel}>Current rule</div>
-                    <div className={styles.metaValue}>
-                      {formatAlertThreshold(watch.minimumDiscountPercent)}
-                    </div>
-                  </div>
-                  <ConfigureAlertControl
-                    storeId={watch.storeId}
-                    value={watch.minimumDiscountPercent}
-                    aria-label={`Edit alert threshold for ${item.store.name}`}
-                  />
-                </div>
-              </article>
+              <StoreCard key={watch.id} store={item.store} sale={item.activeSale} watch={watch} />
             );
           })}
         </div>
       ) : null}
-    </section>
+    </Page>
   );
 }

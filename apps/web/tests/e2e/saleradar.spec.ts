@@ -33,21 +33,27 @@ test.describe('SaleRadar e2e', () => {
 
     await page.reload();
     await expect(
-      page.locator('article').filter({ hasText: 'Zara' }).getByText('30%+', { exact: true }).first(),
+      page
+        .locator('article')
+        .filter({ hasText: 'Zara' })
+        .getByText('30%+', { exact: true })
+        .first(),
     ).toBeVisible({ timeout: 10_000 });
   });
 
   test('discover fashion filter survives reload', async ({ page }) => {
     await page.goto('/discover');
-    const categorySelect = page.locator('.ant-select').filter({ hasText: 'All categories' });
-    await categorySelect.locator('.ant-select-selector').click();
-    await expect(page.locator('.ant-select-dropdown')).toBeVisible();
-    await page.locator('.ant-select-item-option-content', { hasText: 'Fashion' }).click();
+    const categories = page.getByRole('group', { name: 'Category' });
+    await categories.getByRole('button', { name: 'Fashion' }).click();
 
     await expect(page).toHaveURL(/category=fashion/);
     await page.reload();
     await expect(page).toHaveURL(/category=fashion/);
-    await expect(page.locator('.ant-select').filter({ hasText: 'Fashion' })).toBeVisible();
+    await expect(categories.getByRole('button', { name: 'Fashion' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    await expect(page.getByRole('link', { name: 'Open Adidas' })).toHaveCount(0);
   });
 
   test('mark notification as read', async ({ page }) => {

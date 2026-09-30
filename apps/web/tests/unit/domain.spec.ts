@@ -14,6 +14,7 @@ import {
 } from '../../src/pages/discover/model/filters';
 import { summarizeCatalog } from '../../src/pages/discover/model/summary';
 import { storeKeys } from '../../src/entities/store/api/queryKeys';
+import { getStoreDomain, getStoreLogoCandidates } from '../../src/entities/store/model/logo';
 
 test.describe('discount formatting', () => {
   test('formats known percentages', () => {
@@ -129,5 +130,30 @@ test.describe('discover summary', () => {
       bestDiscountPercent: 55,
       bestDiscountStoreName: 'Beta',
     });
+  });
+});
+
+test.describe('store logos', () => {
+  test('normalizes store domains', () => {
+    expect(getStoreDomain('https://www.zara.com')).toBe('zara.com');
+    expect(getStoreDomain('https://shop.mango.com/am')).toBe('mango.com');
+    expect(getStoreDomain('https://ispace.am')).toBe('ispace.am');
+    expect(getStoreDomain('not a url')).toBeNull();
+  });
+
+  test('prefers the curated logo, then favicon services', () => {
+    expect(
+      getStoreLogoCandidates({
+        websiteUrl: 'https://www.zara.com',
+        logoUrl: 'https://cdn.example.com/zara.svg',
+      }),
+    ).toEqual([
+      'https://cdn.example.com/zara.svg',
+      'https://www.google.com/s2/favicons?domain=zara.com&sz=128',
+      'https://icons.duckduckgo.com/ip3/zara.com.ico',
+    ]);
+    expect(
+      getStoreLogoCandidates({ websiteUrl: 'https://www.nike.com', logoUrl: null }),
+    ).toHaveLength(2);
   });
 });

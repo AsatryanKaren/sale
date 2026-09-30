@@ -29,11 +29,7 @@ export function StoreCard({ store, sale, watch }: StoreCardProps) {
     >
       <div className={styles.body}>
         <div className={styles.top}>
-          <StoreIdentity
-            name={store.name}
-            slug={store.slug}
-            categoryLabel={getCategoryLabel(store.category)}
-          />
+          <StoreIdentity store={store} categoryLabel={getCategoryLabel(store.category)} />
           <FollowButton storeId={store.id} storeName={store.name} isFollowing={isFollowing} />
         </div>
 

@@ -2,11 +2,32 @@
   display: inline-grid;
   place-items: center;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.monogram {
   font-weight: 650;
   letter-spacing: -0.02em;
   color: hsl(var(--sr-avatar-hue) 42% 30%);
   background: hsl(var(--sr-avatar-hue) 70% 94%);
   box-shadow: inset 0 0 0 1px hsl(var(--sr-avatar-hue) 40% 30% / 0.08);
+}
+
+.logo {
+  background: var(--sr-bg-elevated);
+  box-shadow: inset 0 0 0 1px var(--sr-border-subtle);
+}
+
+.image {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.2s var(--sr-ease-out);
+}
+
+.imageLoaded {
+  opacity: 1;
 }
 
 .sm {

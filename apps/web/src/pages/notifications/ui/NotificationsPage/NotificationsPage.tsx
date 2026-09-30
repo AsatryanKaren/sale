@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Notification } from '@saleradar/contracts';
+import type { Notification, Store } from '@saleradar/contracts';
 import { BellOutlined } from '@ant-design/icons';
 
 import { toUserFacingApiError } from '@/shared/api';
@@ -13,18 +13,19 @@ import styles from './NotificationsPage.module.css';
 
 type NotificationItemProps = {
   notification: Notification;
-  storeName: string;
+  store: Store | null;
 };
 
-function NotificationItem({ notification, storeName }: NotificationItemProps) {
+function NotificationItem({ notification, store }: NotificationItemProps) {
   const isUnread = notification.readAt === null;
+  const storeName = store?.name ?? 'Store';
 
   return (
     <article
       className={isUnread ? styles.itemUnread : styles.item}
       aria-label={`${storeName}: ${notification.title}`}
     >
-      <StoreAvatar name={storeName} />
+      <StoreAvatar store={store ?? { name: storeName, websiteUrl: '' }} />
       <div className={styles.main}>
         <div className={styles.meta}>
           <span className={styles.store}>{storeName}</span>
@@ -55,10 +56,8 @@ export function NotificationsPage() {
   const notificationsQuery = useNotificationsQuery();
   const storesQuery = useStoresQuery();
 
-  const storeNameById = useMemo(() => {
-    return new Map(
-      (storesQuery.data ?? []).map((item) => [item.store.id, item.store.name] as const),
-    );
+  const storeById = useMemo(() => {
+    return new Map((storesQuery.data ?? []).map((item) => [item.store.id, item.store] as const));
   }, [storesQuery.data]);
 
   const unreadCount = (notificationsQuery.data ?? []).filter((item) => item.readAt === null).length;
@@ -97,7 +96,7 @@ export function NotificationsPage() {
             <NotificationItem
               key={notification.id}
               notification={notification}
-              storeName={storeNameById.get(notification.storeId) ?? 'Store'}
+              store={storeById.get(notification.storeId) ?? null}
             />
           ))}
         </div>

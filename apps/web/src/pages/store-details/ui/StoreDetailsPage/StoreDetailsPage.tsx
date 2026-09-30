@@ -103,7 +103,7 @@ export function StoreDetailsPage() {
       </Link>
 
       <Surface padding="lg" className={styles.hero}>
-        <StoreAvatar name={store.name} size="lg" />
+        <StoreAvatar store={store} size="lg" />
         <div className={styles.heroCopy}>
           <h1 className={styles.name}>{store.name}</h1>
           <p className={styles.subtitle}>

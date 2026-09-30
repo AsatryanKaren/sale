@@ -95,6 +95,14 @@ VITE_USE_MOCK_API=true
 
 When `VITE_USE_MOCK_API=true`, the web app boots MSW and serves a realistic Armenia store dataset over HTTP. Components never import mock arrays directly and never call `fetch` themselves.
 
+## Accounts, trial and plans
+
+- Everyone signs up with name, email and password and gets a **1-day free trial** (`TRIAL_DURATION_HOURS` in `packages/contracts`).
+- After the trial, the app routes redirect to `/pricing` until a plan is bought. The mock API enforces the same rule (it answers `402`).
+- Plans and prices live in `PLAN_CATALOG` in `packages/contracts`. They are fixed separately in AMD and USD: Monthly is 1,200 ֏ / $3 and Annual is 11,500 ֏ / $29.
+- Checkout is **simulated**: no payment provider is connected yet.
+- With the mock API, **Settings → End trial** skips the 24-hour wait so you can try the paywall. Mock accounts are kept in `localStorage` (`saleradar.mock-auth`).
+
 ## Architecture rules
 
 - No Redux / Zustand / other global client stores
@@ -115,4 +123,4 @@ apps/api         ← real backend later
 packages/contracts
 ```
 
-Intentionally deferred: scraping, real auth, payments, push/Telegram notifications, affiliate flows, dark theme switcher, full i18n, and charts.
+Intentionally deferred: scraping, a real auth backend, a real payment provider, push/Telegram notifications, affiliate flows, dark theme switcher, full i18n, and charts.

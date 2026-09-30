@@ -22,6 +22,7 @@ export const lightBrandTokens = {
   success: '#15803D',
   warning: '#B45309',
   danger: '#D92D20',
+  info: '#2F6FEB',
   saleHot: '#E8430F',
   saleHotSurface: '#FFEDE5',
   saleModerate: '#B54708',

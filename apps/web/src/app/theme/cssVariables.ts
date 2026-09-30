@@ -17,6 +17,7 @@ const CSS_VARIABLE_NAMES = {
   success: '--sr-success',
   warning: '--sr-warning',
   danger: '--sr-danger',
+  info: '--sr-info',
   saleHot: '--sr-sale-hot',
   saleHotSurface: '--sr-sale-hot-surface',
   saleModerate: '--sr-sale-moderate',

@@ -1,4 +1,5 @@
 export { AppEmptyState, AppErrorState } from './FeedbackState';
+export { AuthFrame } from './AuthFrame';
 export { AppLoadingState } from './AppLoadingState';
 export { BrandMark } from './BrandMark';
 export { Page } from './Page';

@@ -13,6 +13,8 @@ import { HttpResponse, delay, http } from 'msw';
 
 import { appConfig } from '@/shared/config';
 
+import { authHandlers, requireAccess } from './auth';
+
 import {
   getActiveSaleForStore,
   getStoreById,
@@ -45,8 +47,13 @@ function parseBooleanParam(value: string | null): boolean | undefined {
 }
 
 export const mockHandlers = [
+  ...authHandlers,
   http.get('/api/stores', async ({ request }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const url = new URL(request.url);
     const search = url.searchParams.get('search')?.trim().toLowerCase() ?? '';
@@ -59,8 +66,7 @@ export const mockHandlers = [
     if (search.length > 0) {
       items = items.filter(
         (store) =>
-          store.name.toLowerCase().includes(search) ||
-          store.slug.toLowerCase().includes(search),
+          store.name.toLowerCase().includes(search) || store.slug.toLowerCase().includes(search),
       );
     }
 
@@ -96,6 +102,10 @@ export const mockHandlers = [
 
   http.get('/api/stores/:slug', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const slug = String(params.slug);
     const store = getStoreBySlug(slug);
@@ -109,6 +119,10 @@ export const mockHandlers = [
 
   http.get('/api/stores/:slug/sales', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const slug = String(params.slug);
     const store = getStoreBySlug(slug);
@@ -132,11 +146,19 @@ export const mockHandlers = [
 
   http.get('/api/following', async () => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
     return HttpResponse.json(followingListResponseSchema.parse({ items: mockDb.watches }));
   }),
 
   http.post('/api/following', async ({ request }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const body = createWatchRequestSchema.parse(await request.json());
     const store = getStoreById(body.storeId);
@@ -168,6 +190,10 @@ export const mockHandlers = [
 
   http.patch('/api/following/:storeId', async ({ params, request }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const storeId = String(params.storeId);
     const body = updateWatchRequestSchema.parse(await request.json());
@@ -208,6 +234,10 @@ export const mockHandlers = [
 
   http.delete('/api/following/:storeId', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const storeId = String(params.storeId);
     const exists = mockDb.watches.some((watch) => watch.storeId === storeId);
@@ -223,6 +253,10 @@ export const mockHandlers = [
 
   http.get('/api/notifications', async () => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const items = [...mockDb.notifications].sort((left, right) =>
       right.createdAt.localeCompare(left.createdAt),
@@ -233,6 +267,10 @@ export const mockHandlers = [
 
   http.patch('/api/notifications/:notificationId/read', async ({ params }) => {
     await mockLatency();
+    const denied = requireAccess();
+    if (denied) {
+      return denied;
+    }
 
     const notificationId = String(params.notificationId);
     const index = mockDb.notifications.findIndex(

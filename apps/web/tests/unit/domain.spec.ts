@@ -12,6 +12,9 @@ import {
   serializeDiscoverFilters,
   toStoreListQuery,
 } from '../../src/pages/discover/model/filters';
+import { formatTimeLeft, getAccessState } from '../../src/entities/session/model/access';
+import { formatPrice, getAnnualSavingsPercent } from '../../src/entities/session/model/pricing';
+import { getSafeRedirectPath } from '../../src/shared/lib/redirect';
 import { summarizeCatalog } from '../../src/pages/discover/model/summary';
 import { storeKeys } from '../../src/entities/store/api/queryKeys';
 import { getStoreDomain, getStoreLogoCandidates } from '../../src/entities/store/model/logo';
@@ -155,5 +158,66 @@ test.describe('store logos', () => {
     expect(
       getStoreLogoCandidates({ websiteUrl: 'https://www.nike.com', logoUrl: null }),
     ).toHaveLength(2);
+  });
+});
+
+test.describe('subscription access', () => {
+  const now = new Date('2026-09-30T12:00:00.000Z');
+  const base = {
+    plan: null,
+    trialEndsAt: '2026-10-01T12:00:00.000Z',
+    currentPeriodEnd: null,
+    cancelAtPeriodEnd: false,
+  };
+
+  test('a running trial grants access with time left', () => {
+    const access = getAccessState({ ...base, status: 'trialing' }, now);
+    expect(access).toMatchObject({ kind: 'trial', msLeft: 24 * 60 * 60 * 1000 });
+  });
+
+  test('an ended trial has no access', () => {
+    expect(
+      getAccessState({ ...base, status: 'trialing', trialEndsAt: '2026-09-30T11:59:00.000Z' }, now),
+    ).toEqual({ kind: 'expired' });
+  });
+
+  test('a cancelled plan keeps access until the period ends', () => {
+    const subscription = {
+      ...base,
+      status: 'active' as const,
+      plan: 'monthly' as const,
+      currentPeriodEnd: '2026-10-30T12:00:00.000Z',
+      cancelAtPeriodEnd: true,
+    };
+    expect(getAccessState(subscription, now).kind).toBe('subscribed');
+    expect(getAccessState(subscription, new Date('2026-10-31T00:00:00.000Z')).kind).toBe('expired');
+  });
+
+  test('formats time left', () => {
+    expect(formatTimeLeft(23 * 3_600_000 + 5 * 60_000)).toBe('23h 5m left');
+    expect(formatTimeLeft(42 * 60_000)).toBe('42m left');
+    expect(formatTimeLeft(10_000)).toBe('less than a minute left');
+  });
+});
+
+test.describe('pricing', () => {
+  test('formats dram and dollar prices', () => {
+    expect(formatPrice(1200, 'AMD')).toBe('1,200 ֏');
+    expect(formatPrice(3, 'USD')).toBe('$3');
+    expect(formatPrice(29, 'USD')).toBe('$29');
+  });
+
+  test('computes annual savings', () => {
+    expect(getAnnualSavingsPercent('AMD')).toBe(20);
+    expect(getAnnualSavingsPercent('USD')).toBe(19);
+  });
+});
+
+test.describe('post-login redirects', () => {
+  test('only follows in-app paths', () => {
+    expect(getSafeRedirectPath('/following')).toBe('/following');
+    expect(getSafeRedirectPath('//evil.example')).toBe('/discover');
+    expect(getSafeRedirectPath('https://evil.example')).toBe('/discover');
+    expect(getSafeRedirectPath(null)).toBe('/discover');
   });
 });

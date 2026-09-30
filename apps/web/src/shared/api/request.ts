@@ -6,15 +6,9 @@ import { appConfig } from '@/shared/config';
 import { ApiError } from './errors';
 import type { RequestOptions } from './types';
 
-function buildUrl(
-  path: string,
-  searchParams?: RequestOptions['searchParams'],
-): string {
+function buildUrl(path: string, searchParams?: RequestOptions['searchParams']): string {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  const url = new URL(
-    `${appConfig.apiBaseUrl}${normalizedPath}`,
-    window.location.origin,
-  );
+  const url = new URL(`${appConfig.apiBaseUrl}${normalizedPath}`, window.location.origin);
 
   if (searchParams) {
     for (const [key, value] of Object.entries(searchParams)) {
@@ -107,13 +101,17 @@ export async function requestJson<T>(
         : 'The request failed.';
 
     const code =
-      response.status === 404
-        ? 'not_found'
-        : response.status === 409
-          ? 'conflict'
-          : response.status >= 400 && response.status < 500
-            ? 'validation_error'
-            : 'unknown';
+      response.status === 401
+        ? 'unauthorized'
+        : response.status === 402
+          ? 'payment_required'
+          : response.status === 404
+            ? 'not_found'
+            : response.status === 409
+              ? 'conflict'
+              : response.status >= 400 && response.status < 500
+                ? 'validation_error'
+                : 'unknown';
 
     throw new ApiError({
       message,

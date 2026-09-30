@@ -21,7 +21,7 @@ export function createTheme(
     token: {
       colorPrimary: tokens.brandPrimary,
       colorPrimaryHover: tokens.brandPrimaryHover,
-      colorInfo: tokens.brandPrimary,
+      colorInfo: tokens.info,
       colorLink: tokens.textPrimary,
       colorSuccess: tokens.success,
       colorWarning: tokens.warning,

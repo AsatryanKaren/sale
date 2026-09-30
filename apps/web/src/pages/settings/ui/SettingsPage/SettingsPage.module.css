@@ -83,3 +83,23 @@
     width: 100%;
   }
 }
+
+.statusTrial,
+.statusOff {
+  flex-shrink: 0;
+  padding: 0 var(--sr-space-3);
+  border-radius: var(--sr-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.statusTrial {
+  color: var(--sr-sale-moderate);
+  background: var(--sr-sale-moderate-surface);
+}
+
+.statusOff {
+  color: var(--sr-sale-hot);
+  background: var(--sr-sale-hot-surface);
+}

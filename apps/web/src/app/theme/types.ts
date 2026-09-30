@@ -15,6 +15,7 @@ export type BrandTokens = {
   success: string;
   warning: string;
   danger: string;
+  info: string;
   saleHot: string;
   saleHotSurface: string;
   saleModerate: string;

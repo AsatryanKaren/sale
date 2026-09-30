@@ -91,30 +91,50 @@
   font-variant-numeric: tabular-nums;
 }
 
-.sidebarFooter {
+.userCard {
   display: flex;
   align-items: center;
-  gap: var(--sr-space-2);
+  gap: var(--sr-space-3);
   margin-top: auto;
   padding: var(--sr-space-3);
   border-radius: var(--sr-radius-md);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 0.15s var(--sr-ease-out);
+}
+
+.userCard:hover {
   background: var(--sr-bg-muted);
-  color: var(--sr-text-secondary);
-  font-size: 0.8125rem;
 }
 
-.sidebarFooter strong {
-  color: var(--sr-text-primary);
-  font-weight: 600;
-}
-
-.liveDot {
-  width: 8px;
-  height: 8px;
+.userAvatar {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
   flex-shrink: 0;
   border-radius: 50%;
-  background: var(--sr-success);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sr-success) 20%, transparent);
+  background: var(--sr-brand-primary);
+  color: var(--sr-text-inverse);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.userCopy {
+  display: grid;
+  min-width: 0;
+}
+
+.userName {
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.userPlan {
+  color: var(--sr-text-secondary);
+  font-size: 0.75rem;
 }
 
 /* ---------- Content ---------- */
@@ -122,6 +142,30 @@
 .content {
   min-width: 0;
   padding: var(--sr-space-10) var(--sr-space-8) var(--sr-space-10);
+}
+
+.trialBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sr-space-2) var(--sr-space-4);
+  max-width: 76rem;
+  margin: calc(var(--sr-space-6) * -1) auto var(--sr-space-6);
+  padding: var(--sr-space-2) var(--sr-space-2) var(--sr-space-2) var(--sr-space-4);
+  border-radius: var(--sr-radius-pill);
+  background: var(--sr-sale-moderate-surface);
+  color: var(--sr-sale-moderate);
+  font-size: 0.8125rem;
+}
+
+.trialLink {
+  padding: var(--sr-space-1) var(--sr-space-3);
+  border-radius: var(--sr-radius-pill);
+  background: var(--sr-brand-primary);
+  color: var(--sr-text-inverse);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /* ---------- Mobile top bar + tab bar ---------- */

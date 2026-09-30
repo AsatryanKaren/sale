@@ -16,6 +16,6 @@ export function notificationsQueryOptions() {
   });
 }
 
-export function useNotificationsQuery() {
-  return useQuery(notificationsQueryOptions());
+export function useNotificationsQuery({ enabled = true }: { enabled?: boolean } = {}) {
+  return useQuery({ ...notificationsQueryOptions(), enabled });
 }

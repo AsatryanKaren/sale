@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test';
 
+import { signUp } from './support/auth';
+
 test.describe('SaleRadar e2e', () => {
+  test.beforeEach(async ({ page }) => {
+    await signUp(page);
+  });
+
   test('follow store from discover to following', async ({ page }) => {
     await page.goto('/discover');
     await expect(page.getByRole('heading', { name: 'Discover' })).toBeVisible();

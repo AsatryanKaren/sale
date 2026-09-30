@@ -2,10 +2,16 @@ import { Suspense, useMemo } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { BellOutlined, CompassOutlined, HeartOutlined, SettingOutlined } from '@ant-design/icons';
 
-import { useNotificationsQuery } from '@/entities/notification';
 import { appConfig } from '@/shared/config';
-import { cx } from '@/shared/lib';
+import { cx, getStoreInitials, useNow } from '@/shared/lib';
 import { AppLoadingState, BrandMark } from '@/shared/ui';
+import { useNotificationsQuery } from '@/entities/notification';
+import {
+  formatTimeLeft,
+  getAccessState,
+  useSessionQuery,
+  type AccessState,
+} from '@/entities/session';
 
 import styles from './AppShell.module.css';
 
@@ -16,6 +22,19 @@ const NAV_ITEMS = [
   { to: '/settings', label: 'Settings', icon: <SettingOutlined /> },
 ] as const;
 
+function describeAccess(access: AccessState | null): string {
+  switch (access?.kind) {
+    case 'trial':
+      return `Trial · ${formatTimeLeft(access.msLeft)}`;
+    case 'subscribed':
+      return access.cancelAtPeriodEnd ? 'Plan ends soon' : 'Subscribed';
+    case 'expired':
+      return 'Trial ended';
+    default:
+      return '';
+  }
+}
+
 function navClassName({ isActive }: { isActive: boolean }): string {
   return cx(isActive ? styles.navItemActive : styles.navItem);
 }
@@ -25,13 +44,17 @@ function tabClassName({ isActive }: { isActive: boolean }): string {
 }
 
 export function AppShell() {
-  const notificationsQuery = useNotificationsQuery();
+  const sessionQuery = useSessionQuery();
+  const now = useNow();
+  const access = sessionQuery.data ? getAccessState(sessionQuery.data.subscription, now) : null;
+  const user = sessionQuery.data?.user ?? null;
+  const notificationsQuery = useNotificationsQuery({
+    enabled: access !== null && access.kind !== 'expired',
+  });
 
   const unreadCount = useMemo(() => {
     return (notificationsQuery.data ?? []).filter((item) => item.readAt === null).length;
   }, [notificationsQuery.data]);
-
-  const [country] = appConfig.supportedCountries;
 
   return (
     <div className={styles.shell}>
@@ -57,12 +80,17 @@ export function AppShell() {
           ))}
         </nav>
 
-        <div className={styles.sidebarFooter}>
-          <span className={styles.liveDot} aria-hidden />
-          <span>
-            Tracking stores in <strong>{country.name}</strong>
-          </span>
-        </div>
+        {user ? (
+          <Link to="/settings" className={styles.userCard}>
+            <span className={styles.userAvatar} aria-hidden>
+              {getStoreInitials(user.name)}
+            </span>
+            <span className={styles.userCopy}>
+              <span className={styles.userName}>{user.name}</span>
+              <span className={styles.userPlan}>{describeAccess(access)}</span>
+            </span>
+          </Link>
+        ) : null}
       </aside>
 
       <header className={styles.topbar}>
@@ -73,6 +101,16 @@ export function AppShell() {
       </header>
 
       <main className={styles.content}>
+        {access?.kind === 'trial' ? (
+          <div className={styles.trialBanner}>
+            <span>
+              <strong>Free trial</strong> · {formatTimeLeft(access.msLeft)}
+            </span>
+            <Link to="/pricing" className={styles.trialLink}>
+              See plans
+            </Link>
+          </div>
+        ) : null}
         <Suspense fallback={<AppLoadingState rows={3} />}>
           <Outlet />
         </Suspense>

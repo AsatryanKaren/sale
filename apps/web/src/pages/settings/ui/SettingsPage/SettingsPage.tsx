@@ -1,9 +1,20 @@
 import type { ReactNode } from 'react';
-import { Select } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { PLAN_CATALOG } from '@saleradar/contracts';
+import { Button, Select } from 'antd';
 
 import { appConfig } from '@/shared/config';
-import { cx } from '@/shared/lib';
+import { cx, formatAbsoluteDate, useNow } from '@/shared/lib';
 import { Page, PageHeader, SurfaceSection } from '@/shared/ui';
+import {
+  formatTimeLeft,
+  getAccessState,
+  getPlanPriceLabel,
+  useExpireTrialForDemoMutation,
+  useSessionQuery,
+} from '@/entities/session';
+import { LogoutButton } from '@/features/auth';
+import { ManageSubscription } from '@/features/subscribe';
 
 import styles from './SettingsPage.module.css';
 
@@ -38,6 +49,114 @@ function SettingRow({ label, hint, control }: SettingRowProps) {
   );
 }
 
+function SubscriptionSection() {
+  const navigate = useNavigate();
+  const sessionQuery = useSessionQuery();
+  const expireTrial = useExpireTrialForDemoMutation();
+  const now = useNow();
+
+  if (!sessionQuery.data) {
+    return null;
+  }
+
+  const { subscription } = sessionQuery.data;
+  const access = getAccessState(subscription, now);
+  const seePlans = (
+    <Button
+      type={access.kind === 'subscribed' ? 'default' : 'primary'}
+      onClick={() => {
+        void navigate('/pricing');
+      }}
+    >
+      {access.kind === 'subscribed' ? 'Change plan' : 'See plans'}
+    </Button>
+  );
+
+  let label: string;
+  let hint: string;
+  let status: ReactNode;
+
+  if (access.kind === 'trial') {
+    label = 'Free trial';
+    hint = `Ends ${formatAbsoluteDate(access.endsAt.toISOString())}, ${formatTimeLeft(access.msLeft)}.`;
+    status = <span className={styles.statusTrial}>Trial</span>;
+  } else if (access.kind === 'subscribed' && subscription.plan) {
+    const plan = PLAN_CATALOG[subscription.plan];
+    label = `${plan.name} plan · ${getPlanPriceLabel(plan.id, 'AMD')} (${getPlanPriceLabel(plan.id, 'USD')}) / ${plan.interval}`;
+    const date = access.renewsAt ? formatAbsoluteDate(access.renewsAt.toISOString()) : '';
+    hint = access.cancelAtPeriodEnd ? `Cancelled. Access ends ${date}.` : `Renews ${date}.`;
+    status = <span className={styles.statusOn}>Active</span>;
+  } else {
+    label = 'No active plan';
+    hint = 'Your free trial has ended. Choose a plan to keep your alerts.';
+    status = <span className={styles.statusOff}>Expired</span>;
+  }
+
+  return (
+    <SurfaceSection title="Subscription" actions={seePlans}>
+      <div className={styles.rows}>
+        <SettingRow label={label} hint={hint} control={status} />
+        {access.kind === 'subscribed' && access.renewsAt ? (
+          <SettingRow
+            label="Billing"
+            hint="Payments are simulated in this demo."
+            control={
+              <ManageSubscription
+                cancelAtPeriodEnd={access.cancelAtPeriodEnd}
+                periodEndLabel={formatAbsoluteDate(access.renewsAt.toISOString())}
+              />
+            }
+          />
+        ) : null}
+        {appConfig.useMockApi && access.kind === 'trial' ? (
+          <SettingRow
+            label="Demo: end trial now"
+            hint="Skip the 24-hour wait to try the paywall. Only in the mock API."
+            control={
+              <Button
+                loading={expireTrial.isPending}
+                onClick={() => {
+                  expireTrial.mutate(undefined);
+                }}
+              >
+                End trial
+              </Button>
+            }
+          />
+        ) : null}
+      </div>
+    </SurfaceSection>
+  );
+}
+
+function AccountSection() {
+  const navigate = useNavigate();
+  const sessionQuery = useSessionQuery();
+
+  if (!sessionQuery.data) {
+    return null;
+  }
+
+  const { user } = sessionQuery.data;
+
+  return (
+    <SurfaceSection
+      title="Account"
+      actions={
+        <LogoutButton
+          onSuccess={() => {
+            void navigate('/login', { replace: true });
+          }}
+        />
+      }
+    >
+      <div className={styles.rows}>
+        <SettingRow label={user.name} hint={user.email} control={null} />
+      </div>
+    </SurfaceSection>
+  );
+}
+
 export function SettingsPage() {
   const [country] = appConfig.supportedCountries;
 
@@ -46,8 +165,11 @@ export function SettingsPage() {
       <PageHeader
         eyebrow="Preferences"
         title="Settings"
-        description="Region, language and how SaleRadar reaches you."
+        description="Your account, plan, region and how SaleRadar reaches you."
       />
+
+      <AccountSection />
+      <SubscriptionSection />
 
       <SurfaceSection title="Region & language">
         <div className={styles.rows}>

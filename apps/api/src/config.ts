@@ -15,6 +15,8 @@ const envSchema = z.object({
   DEMO_TOOLS: z.enum(['true', 'false']).optional(),
   /** Sign-in and sign-up attempts allowed per IP every 15 minutes. */
   AUTH_RATE_LIMIT: z.coerce.number().int().positive().default(30),
+  /** Lets checkout activate a plan without payment. On by default outside production. */
+  SIMULATED_PAYMENTS: z.enum(['true', 'false']).optional(),
   /** Built web app to serve in production. */
   WEB_DIST_DIR: z.string().min(1).default('../web/dist'),
 });
@@ -31,6 +33,7 @@ export const config = {
   pgliteDir: env.PGLITE_DIR,
   appOrigin: env.APP_ORIGIN,
   demoTools: env.DEMO_TOOLS ? env.DEMO_TOOLS === 'true' : !isProduction,
+  simulatedPayments: env.SIMULATED_PAYMENTS ? env.SIMULATED_PAYMENTS === 'true' : !isProduction,
   authRateLimit: env.AUTH_RATE_LIMIT,
   webDistDir: env.WEB_DIST_DIR,
 } as const;

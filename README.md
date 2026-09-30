@@ -116,7 +116,7 @@ pnpm --filter @saleradar/web test:install
 2. Add a **Postgres** service and, on the app service, set `DATABASE_URL` to `${{Postgres.DATABASE_URL}}`.
 3. Generate a public domain for the app service. Railway provides `PORT`; the health check is `/api/health`.
 
-The one service serves both the API and the web app, so no CORS setup is needed. `DEMO_TOOLS` is off in production.
+The one service serves both the API and the web app, so no CORS setup is needed. `DEMO_TOOLS` is off in production, and so is simulated checkout (`SIMULATED_PAYMENTS`): until a payment provider is connected, production answers checkout with "Payments are not available yet" so nobody gets a paid plan for free.
 
 ## Mock API
 

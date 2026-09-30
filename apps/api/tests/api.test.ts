@@ -201,6 +201,59 @@ describe('catalog', () => {
     );
   });
 
+  it('treats a sale past its end date as over, and a started upcoming sale as live', async () => {
+    const api = await signUp();
+    await query(
+      `UPDATE sales SET ends_at = now() - interval '1 hour' WHERE id = 'sale_zara_summer'`,
+    );
+    await query(
+      `UPDATE sales SET started_at = now() - interval '1 hour' WHERE id = 'sale_bershka_special'`,
+    );
+    try {
+      const zara = storeSalesResponseSchema.parse((await api('/api/stores/zara/sales')).body);
+      assert.equal(zara.activeSale, null);
+      const bershka = storeSalesResponseSchema.parse((await api('/api/stores/bershka/sales')).body);
+      assert.equal(bershka.activeSale?.status, 'active');
+      const onSale = storeListResponseSchema.parse(
+        (await api('/api/stores?hasActiveSale=true')).body,
+      );
+      assert.ok(!onSale.items.some((item) => item.store.slug === 'zara'));
+    } finally {
+      await seedCatalog();
+    }
+  });
+
+  it('sorts by most recently changed sale', async () => {
+    const api = await signUp();
+    const recent = storeListResponseSchema.parse((await api('/api/stores?sort=recent')).body);
+    const withSale = recent.items.filter((item) => item.activeSale !== null);
+    const dates = withSale.map((item) => item.activeSale?.updatedAt ?? '');
+    assert.deepEqual(dates, [...dates].sort().reverse());
+    // Every store with a live sale comes before every store without one.
+    assert.ok(recent.items.slice(0, withSale.length).every((item) => item.activeSale !== null));
+  });
+
+  it('can run without the sample sales', async () => {
+    const api = await signUp();
+    await seedCatalog({ sampleSales: false });
+    try {
+      const stores = storeListResponseSchema.parse((await api('/api/stores')).body);
+      assert.ok(stores.items.length > 0);
+      assert.ok(stores.items.every((item) => item.activeSale === null));
+      const sales = storeSalesResponseSchema.parse((await api('/api/stores/zara/sales')).body);
+      assert.equal(sales.history.length, 0);
+    } finally {
+      await seedCatalog();
+    }
+  });
+
+  it('keeps the sample sales live relative to today', async () => {
+    const api = await signUp();
+    const sales = storeSalesResponseSchema.parse((await api('/api/stores/zara/sales')).body);
+    const endsAt = Date.parse(sales.activeSale?.endsAt ?? '');
+    assert.ok(endsAt > Date.now());
+  });
+
   it('returns a store with its sale history', async () => {
     const api = await signUp();
     const store = await api('/api/stores/zara');

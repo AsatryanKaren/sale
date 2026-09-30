@@ -87,7 +87,12 @@ export const mockHandlers = [
         return rightSale - leftSale;
       });
     } else if (sort === 'recent') {
-      items.sort((left, right) => right.name.localeCompare(left.name));
+      // Mirrors the API: most recently changed sale first, stores without a sale last.
+      const updated = (storeId: string) => getActiveSaleForStore(storeId)?.updatedAt ?? '';
+      items.sort(
+        (left, right) =>
+          updated(right.id).localeCompare(updated(left.id)) || left.name.localeCompare(right.name),
+      );
     } else {
       items.sort((left, right) => left.name.localeCompare(right.name));
     }

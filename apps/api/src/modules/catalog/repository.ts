@@ -38,8 +38,18 @@ type HistoryRow = {
 };
 
 const STORE_COLUMNS = 'id, slug, name, website_url, logo_url, country_code, category, is_active';
-const SALE_COLUMNS = `id, store_id, title, kind, status, min_discount_percent, max_discount_percent,
-  started_at, ends_at, source_url, updated_at`;
+/**
+ * A sale's status as of now: one past its end date is expired, and an
+ * upcoming one whose start has passed is active, whatever the stored status
+ * says. Stored statuses only change when someone (or a checker) writes them.
+ */
+const EFFECTIVE_STATUS = `CASE
+    WHEN ends_at IS NOT NULL AND ends_at <= now() THEN 'expired'
+    WHEN status = 'upcoming' AND started_at <= now() THEN 'active'
+    ELSE status
+  END`;
+const SALE_COLUMNS = `id, store_id, title, kind, ${EFFECTIVE_STATUS} AS status, min_discount_percent,
+  max_discount_percent, started_at, ends_at, source_url, updated_at`;
 
 function toStore(row: StoreRow): Store {
   return {
@@ -123,7 +133,13 @@ export async function listStores(
     const discount = (sale: Sale | null) => sale?.maxDiscountPercent ?? -1;
     items.sort((left, right) => discount(right.activeSale) - discount(left.activeSale));
   } else if (filters.sort === 'recent') {
-    items.sort((left, right) => right.store.name.localeCompare(left.store.name));
+    // Stores whose sale changed most recently first; stores without a sale last.
+    const updated = (sale: Sale | null) => sale?.updatedAt ?? '';
+    items.sort(
+      (left, right) =>
+        updated(right.activeSale).localeCompare(updated(left.activeSale)) ||
+        left.store.name.localeCompare(right.store.name),
+    );
   } else {
     items.sort((left, right) => left.store.name.localeCompare(right.store.name));
   }
@@ -133,7 +149,7 @@ export async function listStores(
 
 async function listActiveSales(): Promise<Map<string, Sale>> {
   const rows = await query<SaleRow>(
-    `SELECT ${SALE_COLUMNS} FROM sales WHERE status = 'active' ORDER BY updated_at DESC`,
+    `SELECT ${SALE_COLUMNS} FROM sales WHERE ${EFFECTIVE_STATUS} = 'active' ORDER BY updated_at DESC`,
   );
   const byStore = new Map<string, Sale>();
   for (const row of rows) {
@@ -157,7 +173,7 @@ export async function findStoreById(id: string): Promise<Store | null> {
 export async function findActiveSale(storeId: string): Promise<Sale | null> {
   const rows = await query<SaleRow>(
     `SELECT ${SALE_COLUMNS} FROM sales
-     WHERE store_id = $1 AND status = 'active'
+     WHERE store_id = $1 AND ${EFFECTIVE_STATUS} = 'active'
      ORDER BY updated_at DESC LIMIT 1`,
     [storeId],
   );

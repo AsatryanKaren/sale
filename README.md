@@ -107,6 +107,7 @@ pnpm --filter @saleradar/web test:install
 - **Auth**: bcrypt password hashes and a random 32-byte session id in an httpOnly, SameSite=Lax cookie (`saleradar_session`, 14 days).
 - **Security**: secure headers, a 64 KB body limit, cross-origin writes blocked, and sign-in/sign-up rate limited per IP.
 - **Access**: `/api/stores`, `/api/following` and `/api/notifications` answer `401` without a session and `402` once the trial or plan has ended.
+- **Sales**: a sale counts as live only until its end date, whatever its stored status. The made-up sample sales load only outside production (`SAMPLE_SALES`), with their dates moved relative to today on each start; the public site shows no sales until a sale checker writes real ones.
 - **Alerts**: following a store that is already on sale creates a notification straight away. An automatic sale checker is not built yet.
 - Environment variables are listed in [`apps/api/.env.example`](apps/api/.env.example).
 

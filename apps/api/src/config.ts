@@ -17,6 +17,8 @@ const envSchema = z.object({
   AUTH_RATE_LIMIT: z.coerce.number().int().positive().default(30),
   /** Lets checkout activate a plan without payment. On by default outside production. */
   SIMULATED_PAYMENTS: z.enum(['true', 'false']).optional(),
+  /** Loads the made-up sample sales. Off in production so the public site never shows fake sales. */
+  SAMPLE_SALES: z.enum(['true', 'false']).optional(),
   /** Built web app to serve in production. */
   WEB_DIST_DIR: z.string().min(1).default('../web/dist'),
 });
@@ -34,6 +36,7 @@ export const config = {
   appOrigin: env.APP_ORIGIN,
   demoTools: env.DEMO_TOOLS ? env.DEMO_TOOLS === 'true' : !isProduction,
   simulatedPayments: env.SIMULATED_PAYMENTS ? env.SIMULATED_PAYMENTS === 'true' : !isProduction,
+  sampleSales: env.SAMPLE_SALES ? env.SAMPLE_SALES === 'true' : !isProduction,
   authRateLimit: env.AUTH_RATE_LIMIT,
   webDistDir: env.WEB_DIST_DIR,
 } as const;

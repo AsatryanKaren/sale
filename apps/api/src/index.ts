@@ -5,7 +5,7 @@ import { config } from './config';
 import { closeDb, openDb, seedCatalog } from './db';
 
 await openDb({ databaseUrl: config.databaseUrl, pgliteDir: config.pgliteDir });
-await seedCatalog();
+await seedCatalog({ sampleSales: config.sampleSales });
 
 const app = createAppFromConfig();
 const server = serve({ fetch: app.fetch, port: config.port, hostname: config.host }, (info) => {

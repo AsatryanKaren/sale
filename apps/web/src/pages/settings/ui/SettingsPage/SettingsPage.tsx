@@ -108,10 +108,10 @@ function SubscriptionSection() {
             }
           />
         ) : null}
-        {appConfig.useMockApi && access.kind === 'trial' ? (
+        {(appConfig.useMockApi || import.meta.env.DEV) && access.kind === 'trial' ? (
           <SettingRow
             label="Demo: end trial now"
-            hint="Skip the 24-hour wait to try the paywall. Only in the mock API."
+            hint="Skip the 24-hour wait to try the paywall. Only in local and demo builds."
             control={
               <Button
                 loading={expireTrial.isPending}

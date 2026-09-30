@@ -13,7 +13,8 @@
     "test:unit": "playwright test --project=unit",
     "test:component": "playwright test --project=component",
     "test:e2e": "playwright test --project=e2e",
-    "test:install": "playwright install chromium"
+    "test:install": "playwright install chromium",
+    "test:e2e:api": "E2E_API=1 playwright test --project=e2e"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",

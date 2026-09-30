@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# Local PGlite database (apps/api)
+.data

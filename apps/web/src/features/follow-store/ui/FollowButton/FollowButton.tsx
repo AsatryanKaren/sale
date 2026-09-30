@@ -1,6 +1,8 @@
 import { Button } from 'antd';
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons';
+import { useQueryClient } from '@tanstack/react-query';
 
+import { notificationKeys } from '@/entities/notification';
 import { useFollowStoreMutation, useUnfollowStoreMutation } from '@/entities/watch';
 
 type FollowButtonProps = {
@@ -16,6 +18,7 @@ export function FollowButton({
   isFollowing,
   size = 'small',
 }: FollowButtonProps) {
+  const queryClient = useQueryClient();
   const followMutation = useFollowStoreMutation();
   const unfollowMutation = useUnfollowStoreMutation();
   const isPending = followMutation.isPending || unfollowMutation.isPending;
@@ -46,13 +49,21 @@ export function FollowButton({
       loading={followMutation.isPending}
       disabled={isPending}
       onClick={() => {
-        followMutation.mutate({
-          storeId,
-          minimumDiscountPercent: null,
-          notifyOnSaleStart: true,
-          notifyOnDiscountIncrease: true,
-          notifyOnNewSaleItems: false,
-        });
+        followMutation.mutate(
+          {
+            storeId,
+            minimumDiscountPercent: null,
+            notifyOnSaleStart: true,
+            notifyOnDiscountIncrease: true,
+            notifyOnNewSaleItems: false,
+          },
+          {
+            // A store already on sale sends an alert as soon as it is followed.
+            onSuccess: () => {
+              void queryClient.invalidateQueries({ queryKey: notificationKeys.all });
+            },
+          },
+        );
       }}
       aria-label={`Follow ${storeName}`}
     >

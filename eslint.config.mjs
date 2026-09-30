@@ -109,6 +109,13 @@ export default tseslint.config(
       'react-refresh/only-export-components': 'off',
     },
   },
+  {
+    // node:test's describe/it return promises the runner tracks itself.
+    files: ['apps/api/tests/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'off',
+    },
+  },
   // Feature-Sliced layer boundaries: a layer may only import from layers below it.
   // app → pages → widgets → features → entities → shared
   ...layerBoundaries([

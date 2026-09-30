@@ -183,6 +183,27 @@ export const mockHandlers = [
     };
 
     mockDb.watches = [...mockDb.watches, watch];
+
+    // Mirrors the API: following a store that is already on sale alerts right away.
+    const sale = getActiveSaleForStore(store.id);
+    const discount = sale?.maxDiscountPercent ?? null;
+    const meetsMinimum =
+      watch.minimumDiscountPercent === null ||
+      (discount !== null && discount >= watch.minimumDiscountPercent);
+    if (sale && watch.notifyOnSaleStart && meetsMinimum) {
+      mockDb.notifications = [
+        ...mockDb.notifications,
+        {
+          id: `notif_${crypto.randomUUID()}`,
+          storeId: store.id,
+          type: 'sale_started',
+          title: `${store.name} ${sale.title.toLowerCase()} is on`,
+          body: discount === null ? 'Sale is live now' : `Up to ${discount}% off`,
+          createdAt: new Date().toISOString(),
+          readAt: null,
+        },
+      ];
+    }
     persistMockDb();
 
     return HttpResponse.json(watchResponseSchema.parse({ watch }), { status: 201 });

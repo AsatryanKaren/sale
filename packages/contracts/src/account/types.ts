@@ -1,10 +1,13 @@
 import type { z } from 'zod';
 
-import type { CURRENCIES, PLAN_CATALOG } from './constants';
+import type { CURRENCIES } from './constants';
 import type {
   checkoutRequestSchema,
   loginRequestSchema,
   planIdSchema,
+  planIntervalSchema,
+  planListResponseSchema,
+  planSchema,
   sessionResponseSchema,
   signupRequestSchema,
   subscriptionSchema,
@@ -21,4 +24,6 @@ export type LoginRequest = z.infer<typeof loginRequestSchema>;
 export type SignupRequest = z.infer<typeof signupRequestSchema>;
 export type CheckoutRequest = z.infer<typeof checkoutRequestSchema>;
 export type Currency = (typeof CURRENCIES)[number];
-export type Plan = (typeof PLAN_CATALOG)[PlanId];
+export type Plan = z.infer<typeof planSchema>;
+export type PlanInterval = z.infer<typeof planIntervalSchema>;
+export type PlanListResponse = z.infer<typeof planListResponseSchema>;

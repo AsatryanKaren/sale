@@ -6,6 +6,7 @@ import { apiError, readJson } from '../../http/errors';
 import type { AppEnv } from '../../http/types';
 import { requireUser } from '../auth/middleware';
 
+import { findActivePlan, listPlans } from './plans';
 import { activatePlan, expireNow, getSubscription, setCancelAtPeriodEnd } from './subscriptions';
 
 async function sessionResponse(user: User): Promise<SessionResponse> {
@@ -33,8 +34,12 @@ billingRoutes.post('/checkout', async (c) => {
   if (!parsed.success) {
     return apiError(c, 400, 'Unknown plan.');
   }
+  const plan = await findActivePlan(parsed.data.plan);
+  if (!plan) {
+    return apiError(c, 400, 'Unknown plan.');
+  }
   const user = c.get('user');
-  await activatePlan(user.id, parsed.data.plan);
+  await activatePlan(user.id, plan);
   return c.json(await sessionResponse(user));
 });
 
@@ -54,6 +59,13 @@ billingRoutes.post('/resume', async (c) => {
     return apiError(c, 409, 'There is no active plan to resume.');
   }
   return c.json(await sessionResponse(user));
+});
+
+/** Public price list: shown on the sign-up and pricing pages before anyone pays. */
+export const planRoutes = new Hono<AppEnv>();
+
+planRoutes.get('/', async (c) => {
+  return c.json({ items: await listPlans() });
 });
 
 /** Demo helpers, mounted only when DEMO_TOOLS is on (the default outside production). */

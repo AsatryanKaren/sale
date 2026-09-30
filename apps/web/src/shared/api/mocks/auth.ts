@@ -1,5 +1,4 @@
 import {
-  PLAN_CATALOG,
   TRIAL_DURATION_HOURS,
   checkoutRequestSchema,
   loginRequestSchema,
@@ -10,6 +9,8 @@ import {
   type User,
 } from '@saleradar/contracts';
 import { HttpResponse, http } from 'msw';
+
+import { getMockPlan } from './plans';
 
 /**
  * Mock accounts and billing. Accounts live in localStorage so a signed-up demo
@@ -64,7 +65,7 @@ function persistAuthState(): void {
 
 function addPeriod(from: Date, plan: PlanId): Date {
   const next = new Date(from);
-  if (PLAN_CATALOG[plan].interval === 'year') {
+  if (getMockPlan(plan)?.interval === 'year') {
     next.setFullYear(next.getFullYear() + 1);
   } else {
     next.setMonth(next.getMonth() + 1);

@@ -1,8 +1,8 @@
 export {
   CURRENCIES,
   PASSWORD_MIN_LENGTH,
-  PLAN_CATALOG,
   PLAN_IDS,
+  PLAN_INTERVALS,
   SUBSCRIPTION_STATUSES,
   TRIAL_DURATION_HOURS,
 } from './constants';
@@ -10,6 +10,9 @@ export {
   checkoutRequestSchema,
   loginRequestSchema,
   planIdSchema,
+  planIntervalSchema,
+  planListResponseSchema,
+  planSchema,
   sessionResponseSchema,
   signupRequestSchema,
   subscriptionSchema,
@@ -22,6 +25,8 @@ export type {
   LoginRequest,
   Plan,
   PlanId,
+  PlanInterval,
+  PlanListResponse,
   SessionResponse,
   SignupRequest,
   Subscription,

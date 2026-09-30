@@ -1,8 +1,8 @@
-import { PLAN_CATALOG, type PlanId } from '@saleradar/contracts';
+import type { Plan } from '@saleradar/contracts';
 import { CheckOutlined } from '@ant-design/icons';
 
 import { cx } from '@/shared/lib';
-import { getPlanPriceLabel } from '@/entities/session';
+import { getPlanPriceLabel } from '@/entities/plan';
 import { ChoosePlanButton } from '@/features/subscribe';
 
 import styles from './PlanCard.module.css';
@@ -15,7 +15,7 @@ const FEATURES = [
 ];
 
 type PlanCardProps = {
-  plan: PlanId;
+  plan: Plan;
   badge?: string;
   highlighted?: boolean;
   isCurrent: boolean;
@@ -29,24 +29,22 @@ export function PlanCard({
   isCurrent,
   onSubscribed,
 }: PlanCardProps) {
-  const details = PLAN_CATALOG[plan];
-
   return (
     <article
       className={cx(styles.card, highlighted && styles.highlighted)}
-      aria-label={`${details.name} plan`}
+      aria-label={`${plan.name} plan`}
     >
       <header className={styles.header}>
-        <h2 className={styles.name}>{details.name}</h2>
+        <h2 className={styles.name}>{plan.name}</h2>
         {badge ? <span className={styles.badge}>{badge}</span> : null}
       </header>
 
       <div className={styles.price}>
         <span className={styles.amount}>{getPlanPriceLabel(plan, 'AMD')}</span>
-        <span className={styles.interval}>/ {details.interval}</span>
+        <span className={styles.interval}>/ {plan.interval}</span>
       </div>
       <p className={styles.usd}>
-        {getPlanPriceLabel(plan, 'USD')} / {details.interval}
+        {getPlanPriceLabel(plan, 'USD')} / {plan.interval}
       </p>
 
       <ul className={styles.features}>

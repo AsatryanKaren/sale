@@ -1,8 +1,24 @@
-import { seedSaleHistory, seedSales, seedStores } from './catalog';
+import { seedPlans, seedSaleHistory, seedSales, seedStores } from './catalog';
 import { query } from './client';
 
-/** Inserts the seed catalog. Existing rows are left alone. */
+/** Inserts the seed plans and catalog. Existing rows are left alone. */
 export async function seedCatalog(): Promise<void> {
+  for (const [index, plan] of seedPlans.entries()) {
+    await query(
+      `INSERT INTO plans (id, name, interval, price_amd, price_usd_cents, sort)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       ON CONFLICT (id) DO NOTHING`,
+      [
+        plan.id,
+        plan.name,
+        plan.interval,
+        plan.prices.AMD,
+        Math.round(plan.prices.USD * 100),
+        index,
+      ],
+    );
+  }
+
   for (const store of seedStores) {
     await query(
       `INSERT INTO stores (id, slug, name, website_url, logo_url, country_code, category, is_active)

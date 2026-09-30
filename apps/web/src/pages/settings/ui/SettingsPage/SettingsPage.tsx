@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PLAN_CATALOG } from '@saleradar/contracts';
 import { Button, Select } from 'antd';
 
 import { appConfig } from '@/shared/config';
@@ -9,10 +8,10 @@ import { Page, PageHeader, SurfaceSection } from '@/shared/ui';
 import {
   formatTimeLeft,
   getAccessState,
-  getPlanPriceLabel,
   useExpireTrialForDemoMutation,
   useSessionQuery,
 } from '@/entities/session';
+import { getPlanPriceLabel, usePlansQuery } from '@/entities/plan';
 import { LogoutButton } from '@/features/auth';
 import { ManageSubscription } from '@/features/subscribe';
 
@@ -52,6 +51,7 @@ function SettingRow({ label, hint, control }: SettingRowProps) {
 function SubscriptionSection() {
   const navigate = useNavigate();
   const sessionQuery = useSessionQuery();
+  const plansQuery = usePlansQuery();
   const expireTrial = useExpireTrialForDemoMutation();
   const now = useNow();
 
@@ -81,8 +81,11 @@ function SubscriptionSection() {
     hint = `Ends ${formatAbsoluteDate(access.endsAt.toISOString())}, ${formatTimeLeft(access.msLeft)}.`;
     status = <span className={styles.statusTrial}>Trial</span>;
   } else if (access.kind === 'subscribed' && subscription.plan) {
-    const plan = PLAN_CATALOG[subscription.plan];
-    label = `${plan.name} plan · ${getPlanPriceLabel(plan.id, 'AMD')} (${getPlanPriceLabel(plan.id, 'USD')}) / ${plan.interval}`;
+    const planId = subscription.plan;
+    const plan = plansQuery.data?.find((item) => item.id === planId);
+    label = plan
+      ? `${plan.name} plan · ${getPlanPriceLabel(plan, 'AMD')} (${getPlanPriceLabel(plan, 'USD')}) / ${plan.interval}`
+      : 'Paid plan';
     const date = access.renewsAt ? formatAbsoluteDate(access.renewsAt.toISOString()) : '';
     hint = access.cancelAtPeriodEnd ? `Cancelled. Access ends ${date}.` : `Renews ${date}.`;
     status = <span className={styles.statusOn}>Active</span>;

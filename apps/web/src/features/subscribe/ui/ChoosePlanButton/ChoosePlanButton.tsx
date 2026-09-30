@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { PLAN_CATALOG, type PlanId } from '@saleradar/contracts';
+import type { Plan } from '@saleradar/contracts';
 import { Alert, Button, Modal } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 
 import { toUserFacingApiError } from '@/shared/api';
 import { cx } from '@/shared/lib';
-import { getPlanPriceLabel, useCheckoutMutation } from '@/entities/session';
+import { getPlanPriceLabel } from '@/entities/plan';
+import { useCheckoutMutation } from '@/entities/session';
 
 import styles from './ChoosePlanButton.module.css';
 
 type ChoosePlanButtonProps = {
-  plan: PlanId;
+  plan: Plan;
   primary?: boolean;
   isCurrent?: boolean;
   onSubscribed?: () => void;
@@ -28,7 +29,6 @@ export function ChoosePlanButton({
 }: ChoosePlanButtonProps) {
   const [open, setOpen] = useState(false);
   const checkout = useCheckoutMutation();
-  const details = PLAN_CATALOG[plan];
   const amd = getPlanPriceLabel(plan, 'AMD');
   const usd = getPlanPriceLabel(plan, 'USD');
 
@@ -50,12 +50,12 @@ export function ChoosePlanButton({
           setOpen(true);
         }}
       >
-        Choose {details.name.toLowerCase()}
+        Choose {plan.name.toLowerCase()}
       </Button>
 
       <Modal
         open={open}
-        title={`Subscribe to ${details.name}`}
+        title={`Subscribe to ${plan.name}`}
         okText={`Pay ${amd}`}
         okButtonProps={{ icon: <LockOutlined />, loading: checkout.isPending }}
         cancelButtonProps={{ disabled: checkout.isPending }}
@@ -64,7 +64,7 @@ export function ChoosePlanButton({
         }}
         onOk={() => {
           checkout.mutate(
-            { plan },
+            { plan: plan.id },
             {
               onSuccess: () => {
                 setOpen(false);
@@ -77,14 +77,14 @@ export function ChoosePlanButton({
       >
         <div className={styles.summary}>
           <div className={styles.row}>
-            <span>{details.name} plan</span>
+            <span>{plan.name} plan</span>
             <strong>
               {amd} <span className={styles.secondary}>({usd})</span>
             </strong>
           </div>
           <div className={styles.row}>
             <span>Billed</span>
-            <span>Every {details.interval}, cancel anytime</span>
+            <span>Every {plan.interval}, cancel anytime</span>
           </div>
         </div>
         <Alert

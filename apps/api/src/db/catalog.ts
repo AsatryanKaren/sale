@@ -3,7 +3,17 @@
  * Inserted on boot with ON CONFLICT DO NOTHING, so adding a store here adds it
  * to every environment on the next deploy without touching existing rows.
  */
-import type { Sale, SaleHistoryEvent, Store } from '@saleradar/contracts';
+import type { Plan, Sale, SaleHistoryEvent, Store } from '@saleradar/contracts';
+
+/**
+ * Starting prices. They are only inserted when a plan row is missing; after
+ * that the `plans` table is the source of truth, so a price can be changed in
+ * the database (for example from Railway's data view) without a deploy.
+ */
+export const seedPlans: Plan[] = [
+  { id: 'monthly', name: 'Monthly', interval: 'month', prices: { AMD: 1200, USD: 3 } },
+  { id: 'annual', name: 'Annual', interval: 'year', prices: { AMD: 11500, USD: 29 } },
+];
 
 export const seedStores: Store[] = [
   {

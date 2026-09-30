@@ -1,7 +1,7 @@
 import { TRIAL_DURATION_HOURS } from '@saleradar/contracts';
 import { BellFilled } from '@ant-design/icons';
 
-import { getPlanPriceLabel } from '@/entities/session';
+import { findPlanByInterval, getPlanPriceLabel, usePlansQuery } from '@/entities/plan';
 
 import styles from './AuthPitch.module.css';
 
@@ -13,6 +13,8 @@ const SAMPLE_ALERTS = [
 
 /** Dark promotional panel beside the sign-in and sign-up forms. */
 export function AuthPitch() {
+  const monthly = findPlanByInterval(usePlansQuery().data ?? [], 'month');
+
   return (
     <div className={styles.pitch}>
       <div className={styles.alerts} aria-hidden>
@@ -42,7 +44,9 @@ export function AuthPitch() {
         </p>
         <p className={styles.offer}>
           <span className={styles.offerBadge}>{TRIAL_DURATION_HOURS} hours free</span>
-          then {getPlanPriceLabel('monthly', 'AMD')} ({getPlanPriceLabel('monthly', 'USD')}) a month
+          {monthly
+            ? `then ${getPlanPriceLabel(monthly, 'AMD')} (${getPlanPriceLabel(monthly, 'USD')}) a month`
+            : 'then one simple plan'}
         </p>
       </div>
     </div>

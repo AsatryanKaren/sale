@@ -14,6 +14,7 @@ import { HttpResponse, delay, http } from 'msw';
 import { appConfig } from '@/shared/config';
 
 import { authHandlers, requireAccess } from './auth';
+import { planHandlers } from './plans';
 
 import {
   getActiveSaleForStore,
@@ -48,6 +49,7 @@ function parseBooleanParam(value: string | null): boolean | undefined {
 
 export const mockHandlers = [
   ...authHandlers,
+  ...planHandlers,
   http.get('/api/stores', async ({ request }) => {
     await mockLatency();
     const denied = requireAccess();

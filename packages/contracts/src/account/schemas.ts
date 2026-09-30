@@ -1,9 +1,28 @@
 import { z } from 'zod';
 
-import { PASSWORD_MIN_LENGTH, PLAN_IDS, SUBSCRIPTION_STATUSES } from './constants';
+import { PASSWORD_MIN_LENGTH, PLAN_IDS, PLAN_INTERVALS, SUBSCRIPTION_STATUSES } from './constants';
 
 export const planIdSchema = z.enum(PLAN_IDS);
 export const subscriptionStatusSchema = z.enum(SUBSCRIPTION_STATUSES);
+export const planIntervalSchema = z.enum(PLAN_INTERVALS);
+
+/**
+ * A plan as the API sells it. Prices are set separately per currency (not
+ * converted), so a shopper always sees the same round number in each.
+ */
+export const planSchema = z.object({
+  id: planIdSchema,
+  name: z.string().min(1),
+  interval: planIntervalSchema,
+  prices: z.object({
+    AMD: z.number().nonnegative(),
+    USD: z.number().nonnegative(),
+  }),
+});
+
+export const planListResponseSchema = z.object({
+  items: z.array(planSchema),
+});
 
 export const userSchema = z.object({
   id: z.string().min(1),

@@ -25,6 +25,15 @@ export const schemaStatements = [
     current_period_end timestamptz,
     cancel_at_period_end boolean NOT NULL DEFAULT false
   )`,
+  `CREATE TABLE IF NOT EXISTS plans (
+    id text PRIMARY KEY,
+    name text NOT NULL,
+    interval text NOT NULL,
+    price_amd integer NOT NULL,
+    price_usd_cents integer NOT NULL,
+    sort integer NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT true
+  )`,
   `CREATE TABLE IF NOT EXISTS stores (
     id text PRIMARY KEY,
     slug text NOT NULL UNIQUE,

@@ -3,6 +3,7 @@ import { after, before, beforeEach, describe, it } from 'node:test';
 
 import {
   followingListResponseSchema,
+  planListResponseSchema,
   notificationListResponseSchema,
   sessionResponseSchema,
   storeListResponseSchema,
@@ -105,6 +106,43 @@ describe('auth', () => {
       body: JSON.stringify({ email: 'ani@example.com', password }),
     });
     assert.equal(response.status, 403);
+  });
+});
+
+describe('plans', () => {
+  it('lists plans with prices in both currencies, without signing in', async () => {
+    const response = await client()('/api/plans');
+    assert.equal(response.status, 200);
+    const plans = planListResponseSchema.parse(response.body).items;
+    assert.deepEqual(
+      plans.map((plan) => [plan.id, plan.interval, plan.prices.AMD, plan.prices.USD]),
+      [
+        ['monthly', 'month', 1200, 3],
+        ['annual', 'year', 11500, 29],
+      ],
+    );
+  });
+
+  it('charges the price in the database and hides retired plans', async () => {
+    await query(`UPDATE plans SET price_amd = 990, price_usd_cents = 249 WHERE id = 'monthly'`);
+    await query(`UPDATE plans SET is_active = false WHERE id = 'annual'`);
+    try {
+      const plans = planListResponseSchema.parse((await client()('/api/plans')).body).items;
+      assert.deepEqual(
+        plans.map((plan) => [plan.id, plan.prices.AMD, plan.prices.USD]),
+        [['monthly', 990, 2.49]],
+      );
+
+      const api = await signUp();
+      const retired = await api('/api/billing/checkout', {
+        method: 'POST',
+        body: { plan: 'annual' },
+      });
+      assert.equal(retired.status, 400);
+    } finally {
+      await query(`UPDATE plans SET price_amd = 1200, price_usd_cents = 300, is_active = true`);
+      await query(`UPDATE plans SET price_amd = 11500, price_usd_cents = 2900 WHERE id = 'annual'`);
+    }
   });
 });
 

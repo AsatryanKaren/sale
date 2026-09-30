@@ -13,7 +13,8 @@ import {
   toStoreListQuery,
 } from '../../src/pages/discover/model/filters';
 import { formatTimeLeft, getAccessState } from '../../src/entities/session/model/access';
-import { formatPrice, getAnnualSavingsPercent } from '../../src/entities/session/model/pricing';
+import { formatPrice, getAnnualSavingsPercent } from '../../src/entities/plan/model/pricing';
+import type { Plan } from '@saleradar/contracts';
 import { getSafeRedirectPath } from '../../src/shared/lib/redirect';
 import { summarizeCatalog } from '../../src/pages/discover/model/summary';
 import { storeKeys } from '../../src/entities/store/api/queryKeys';
@@ -207,9 +208,29 @@ test.describe('pricing', () => {
     expect(formatPrice(29, 'USD')).toBe('$29');
   });
 
-  test('computes annual savings', () => {
-    expect(getAnnualSavingsPercent('AMD')).toBe(20);
-    expect(getAnnualSavingsPercent('USD')).toBe(19);
+  const monthly: Plan = {
+    id: 'monthly',
+    name: 'Monthly',
+    interval: 'month',
+    prices: { AMD: 1200, USD: 3 },
+  };
+  const annual: Plan = {
+    id: 'annual',
+    name: 'Annual',
+    interval: 'year',
+    prices: { AMD: 11500, USD: 29 },
+  };
+
+  test('shows the smaller of the two currency savings', () => {
+    // AMD saves 20%, USD saves 19%.
+    expect(getAnnualSavingsPercent([monthly, annual])).toBe(19);
+  });
+
+  test('has no savings badge without both plans or without a saving', () => {
+    expect(getAnnualSavingsPercent([monthly])).toBeNull();
+    expect(
+      getAnnualSavingsPercent([monthly, { ...annual, prices: { AMD: 14400, USD: 36 } }]),
+    ).toBeNull();
   });
 });
 

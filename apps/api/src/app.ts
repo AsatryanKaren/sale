@@ -8,7 +8,7 @@ import type { AppEnv } from './http/types';
 import { requireUser } from './modules/auth/middleware';
 import { authRoutes } from './modules/auth/routes';
 import { requireAccess } from './modules/billing/middleware';
-import { billingRoutes, demoRoutes } from './modules/billing/routes';
+import { billingRoutes, demoRoutes, planRoutes } from './modules/billing/routes';
 import { catalogRoutes } from './modules/catalog/routes';
 import { followingRoutes } from './modules/following/routes';
 import { notificationRoutes } from './modules/notifications/routes';
@@ -30,6 +30,7 @@ export function createApp(options: CreateAppOptions = {}): Hono<AppEnv> {
   app.get('/api/health', (c) => c.json({ ok: true }));
 
   app.route('/api/auth', authRoutes);
+  app.route('/api/plans', planRoutes);
   app.route('/api/billing', billingRoutes);
   if (options.demoTools) {
     app.route('/api/dev', demoRoutes);

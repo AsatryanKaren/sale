@@ -1,12 +1,14 @@
 import {
-  PLAN_CATALOG,
   TRIAL_DURATION_HOURS,
   type PlanId,
+  type PlanInterval,
   type Subscription,
   type SubscriptionStatus,
 } from '@saleradar/contracts';
 
 import { query, toIso, toIsoOrNull } from '../../db';
+
+import { findPlan } from './plans';
 
 const HOUR_MS = 60 * 60 * 1000;
 
@@ -28,9 +30,9 @@ function toSubscription(row: SubscriptionRow): Subscription {
   };
 }
 
-export function addPlanPeriod(from: Date, plan: PlanId): Date {
+export function addPlanPeriod(from: Date, interval: PlanInterval): Date {
   const next = new Date(from);
-  if (PLAN_CATALOG[plan].interval === 'year') {
+  if (interval === 'year') {
     next.setFullYear(next.getFullYear() + 1);
   } else {
     next.setMonth(next.getMonth() + 1);
@@ -106,10 +108,10 @@ export async function getSubscription(userId: string, now = new Date()): Promise
     current.currentPeriodEnd &&
     new Date(current.currentPeriodEnd) <= now
   ) {
-    next =
-      current.cancelAtPeriodEnd || !current.plan
-        ? { ...current, status: 'expired' }
-        : { ...current, currentPeriodEnd: addPlanPeriod(now, current.plan).toISOString() };
+    const plan = current.plan && !current.cancelAtPeriodEnd ? await findPlan(current.plan) : null;
+    next = plan
+      ? { ...current, currentPeriodEnd: addPlanPeriod(now, plan.interval).toISOString() }
+      : { ...current, status: 'expired' };
   }
 
   return next === current ? current : save(userId, next);
@@ -117,15 +119,15 @@ export async function getSubscription(userId: string, now = new Date()): Promise
 
 export async function activatePlan(
   userId: string,
-  plan: PlanId,
+  plan: { id: PlanId; interval: PlanInterval },
   now = new Date(),
 ): Promise<Subscription> {
   const current = await getSubscription(userId, now);
   return save(userId, {
     ...current,
     status: 'active',
-    plan,
-    currentPeriodEnd: addPlanPeriod(now, plan).toISOString(),
+    plan: plan.id,
+    currentPeriodEnd: addPlanPeriod(now, plan.interval).toISOString(),
     cancelAtPeriodEnd: false,
   });
 }

@@ -2,13 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { ClockCircleOutlined, LockOutlined } from '@ant-design/icons';
 
 import { formatAbsoluteDate, useNow } from '@/shared/lib';
-import { AppLoadingState, Page, PageHeader } from '@/shared/ui';
-import {
-  formatTimeLeft,
-  getAccessState,
-  getAnnualSavingsPercent,
-  useSessionQuery,
-} from '@/entities/session';
+import { AppErrorState, AppLoadingState, Page, PageHeader } from '@/shared/ui';
+import { getAnnualSavingsPercent, usePlansQuery } from '@/entities/plan';
+import { formatTimeLeft, getAccessState, useSessionQuery } from '@/entities/session';
 
 import { PlanCard } from '../PlanCard';
 import styles from './PricingPage.module.css';
@@ -16,16 +12,33 @@ import styles from './PricingPage.module.css';
 export function PricingPage() {
   const navigate = useNavigate();
   const sessionQuery = useSessionQuery();
+  const plansQuery = usePlansQuery();
   const now = useNow();
 
-  if (!sessionQuery.data) {
+  if (plansQuery.isError) {
+    return (
+      <Page width="default">
+        <AppErrorState
+          title="Plans could not be loaded"
+          description="Check your connection and try again."
+          onRetry={() => {
+            void plansQuery.refetch();
+          }}
+        />
+      </Page>
+    );
+  }
+
+  if (!sessionQuery.data || !plansQuery.data) {
     return <AppLoadingState rows={2} layout="grid" />;
   }
+
+  const plans = plansQuery.data;
 
   const { subscription } = sessionQuery.data;
   const access = getAccessState(subscription, now);
   const currentPlan = access.kind === 'subscribed' ? subscription.plan : null;
-  const savings = Math.min(getAnnualSavingsPercent('AMD'), getAnnualSavingsPercent('USD'));
+  const savings = getAnnualSavingsPercent(plans);
 
   const goToApp = () => {
     void navigate('/discover');
@@ -70,14 +83,19 @@ export function PricingPage() {
       ) : null}
 
       <div className={styles.plans}>
-        <PlanCard plan="monthly" isCurrent={currentPlan === 'monthly'} onSubscribed={goToApp} />
-        <PlanCard
-          plan="annual"
-          badge={`Save ${savings}%`}
-          highlighted
-          isCurrent={currentPlan === 'annual'}
-          onSubscribed={goToApp}
-        />
+        {plans.map((plan) => {
+          const isYearly = plan.interval === 'year';
+          return (
+            <PlanCard
+              key={plan.id}
+              plan={plan}
+              {...(isYearly && savings !== null ? { badge: `Save ${savings}%` } : {})}
+              highlighted={isYearly}
+              isCurrent={currentPlan === plan.id}
+              onSubscribed={goToApp}
+            />
+          );
+        })}
       </div>
 
       <p className={styles.fineprint}>

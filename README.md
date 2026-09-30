@@ -133,7 +133,7 @@ When `VITE_USE_MOCK_API=true`, the web app boots MSW and serves a realistic Arme
 
 - Everyone signs up with name, email and password and gets a **1-day free trial** (`TRIAL_DURATION_HOURS` in `packages/contracts`).
 - After the trial, the app routes redirect to `/pricing` until a plan is bought. The API and the mock both enforce the same rule (they answer `402`).
-- Plans and prices live in `PLAN_CATALOG` in `packages/contracts`. They are fixed separately in AMD and USD: Monthly is 1,200 ֏ / $3 and Annual is 11,500 ֏ / $29.
+- Plans and prices come from the API (`GET /api/plans`, public). They are stored in the `plans` table, seeded from `apps/api/src/db/catalog.ts`: Monthly 1,200 ֏ / $3 and Annual 11,500 ֏ / $29, fixed separately in AMD and USD. To change a price, edit the row in the database (for example in Railway's data view); no deploy is needed. Checkout always charges the database price, and a plan with `is_active = false` is hidden and can't be bought.
 - Checkout is **simulated**: no payment provider is connected yet.
 - In local development, **Settings → End trial** skips the 24-hour wait so you can try the paywall (`POST /api/dev/expire-trial`, off in production). Mock accounts are kept in `localStorage` (`saleradar.mock-auth`).
 
